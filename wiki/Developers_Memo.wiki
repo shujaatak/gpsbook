@@ -1,0 +1,18 @@
+#labels Featured,Phase-Implementation,Developersmemo
+== Introduction ==
+This page is a memo for developer who aims to compile GPSBook.
+
+== GPSBook ==
+GPSBook has been developed using QT framework and qtcreator EDI.
+
+For ubuntu user qtcreator and qt framework can be installed using the command
+{{{
+sudo apt-get install qtcreator
+}}}
+
+== Plugins ==
+=== displayGraphic2D ===
+This plugin require the usage of qwt 6.0
+
+=== displayGraphic3D ===
+This plugin require the usage of libQGLViewer 2.3.6
