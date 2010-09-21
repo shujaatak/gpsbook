@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version={{VERSION}}
+Encoding=UTF-8
+Name=GPS Book
+Type=Application
+Comment=Run GPS Book
+Categories=GNOME;GTK;Utility;
+Icon=/usr/local/gpsbook/bin/gpsbook.png
+Exec=/usr/local/gpsbook/bin/gpsbook.sh
+Path=/usr/local/gpsbook/bin/
+Terminal=false
