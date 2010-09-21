@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Google Maps and Earth</title>
+    <style type="text/css"> html, body {width: 100%; height: 100%} body {margin-top: 0px; margin-right: 0px; margin-left: 0px; margin-bottom: 0px} </style>
+    <script src="http://www.google.com/jsapi?key=ABQIAAAA3ckB13KkM9nCEhh8OfWXPRSD8JLc-Sy1aLQYP5TxmvUPy73z4hS3tlUM-5pMRSQj1LCtVDpTf1o76g" type="text/javascript"></script>
+    <script type="text/javascript">
+    
+    var map;
+    var ge;
+
+    google.load("maps", "2.x");
+
+    // PIECE OF CODE EXTRACTED FROM
+    // http://www.mail-archive.com/google-maps-api@googlegroups.com/msg12739.html
+    // whenever a waypoint element is encountered (used by Ruby and JS parsers)
+    function addpin(lat,lon,text) {
+        if (lat && lon) {
+            var p = new GLatLng(lat,lon);
+            var marker = new GMarker(p);
+            if (text) {
+                // supplied text is wrapped in a <p> tag but can contain other html
+                var html = "<p>" + text + "</p>";
+                GEvent.addListener(marker,"click", function() {
+                    marker.openInfoWindowHtml(html);
+                });
+            }
+            map.addOverlay(marker);
+        }
+    }
+
+
+    function init() {
+      map = new GMap2(document.getElementById('map3d'));
+
+      var mapui = map.getDefaultUI();
+      map.setUI(mapui);
+
+      // add 'OpenStreetMap' as one of the map types
+      var OpenStreetMap = new GMapType(
+        [ new GTileLayer(null,1,18,
+          { tileUrlTemplate: 'http://tile.openstreetmap.org/{Z}/{X}/{Y}.png',
+            isPng: true, opacity: 1.0 })],
+            new GMercatorProjection(19),
+            'O.S.M.',
+            { errorMessage:"Cannot load OpenStreetMap"}
+      );
+      map.addMapType(OpenStreetMap);
+
+      // add 'OpenCycleMap' as one of the map types
+      var OpenCycleMap = new GMapType(
+        [ new GTileLayer(null,1,15,
+          { tileUrlTemplate: 'http://tile.opencyclemap.org/cycle/{Z}/{X}/{Y}.png',
+            isPng: true, opacity: 1.0 })],
+            new GMercatorProjection(19),
+            'O.C.M.',
+          { errorMessage:"Cannot load OpenCycleMap"}
+      );
+      map.addMapType(OpenCycleMap);
+
+      // add 'Earth' as one of the map types
+      map.addMapType(G_SATELLITE_3D_MAP);
+
+      try
+      {
+        if(window.attachEvent) {
+          window.attachEvent("onresize", function() {this.map.onResize()} );
+        }
+        else {
+          window.addEventListener("resize", function() {this.map.onResize()} , false);
+        }
+        GDownloadUrl
+        ("{{GPXFILE}}",
+            function(data, responseCode) {
+                // PIECE OF CODE EXTRACTED FROM
+                // http://www.mail-archive.com/google-maps-api@googlegroups.com/msg12739.html
+                //
+                // To ensure against HTTP errors that result in null or bad data,
+                // always check status code is equal to 200 before processing the data
+                if(responseCode == 200) {
+                    var xmlDoc = GXml.parse(data);
+                    var location;
+                    var lastPoint;
+
+                    var startZoom = 13;
+                    var maxPoints = 1000;
+
+                    //TRACKS
+                    var trks = xmlDoc.documentElement.getElementsByTagName("trk");
+                    for (var i = 0; i < trks.length; i++) {
+                        var trksegs = trks[i].getElementsByTagName("trkseg");
+                        for (var j = 0; j < trksegs.length; j++) {
+                            // alert(trksegs.length);
+                            var trkpts = trksegs[j].getElementsByTagName("trkpt");
+                            var points = new Array(); // array to contain GPoints
+                            var count = maxPoints+1;
+                            // var count = 51;
+                            var diff = 0.000000001;
+                            while (count > maxPoints) {
+                                // empty the points array
+                                points = [];
+                                // we always add the first point
+                                var first = true;
+                                // characteristics of the last GPoint added to the points array
+                                var oldlon = 0.0;
+                                var oldlat = 0.0;
+                                var oldvx = 0.0;
+                                var oldvy = 0.0;
+                                var lat;
+                                var lon;
+                                for (var k = 0; k < trkpts.length; k++) {
+                                    var lat = parseFloat(trkpts[k].getAttribute("lat"))
+                                    var lon = parseFloat(trkpts[k].getAttribute("lon"))
+                                    location = new GLatLng(parseFloat(trkpts[1].getAttribute("lat")),
+                                                           parseFloat(trkpts[1].getAttribute("lon")));
+                                    if (first == true) {
+                                        points[points.length] = new GPoint(lon,lat);
+                                        first = false;
+                                        count = 1;
+                                        //alert(points.length);
+                                        //alert("Success");
+                                    }
+                                    else {
+                                        vx = oldlon - lon;
+                                        vy = oldlat - lat;
+                                        dx = oldvx - vx;
+                                        dy = oldvy - vy;
+                                        if ( (dx*dx)+(dy*dy) > diff ) {
+                                            count += 1;
+                                            points[points.length] = new GPoint(lon,lat);
+                                            oldvx = vx;
+                                            oldvy = vy;
+                                            oldlat = lat;
+                                            oldlon = lon;
+                                        }//if
+                                    }//if
+                                }// for trkpts
+                                // if we have >maxPoints pts, we'll try again using a bigger threshold
+                                diff *= 5.0
+                            } // while
+                            map.addOverlay(new GPolyline(points,"#0000FF",1,0.7));//Drawing tracks
+                        }
+                    }
+
+                    //ROUTES
+                    var routes = xmlDoc.documentElement.getElementsByTagName("rte");
+                    for (var j = 0; j < routes.length; j++) {
+                        // alert(routes.length);
+                        var rtepts = routes[j].getElementsByTagName("rtept");
+                        var points = new Array(); // array to contain GPoints
+                        var count = maxPoints+1;
+                        // var count = 51;
+                        var diff = 0.000000001;
+                        while (count > maxPoints) {
+                            // empty the points array
+                            points = [];
+                            // we always add the first point
+                            var first = true;
+                            // characteristics of the last GPoint added to the points array
+                            var oldlon = 0.0;
+                            var oldlat = 0.0;
+                            var oldvx = 0.0;
+                            var oldvy = 0.0;
+                            var lat;
+                            var lon;
+                            for (var k = 0; k < rtepts.length; k++) {
+                                var lat = parseFloat(rtepts[k].getAttribute("lat"))
+                                var lon = parseFloat(rtepts[k].getAttribute("lon"))
+                                location = new GLatLng(parseFloat(rtepts[1].getAttribute("lat")),
+                                                       parseFloat(rtepts[1].getAttribute("lon")));
+                                if (first == true) {
+                                    points[points.length] = new GPoint(lon,lat);
+                                    first = false;
+                                    count = 1;
+                                    //alert(points.length);
+                                    //alert("Success");
+                                }
+                                else {
+                                    vx = oldlon - lon;
+                                    vy = oldlat - lat;
+                                    dx = oldvx - vx;
+                                    dy = oldvy - vy;
+                                    if ( (dx*dx)+(dy*dy) > diff ) {
+                                        count += 1;
+                                        points[points.length] = new GPoint(lon,lat);
+                                        oldvx = vx;
+                                        oldvy = vy;
+                                        oldlat = lat;
+                                        oldlon = lon;
+                                    }//if
+                                }//if
+                            }// for rtepts
+                            // if we have >maxPoints pts, we'll try again using a bigger threshold
+                            diff *= 5.0
+                        } // while
+                        map.addOverlay(new GPolyline(points,"#FF0000",1,0.7));//Drawing routes
+                    }
+                    
+                    map.setCenter(location, startZoom);
+
+                    //POI
+                    var wpts = xmlDoc.documentElement.getElementsByTagName("wpt");
+                    for (var i = 0; i < wpts.length; i++) {
+                                                var text = "<b>Waypoint info</b><br/>"
+                        for (var wpt = wpts[i].firstChild; wpt; wpt = wpt.nextSibling) {
+                            // different browsers handle xml attributes differently
+                            // this should present waypoint attributes as key:value pairs
+                            if (wpt.text) {
+                                text += " - " + wpt.nodeName + ": " + wpt.text + "<br/>";
+                            }
+                            else if (wpt.nodeType != 3) {
+                                try {
+                                    text += " - " + wpt.nodeName + ": " + wpt.firstChild.nodeValue + "<br/>";
+                                }
+                                catch(error) {
+                                }
+                            }
+                        }// for wpt (child & sibling)
+                        addpin( parseFloat(wpts[i].getAttribute("lat")),
+                                parseFloat(wpts[i].getAttribute("lon")),
+                                text );
+                    }//for i (each waypoint)
+                }
+                else
+                if(responseCode == -1) {
+                  //alert("Data request timed out. Please try later.");
+                  map.setCenter(new GLatLng(45.184, 5.722), 5);
+                }
+                else {
+                  //alert("Request resulted in error ("+responseCode+"). Check XML file is retrievable.");
+                  map.setCenter(new GLatLng(45.184, 5.722), 5);
+                }
+            }
+        );
+    }
+    catch(error)
+    {
+    //alert("Error during gpx file parsing.");
+    //map.setCenter(new GLatLng(45.1846, 5.772), 5);
+    }
+
+      //map.addOverlay(polyline);
+
+      // do stuff with Earth when the user switches to it
+      GEvent.addListener(map, 'maptypechanged', function() {
+        if (ge)
+          return;
+
+        map.getEarthInstance(function(pluginInstance) {
+          ge = pluginInstance;
+        });
+      });
+    }
+
+    </script>
+  </head>
+  <body onload="init()" style="font-family: arial, sans-serif; font-size: 13px; border: 0;">
+    <div id="map3d" style="width: 100%; height: 100%;"></div>
+  </body>
+
+</html>

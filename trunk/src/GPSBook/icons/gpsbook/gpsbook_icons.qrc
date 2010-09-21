@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/icons/gpsbook">
+        <file>accueil.xpm</file>
+        <file>boussole.gif</file>
+        <file>splash.gif</file>
+    </qresource>
+</RCC>
