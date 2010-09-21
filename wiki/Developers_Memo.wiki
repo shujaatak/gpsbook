@@ -1,6 +1,6 @@
 #labels Featured,Phase-Implementation,Developersmemo
-== Introduction ==
-  This page is a memo for developer who aims to compile GPSBook.
+= Developers Memo =
+This page is a memo for developer who aims to compile GPSBook.
 
 == GPSBook ==
   GPSBook has been developed using QT framework and qtcreator EDI.
