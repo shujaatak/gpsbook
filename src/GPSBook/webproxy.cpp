@@ -64,7 +64,7 @@ namespace GPSBook {
         QByteArray address = entries.value(1);
         QByteArray version = entries.value(2);
 
-        //qDebug( )  << __FILE__ << __FUNCTION__ << "Processing " << address;
+        qDebug( )  << __FILE__ << __FUNCTION__ << "Processing " << address;
 
         QUrl url = QUrl::fromEncoded(address);
         if (!url.isValid()) {
@@ -111,12 +111,13 @@ namespace GPSBook {
         return;
         }
 
+#ifndef Q_OS_LINUX
         //Remove advert to speedup development ;-)
         if (url.toString().contains("googlesyndication")) {
-            //qDebug( )  << __FILE__ << __FUNCTION__ << "Remove Advert URL:" << url;
             socket->disconnectFromHost();
             return;
         }
+#endif
 
         QString host = url.host();
         int port = (url.port() < 0) ? 80 : url.port();

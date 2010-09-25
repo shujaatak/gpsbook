@@ -29,6 +29,7 @@ SUBDIRS = GPSBook \
           plugins/displayGpxViewDotCom \
           plugins/displayGraphic2D \
           plugins/displayGraphic3D \
+          #plugins/displayGraphic3D/libQGLViewer/QGLViewer \
           plugins/displayInformation \
           plugins/displayStatistic \
           plugins/filterCleanup \

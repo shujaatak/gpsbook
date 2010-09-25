@@ -3,8 +3,8 @@
 # -------------------------------------------------
 include ( ../../GPSBook/GPSBookConfig.pro)
 
-#DEFINES  += QT_NO_WARNING_OUTPUT
-#DEFINES  += QT_NO_DEBUG_OUTPUT
+DEFINES  += QT_NO_WARNING_OUTPUT
+DEFINES  += QT_NO_DEBUG_OUTPUT
 
 TARGET = displayGraphic3D
 QT *= xml opengl
@@ -41,7 +41,7 @@ mac {
 }
 win32 {
     # libQGLViewer libraries
-    LIBS += -L..\..\..\delivery\lib -lQGLViewer2
+    LIBS += -L..\..\..\delivery\bin -lQGLViewer2
 }
 
 FORMS += \
