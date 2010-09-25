@@ -4,8 +4,8 @@
 include ( ../../GPSBook/GPSBookConfig.pro)
 TARGET = displayGraphic2D
 
-#DEFINES  += QT_NO_WARNING_OUTPUT
-#DEFINES  += QT_NO_DEBUG_OUTPUT
+DEFINES  += QT_NO_WARNING_OUTPUT
+DEFINES  += QT_NO_DEBUG_OUTPUT
 
 DESTDIR = ../../../delivery/plugins
 TEMPLATE = lib
@@ -45,5 +45,5 @@ mac {
 }
 win32 {
     # qwt libraries
-    LIBS += -L..\..\..\delivery\lib -lqwt6
+    LIBS += -L..\..\..\delivery\bin -lqwt6
 }

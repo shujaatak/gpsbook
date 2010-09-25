@@ -1,12 +1,10 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-02-24T08:56:48
 # -------------------------------------------------
-
-
 include ( ../../GPSBook/GPSBookConfig.pro)
 
-#DEFINES  += QT_NO_WARNING_OUTPUT
-#DEFINES  += QT_NO_DEBUG_OUTPUT
+DEFINES  += QT_NO_WARNING_OUTPUT
+DEFINES  += QT_NO_DEBUG_OUTPUT
 
 QT += webkit
 QT += network

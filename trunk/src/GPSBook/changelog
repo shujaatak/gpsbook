@@ -1,6 +1,11 @@
 gpsbook ({{VERSION}}); urgency=low
 
-  * Initial Release.
+ *
 
- -- gpsbook-team <gpsbook@free.fr> {{DATETIME}} 
+ -- gpsbook-team <gpsbook@free.fr> {{DATETIME}}
 
+gpsbook (0.1-280); urgency=low
+
+  * Initial Release
+
+ -- gpsbook-team <gpsbook@free.fr> 20102109

@@ -273,7 +273,6 @@ namespace PluginDisplayGraphic2D {
         {
             curveList.takeFirst()->detach();
         }
-        clear();
 
         rescaler->setEnabled((X_Axis == Plot::axis_x_longitude));
 

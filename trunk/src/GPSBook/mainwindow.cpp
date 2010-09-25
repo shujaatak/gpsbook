@@ -155,6 +155,7 @@ namespace GPSBook {
         updateNavigationButtons();
 
         //------------------- Preferences -------------------
+        qDebug() << __FILE__ << __FUNCTION__ << "Preferences";
         ui->comboBoxLanguageSelection->blockSignals(true);
         //Manage Language Combobox
         ui->comboBoxLanguageSelection->addItem(tr("Default language (System)"),"");
@@ -174,6 +175,7 @@ namespace GPSBook {
         ui->comboBoxLanguageSelection->setCurrentIndex(ui->comboBoxLanguageSelection->findData(settings.value("Translation","").toString()));
 
         //Manage Storage Location
+        qDebug() << __FILE__ << __FUNCTION__ << "Storage";
         QString tmpstr = settings.value("StorageLocation","").toString();
         if (tmpstr == "")
         {
@@ -184,18 +186,22 @@ namespace GPSBook {
 
         //------------------- Mainwindow -------------------
         // Display the favorite plugin
-        int preferedPluginId = settings.value("PreferedPluginId",0).toInt();
+        int preferedPluginId = settings.value("PreferedPluginId",3).toInt();
         ui->stackedWidget->setCurrentIndex(preferedPluginId);
         ui->comboBoxPreferedPlugin->setCurrentIndex(preferedPluginId);
         actionGroup->actions().at(preferedPluginId)->setChecked(true);
         ui->dockWidgetTraceManagement->setVisible(actionGroup->actions().at(preferedPluginId)->data().toInt() > 1);
-        visiblePlugin=displayPluginList[preferedPluginId-3];
+        if ( ( preferedPluginId-3 ) >0 )
+        {
+            visiblePlugin=displayPluginList[preferedPluginId-3];
+        }
         connect(visiblePlugin, SIGNAL(signalSetTrackSelection(bool,bool,bool,bool,bool)),this,SLOT(trackSelectionEnable(bool,bool,bool,bool,bool)));
         connect(visiblePlugin, SIGNAL(signalLoadFile(QString,bool)),this,SLOT(loadFile(QString,bool)));
         connect(this, SIGNAL(signalFileLoaded()),visiblePlugin,SLOT(on_fileLoaded()));
         connect(this, SIGNAL(signalSelectionChanged()),visiblePlugin,SLOT(on_selectionChanged()));
 
         //Start full screen
+        qDebug() << __FILE__ << __FUNCTION__ << "Fullscreen";
         bool startFullScreen = settings.value("StartFullScreen",false).toBool();
         ui->checkBoxStartFullScreen->setChecked(startFullScreen);
         if (startFullScreen) {
