@@ -31,6 +31,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QNetworkProxy>
+#include <QTemporaryFile>
 #include "interface.h"
 #include "gpsdata.h"
 
@@ -67,6 +68,7 @@ namespace PluginDisplayGpxViewDotCom {
         QNetworkRequest request;
         QNetworkReply* reply;
         QNetworkProxy proxy;
+        QTemporaryFile* tmpFile;
 
     public slots:
         void unsupportedContent ( QNetworkReply* reply );
