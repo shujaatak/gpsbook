@@ -36,7 +36,7 @@ namespace PluginDisplayGoogleMap {
     m_ui(new Ui::DisplayGoogleMapFrame)
     {
         QWebSettings::globalSettings()->setAttribute(QWebSettings::PluginsEnabled, true);
-
+        tempPage = new QTemporaryFile(QDir::tempPath() + QDir::separator() + QCoreApplication::applicationName() + "_googlemap.html");
         m_ui->setupUi(this);
         m_ui->webView->setPage(new CustomWebPage);
     } //DisplayGoogleMapFrame::DisplayGoogleMapFrame
@@ -46,6 +46,7 @@ namespace PluginDisplayGoogleMap {
      *------------------------------------------------------------------------------*/
     DisplayGoogleMapFrame::~DisplayGoogleMapFrame()
     {
+        tempPage->remove();
         delete m_ui;
     } //DisplayGoogleMapFrame::~DisplayGoogleMapFrame
 
@@ -77,7 +78,6 @@ namespace PluginDisplayGoogleMap {
     void DisplayGoogleMapFrame::run()
     {
         //Extract googlemap.html from resources parse it and store it into a temporary file
-        tempPage = new QTemporaryFile(QDir::tempPath() + QDir::separator() + QCoreApplication::applicationName() + "_googlemap.html");
         if (tempPage->open()) {
             QByteArray content;
             QTextStream contentStream(&content,QIODevice::WriteOnly);
@@ -140,6 +140,6 @@ namespace PluginDisplayGoogleMap {
     {
         //qDebug() << __FUNCTION__ << success;
         //Page has been served, deleting temporary file.
-        tempPage->remove();
+        //tempPage->remove();
     } //DisplayGoogleMapFrame::on_webView_loadFinished
 }

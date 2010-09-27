@@ -56,6 +56,8 @@ for file in $(find $DELIVERY_DIR | grep -v svn | grep -v package | grep -v dll |
 done;
 sudo chown -R root: $PACKAGE_DIR/debian/usr
 
+echo "Ready to build package"
+read
 #Create the package
 cd $PACKAGE_DIR
 dpkg-deb --build debian
@@ -78,13 +80,13 @@ cd ..
 cat > Release << EOF
 Origin: Ubuntu
 Label: Ubuntu
-Suite: lucid
-Version: 10.04
-Codename: lucid
-Date: Thu, 29 Apr 2010 17:24:55 UTC
+Suite: maverick
+Version: 10.10
+Codename: maverick
+Date: $DATE 
 Architectures: $TARGET 
 Components: main 
-Description: Ubuntu Lucid 10.04
+Description: Ubuntu Maverick 10.10
 EOF
 echo MD5Sum: >> Release 
 for iloop in $( ls main/binary-i386); do

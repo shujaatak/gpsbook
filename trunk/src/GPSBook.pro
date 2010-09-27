@@ -30,6 +30,8 @@ SUBDIRS = GPSBook \
           plugins/displayGraphic2D \
           plugins/displayGraphic3D \
           #plugins/displayGraphic3D/libQGLViewer/QGLViewer \
+          #plugins/displayGPSBabel \
+          #plugins/displayGPSBabel/Gebabbel-0.4/Gebabbel.pro \
           plugins/displayInformation \
           plugins/displayStatistic \
           plugins/filterCleanup \

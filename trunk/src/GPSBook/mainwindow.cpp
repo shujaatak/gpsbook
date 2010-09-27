@@ -289,10 +289,16 @@ namespace GPSBook {
                             qDebug( )  << __FILE__ << __FUNCTION__ << "Found GPX plugin";
                             gpxPlugin=inputOutputPlugin;
                         }
-                        openFilters = openFilters + ";;" + inputOutputPlugin->getOpenFilter();
-                        saveFilters = saveFilters + ";;" + inputOutputPlugin->getSaveFilter();
+
+                        if (openFilters != "")
+                            openFilters += ";;";
+                        openFilters += inputOutputPlugin->getOpenFilter();
+
+                        if (saveFilters != "")
+                            saveFilters += ";;";
+                        saveFilters += inputOutputPlugin->getSaveFilter();
+
                         inputOutputPluginList.append(inputOutputPlugin);
-                        //ui->tabWidgetIOPluginHelp->addTab(inputOutputPlugin->getHelp(),inputOutputPlugin->getIcon(),inputOutputPlugin->getName());
                         int idx = ui->stackedWidgetHelp->addWidget(inputOutputPlugin->getHelp());
                         QTreeWidgetItem* optionHelp = new QTreeWidgetItem();
                         optionHelp->setText(0,inputOutputPlugin->getName());
@@ -300,7 +306,6 @@ namespace GPSBook {
                         optionHelp->setData(0,Qt::UserRole+1,idx);
                         ui->treeWidgetHelp->itemAt(0,60)->addChild(optionHelp);
 
-                        //ui->tabWidgetIOPluginOptions->addTab(inputOutputPlugin->getOptions(),inputOutputPlugin->getIcon(),inputOutputPlugin->getName());
                         idx = ui->stackedWidgetOptions->addWidget(inputOutputPlugin->getOptions());
                         QTreeWidgetItem* optionItem = new QTreeWidgetItem();
                         optionItem->setText(0,inputOutputPlugin->getName());
@@ -470,7 +475,7 @@ namespace GPSBook {
         QSettings settings("GPSBook","GPSBook");
         QFileDialog* openDialog = new QFileDialog(this, tr("Open GPS trace"), QString(), openFilters);
         openDialog->restoreState(settings.value("openstate").toByteArray());
-        openDialog->selectNameFilter(settings.value("openstatefilter").toString());
+        openDialog->selectNameFilter(settings.value("openstatefilter",gpxPlugin->getOpenFilter()).toString());
         if (openDialog->exec() == QDialog::Accepted)
         {
             loadFile(QString(openDialog->selectedFiles()[0]),false);
@@ -515,6 +520,7 @@ namespace GPSBook {
         //Stop progress indicator
         qApp->setOverrideCursor(QCursor(Qt::ArrowCursor));
         progressIndicator->stopAnimation();
+        updateSaveButton();
     } //MainWindow::loadFile
 
     /*------------------------------------------------------------------------------*
@@ -937,7 +943,7 @@ namespace GPSBook {
         saveDialog->setConfirmOverwrite(true);
         saveDialog->setAcceptMode(QFileDialog::AcceptSave);
         saveDialog->restoreState(settings.value("savestate").toByteArray());
-        saveDialog->selectNameFilter(settings.value("savestatefilter").toString());
+        saveDialog->selectNameFilter(settings.value("savestatefilter",gpxPlugin->getSaveFilter()).toString());
         if (saveDialog->exec() == QDialog::Accepted)
         {
             saveFile(QString(saveDialog->selectedFiles()[0]));

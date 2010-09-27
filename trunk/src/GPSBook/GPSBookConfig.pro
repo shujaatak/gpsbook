@@ -9,11 +9,11 @@ unix {
 mac {
 
     QMAKE_CXXFLAGS += -DBUILD_DATE=\\\"\\\"
-    QMAKE_CXXFLAGS += -DSVN_VERSION=\\\"Alpha\\\"
+    QMAKE_CXXFLAGS += -DSVN_VERSION=\\\"Alpha2\\\"
 }
 
 win32 {
     QMAKE_CXXFLAGS += -DBUILD_DATE=\\\"\\\"
-    QMAKE_CXXFLAGS += -DSVN_VERSION=\\\"Alpha\\\"
+    QMAKE_CXXFLAGS += -DSVN_VERSION=\\\"Alpha2\\\"
     CONFIG -= console
 }

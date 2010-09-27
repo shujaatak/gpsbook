@@ -24,7 +24,6 @@
 #include <QMessageBox>
 #include <QNetworkReply>
 #include <QDir>
-#include <QTemporaryFile>
 #include <QDebug>
 #include <QMenu>
 #include "interface.h"
@@ -43,6 +42,9 @@ namespace PluginDisplayGpxViewDotCom {
     QFrame(parent), m_ui(new Ui::DisplayGpxViewDotComFrame)
     {
         m_ui->setupUi(this);
+
+        tmpFile = new QTemporaryFile (QDir::tempPath() + QDir::separator() + QCoreApplication::applicationName() + "_gpx-view.gpx");
+
         m_ui->progressBar->hide();
         proxy.setType(QNetworkProxy::HttpProxy);
         proxy.setHostName("127.0.0.1");
@@ -76,6 +78,7 @@ namespace PluginDisplayGpxViewDotCom {
      *------------------------------------------------------------------------------*/
     DisplayGpxViewDotComFrame::~DisplayGpxViewDotComFrame()
     {
+        tmpFile->remove();
         delete m_ui;
     } //DisplayGpxViewDotComFrame::~DisplayGpxViewDotComFrame
 
@@ -121,13 +124,12 @@ namespace PluginDisplayGpxViewDotCom {
             {
                 //Download file
                 QByteArray data(reply->readAll());
-                QTemporaryFile tmpFile(QDir::tempPath() + QDir::separator() + QCoreApplication::applicationName() + "_gpx-view.gpx");
 
-                if (tmpFile.open()) {
+                if (tmpFile->open()) {
                     //Store data into a temporary file
-                    QString fileName = tmpFile.fileName();
-                    tmpFile.write(data);
-                    tmpFile.close();
+                    QString fileName = tmpFile->fileName();
+                    tmpFile->write(data);
+                    tmpFile->close();
                     //qDebug() <<  "DisplayGpxViewDotComFrame" << "::" << __FUNCTION__ << "-> File saved:" << fileName;
 
                     // Check if type is supported
