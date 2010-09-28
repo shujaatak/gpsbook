@@ -200,6 +200,8 @@ namespace GPSBook {
         connect(this, SIGNAL(signalFileLoaded()),visiblePlugin,SLOT(on_fileLoaded()));
         connect(this, SIGNAL(signalSelectionChanged()),visiblePlugin,SLOT(on_selectionChanged()));
 
+        visiblePlugin->on_showPlugin();
+
         //Start full screen
         qDebug() << __FILE__ << __FUNCTION__ << "Fullscreen";
         bool startFullScreen = settings.value("StartFullScreen",false).toBool();

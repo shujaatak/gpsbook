@@ -6,8 +6,7 @@ include ( ../../GPSBook/GPSBookConfig.pro)
 DEFINES  += QT_NO_WARNING_OUTPUT
 DEFINES  += QT_NO_DEBUG_OUTPUT
 
-QT += webkit
-QT += network
+QT += network webkit
 TARGET = displayGoogleMap
 DESTDIR = ../../../delivery/plugins
 TEMPLATE = lib

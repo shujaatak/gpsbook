@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>592</width>
-    <height>384</height>
+    <width>141</width>
+    <height>104</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -37,20 +37,20 @@
      <item>
       <widget class="QCommandLinkButton" name="commandLinkButton">
        <property name="text">
-        <string>Refresh (Click here to start the plugin and access to google services)</string>
+        <string>Refresh</string>
        </property>
        <property name="icon">
-        <iconset resource="../../GPSBook/icons.qrc">
-         <normaloff>:/icons/resources/reload.png</normaloff>:/icons/resources/reload.png</iconset>
+        <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
+         <normaloff>:/icons/gtk/go-refresh.png</normaloff>:/icons/gtk/go-refresh.png</iconset>
        </property>
       </widget>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QWebView" name="webView">
+    <widget class="QWebView" name="webView" native="true">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -61,7 +61,7 @@
        <height>200</height>
       </size>
      </property>
-     <property name="url">
+     <property name="url" stdset="0">
       <url>
        <string>about:blank</string>
       </url>
@@ -78,7 +78,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../GPSBook/icons.qrc"/>
+  <include location="../../GPSBook/icons/gtk/gtk_icons.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -77,10 +77,10 @@ namespace PluginDisplayGoogleMap {
         QTemporaryFile* tempPage;
         QTemporaryFile* tempGPX;
 
-private slots:
-    void on_webView_loadFinished(bool );
-    void on_commandLinkButton_clicked();
-};
+    private slots:
+        void on_webView_loadFinished(bool );
+        void on_commandLinkButton_clicked();
+    };
 
 }
 

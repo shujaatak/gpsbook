@@ -40,6 +40,7 @@ namespace PluginDisplayGpxViewDotCom {
         mHelp    = new DisplayGpxViewDotComHelp();
         mView    = new DisplayGpxViewDotComFrame();
         mView->pluginOwner = this;
+        firstDisplay = true;
     } //DisplayGpxViewDotCom::DisplayGpxViewDotCom
 
     /*------------------------------------------------------------------------------*
@@ -115,6 +116,11 @@ namespace PluginDisplayGpxViewDotCom {
      *------------------------------------------------------------------------------*/
     void DisplayGpxViewDotCom::on_showPlugin()
     {
+        if (firstDisplay)
+        {
+            mView->on_buttonRefresh_clicked(true);
+            firstDisplay = false;
+        }
         emit signalSetTrackSelection(false,false,false,false,false);
     } //DisplayGpxViewDotCom::on_showPlugin
 
@@ -123,7 +129,7 @@ namespace PluginDisplayGpxViewDotCom {
      *------------------------------------------------------------------------------*/
     void DisplayGpxViewDotCom::on_fileLoaded()
     {
-        on_showPlugin();
+        emit signalSetTrackSelection(false,false,false,false,false);
     } //DisplayGpxViewDotCom::on_fileLoaded
 
     /*------------------------------------------------------------------------------*
@@ -160,7 +166,3 @@ namespace PluginDisplayGpxViewDotCom {
 
     Q_EXPORT_PLUGIN2(DisplayGpxViewDotCom, DisplayGpxViewDotCom)
 }
-
-
-
-

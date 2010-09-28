@@ -35,9 +35,10 @@ namespace PluginDisplayGoogleMap {
         Q_INTERFACES(DisplayPluginInterface)
 
     private:
-        DisplayGoogleMapFrame* view;
-        DisplayGoogleMapHelp* help;
-		DisplayGoogleMapOptionsFrame* options;
+        DisplayGoogleMapFrame*        mView;
+        DisplayGoogleMapHelp*         mHelp;
+        DisplayGoogleMapOptionsFrame* mOptions;
+        bool firstDisplay;
         
     public:
         DisplayGoogleMap();

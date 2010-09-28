@@ -54,7 +54,7 @@ namespace PluginDisplayGpxViewDotCom {
         virtual ~DisplayGpxViewDotComFrame();
         void on_gpsdataChanged();
         void init(GPSData* gpsdata);
-        void run();
+        void run() {}
         DisplayGpxViewDotCom* pluginOwner;
 
     protected:
@@ -72,14 +72,14 @@ namespace PluginDisplayGpxViewDotCom {
 
     public slots:
         void unsupportedContent ( QNetworkReply* reply );
+        void on_buttonRefresh_clicked( bool );
 
     private slots:
+        void downloadFinished();
         void on_webView_linkClicked( QUrl url );
         void on_commandLinkButton_customContextMenuRequested( QPoint pos );
-        void on_commandLinkButton_clicked( bool );
-        void siteSelection();
-        void downloadFinished();
-
+        void on_buttonGpxView_toggled(bool checked);
+        void on_buttonVisuGpx_toggled(bool checked);
 
   };
 }

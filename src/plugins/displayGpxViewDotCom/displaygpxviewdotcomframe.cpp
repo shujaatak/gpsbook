@@ -45,7 +45,8 @@ namespace PluginDisplayGpxViewDotCom {
 
         tmpFile = new QTemporaryFile (QDir::tempPath() + QDir::separator() + QCoreApplication::applicationName() + "_gpx-view.gpx");
 
-        m_ui->progressBar->hide();
+        activeSite = "http://www.gpx-view.com/gpxMap.php";
+
         proxy.setType(QNetworkProxy::HttpProxy);
         proxy.setHostName("127.0.0.1");
         proxy.setPort(8080);
@@ -54,22 +55,7 @@ namespace PluginDisplayGpxViewDotCom {
         connect(m_ui->webView->page(), SIGNAL(unsupportedContent(QNetworkReply*)),
                 this, SLOT(unsupportedContent(QNetworkReply*)));
         m_ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
-        menu = new QMenu;
-        QAction* action1 = new QAction(this);
-        action1->setText("gpx-view.com");
-        action1->setData("http://www.gpx-view.com/gpxMap.php");
-        activeSite = "http://www.gpx-view.com/gpxMap.php";
-        action1->setCheckable(true);
-        action1->setChecked(true);
-        connect(action1,SIGNAL(triggered()),this,SLOT(siteSelection()));
-        menu->addAction(action1);
 
-        QAction* action2 = new QAction(this);
-        action2->setText("skitour.fr");
-        action2->setData("http://www.skitour.fr/gpx/recherche.php");
-        action2->setCheckable(true);
-        connect(action2,SIGNAL(triggered()),this,SLOT(siteSelection()));
-        menu->addAction(action2);
 
     } //DisplayGpxViewDotComFrame::DisplayGpxViewDotComFrame
 
@@ -95,18 +81,6 @@ namespace PluginDisplayGpxViewDotCom {
             break;
         }
     }//DisplayGpxViewDotComFrame::changeEvent
-
-    /*------------------------------------------------------------------------------*
-
-     *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotComFrame::siteSelection()
-    {
-        foreach (QAction* menuItem, menu->actions())
-            menuItem->setChecked(false);
-        QAction *action = qobject_cast<QAction *>(sender());
-        activeSite = action->data().toString();
-        action->setChecked(true);
-    } //DisplayGpxViewDotComFrame::siteSelection
 
     /*------------------------------------------------------------------------------*
       Action to perform when file is about to be downloaded
@@ -159,10 +133,9 @@ namespace PluginDisplayGpxViewDotCom {
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotComFrame::on_commandLinkButton_clicked(bool )
+    void DisplayGpxViewDotComFrame::on_buttonRefresh_clicked(bool )
     {
         m_ui->webView->setUrl(QUrl(activeSite));
-        m_ui->commandLinkButton->setText(tr("Home"));
     } //DisplayGpxViewDotComFrame::on_commandLinkButton_clicked
 
     /*------------------------------------------------------------------------------*
@@ -187,7 +160,9 @@ namespace PluginDisplayGpxViewDotCom {
      *------------------------------------------------------------------------------*/
     void DisplayGpxViewDotComFrame::on_webView_linkClicked(QUrl url)
     {
-        if (url.toString().contains("download"))
+        if ( url.toString().contains("gpx2gpx.php")  || // gpx-view.com
+             url.toString().contains("download.php")    // visugpx.com
+            )
         {
             qDebug() << __FILE__ << __FUNCTION__ << "download(" << url << ")";
             request.setUrl(url);
@@ -200,6 +175,27 @@ namespace PluginDisplayGpxViewDotCom {
             m_ui->webView->setUrl(url);
         }
     } //DisplayGpxViewDotComFrame::on_webView_linkClicked
+
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayGpxViewDotComFrame::on_buttonGpxView_toggled(bool checked)
+    {
+        activeSite = "http://www.gpx-view.com/gpxMap.php";
+        m_ui->webView->setUrl(QUrl(activeSite));
+    } //DisplayGpxViewDotComFrame::on_buttonGpxView_toggled
+
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayGpxViewDotComFrame::on_buttonVisuGpx_toggled(bool checked)
+    {
+        activeSite = "http://www.visugpx.com/recherche.php5";
+        m_ui->webView->setUrl(QUrl(activeSite));
+    } //DisplayGpxViewDotComFrame::on_buttonVisuGpx_toggled
+
 }
 
 
