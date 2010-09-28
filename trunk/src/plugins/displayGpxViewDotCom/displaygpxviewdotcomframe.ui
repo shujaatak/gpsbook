@@ -6,15 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>475</width>
-    <height>384</height>
+    <width>508</width>
+    <height>102</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>200</width>
+    <height>200</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Frame</string>
@@ -34,52 +40,71 @@
    </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <item>
-      <widget class="QCommandLinkButton" name="commandLinkButton">
+      <widget class="QCommandLinkButton" name="buttonRefresh">
        <property name="contextMenuPolicy">
         <enum>Qt::CustomContextMenu</enum>
        </property>
        <property name="text">
-        <string>Home (Click here to start the plugin and access to gpx-view.com)</string>
+        <string>Refresh</string>
        </property>
        <property name="icon">
-        <iconset resource="../../GPSBook/icons.qrc">
-         <normaloff>:/icons/resources/go-home.png</normaloff>:/icons/resources/go-home.png</iconset>
+        <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
+         <normaloff>:/icons/gtk/go-refresh.png</normaloff>:/icons/gtk/go-refresh.png</iconset>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="progressBar">
-       <property name="enabled">
+      <widget class="QCommandLinkButton" name="buttonGpxView">
+       <property name="text">
+        <string>gpx-view.com</string>
+       </property>
+       <property name="checkable">
         <bool>true</bool>
        </property>
-       <property name="value">
-        <number>24</number>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+       <property name="autoExclusive">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCommandLinkButton" name="buttonVisuGpx">
+       <property name="toolTip">
+        <string/>
+       </property>
+       <property name="text">
+        <string>visugpx.com</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="autoExclusive">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
     </layout>
    </item>
    <item>
-    <widget class="QWebView" name="webView">
+    <widget class="QWebView" name="webView" native="true">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <property name="baseSize">
-      <size>
-       <width>200</width>
-       <height>200</height>
-      </size>
-     </property>
-     <property name="url">
+     <property name="url" stdset="0">
       <url>
        <string>about:blank</string>
       </url>
      </property>
-     <property name="zoomFactor">
+     <property name="zoomFactor" stdset="0">
       <double>1.000000000000000</double>
      </property>
     </widget>
@@ -94,73 +119,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../../GPSBook/icons.qrc"/>
-  <include location="../../GPSBook/icons.qrc"/>
+  <include location="../../GPSBook/icons/gtk/gtk_icons.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>webView</sender>
-   <signal>loadStarted()</signal>
-   <receiver>progressBar</receiver>
-   <slot>show()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>195</x>
-     <y>153</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>409</x>
-     <y>25</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>webView</sender>
-   <signal>loadStarted()</signal>
-   <receiver>progressBar</receiver>
-   <slot>reset()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>221</x>
-     <y>140</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>444</x>
-     <y>29</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>webView</sender>
-   <signal>loadProgress(int)</signal>
-   <receiver>progressBar</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>139</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>438</x>
-     <y>30</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>webView</sender>
-   <signal>loadFinished(bool)</signal>
-   <receiver>progressBar</receiver>
-   <slot>hide()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>279</x>
-     <y>136</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>456</x>
-     <y>26</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

@@ -31,35 +31,37 @@ namespace PluginDisplayGpxViewDotCom {
 
     class DisplayGpxViewDotCom: public DisplayPluginInterface
     {
-        Q_OBJECT
-        Q_INTERFACES(DisplayPluginInterface)
+            Q_OBJECT
+            Q_INTERFACES(DisplayPluginInterface)
 
-    private:
-        DisplayGpxViewDotComOptionsFrame* mOptions;
-        DisplayGpxViewDotComFrame* mView;
-        DisplayGpxViewDotComHelp* mHelp;
+        private:
+            bool firstDisplay;
+            DisplayGpxViewDotComOptionsFrame* mOptions;
+            DisplayGpxViewDotComFrame* mView;
+            DisplayGpxViewDotComHelp* mHelp;
 
-    public:
-        DisplayGpxViewDotCom();
+        public:
+            DisplayGpxViewDotCom();
 
-        QString getName();
-        QIcon getIcon();
-        QWidget* getHelp();
-        QWidget* getOptions();
-        QWidget* getWidget();
-        void init(QWidget* parent, GPSData* gpsdata);
-        void update() {}
-        void loadFile(QString filename);
+            QString getName();
+            QIcon getIcon();
+            QWidget* getHelp();
+            QWidget* getOptions();
+            QWidget* getWidget();
+            void init(QWidget* parent, GPSData* gpsdata);
+            void update() {}
+            void loadFile(QString filename);
 
-    public slots:
-        void on_gpsdataChanged();
-        void on_selectionChanged() {}
-        void on_fileLoaded();
-        void on_about();
-        void on_showPlugin();
-        void on_hidePlugin() {}
+        public slots:
+            void on_gpsdataChanged();
+            void on_selectionChanged() {}
+            void on_fileLoaded();
+            void on_about();
+            void on_showPlugin();
+            void on_hidePlugin() {}
 
-    };
+
+};
 }
 
 #endif // DISPLAYGPXVIEWDOTCOM_H

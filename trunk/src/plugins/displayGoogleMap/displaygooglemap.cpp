@@ -36,9 +36,10 @@ namespace PluginDisplayGoogleMap {
     DisplayGoogleMap::DisplayGoogleMap()
     {
         //qDebug() << "DisplayGoogleMap::DisplayGoogleMap()";
-        view    = new DisplayGoogleMapFrame();
-        help    = new DisplayGoogleMapHelp();
-        options = new DisplayGoogleMapOptionsFrame();
+        mView    = new DisplayGoogleMapFrame();
+        mHelp    = new DisplayGoogleMapHelp();
+        mOptions = new DisplayGoogleMapOptionsFrame();
+        firstDisplay = true;
     } //DisplayGoogleMap::DisplayGoogleMap
 
     /*------------------------------------------------------------------------------*
@@ -54,7 +55,7 @@ namespace PluginDisplayGoogleMap {
      *------------------------------------------------------------------------------*/
     QWidget* DisplayGoogleMap::getHelp()
     {
-        return help;
+        return mHelp;
     } //DisplayGoogleMap::getHelp
 
     /*------------------------------------------------------------------------------*
@@ -62,7 +63,7 @@ namespace PluginDisplayGoogleMap {
      *------------------------------------------------------------------------------*/
     QWidget* DisplayGoogleMap::getOptions()
     {
-        return options;
+        return mOptions;
     } //DisplayGoogleMap::getOptions
 
     /*------------------------------------------------------------------------------*
@@ -73,7 +74,7 @@ namespace PluginDisplayGoogleMap {
         qDebug( )  << __FILE__ << __FUNCTION__;
         connect((QObject*)gpsdata, SIGNAL(signalGPSDataUpdated()),
                 (QObject*)this,    SLOT  (on_gpsdataChanged   ()));
-        view->init(gpsdata);
+        mView->init(gpsdata);
     } //DisplayGoogleMap::init
 
     /*------------------------------------------------------------------------------*
@@ -81,7 +82,7 @@ namespace PluginDisplayGoogleMap {
      *------------------------------------------------------------------------------*/
     QWidget* DisplayGoogleMap::getWidget()
     {
-        return view;
+        return mView;
     } //DisplayGoogleMap::getWidge
 
     /*------------------------------------------------------------------------------*
@@ -129,6 +130,11 @@ namespace PluginDisplayGoogleMap {
      *------------------------------------------------------------------------------*/
     void DisplayGoogleMap::on_showPlugin()
     {
+        if (firstDisplay)
+        {
+            mView->run();
+            firstDisplay = false;
+        }
         emit signalSetTrackSelection(false,false,false,false,false);
     } //DisplayGoogleMap::on_showPlugin
 
@@ -137,7 +143,7 @@ namespace PluginDisplayGoogleMap {
      *------------------------------------------------------------------------------*/
     void DisplayGoogleMap::on_fileLoaded()
     {
-        on_showPlugin();
+        emit signalSetTrackSelection(false,false,false,false,false);
     } //DisplayGoogleMap::on_fileLoaded
 
     Q_EXPORT_PLUGIN2(DisplayGoogleMap, DisplayGoogleMap)

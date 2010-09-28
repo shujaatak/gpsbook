@@ -111,7 +111,7 @@ namespace GPSBook {
         return;
         }
 
-#ifndef Q_OS_LINUX
+#ifdef Q_OS_LINUX
         //Remove advert to speedup development ;-)
         if (url.toString().contains("googlesyndication")) {
             socket->disconnectFromHost();
