@@ -156,9 +156,19 @@ namespace PluginDisplayInformation {
     void DisplayInformation::on_showPlugin()
     {
         qDebug() << __FILE__ << __FUNCTION__ ;
+        disconnect(mGPSData,SIGNAL(signalGPSDataUpdated()),this,SLOT(on_gpsdataChanged()));
         update();
         emit signalSetTrackSelection(true,true,true,true,false);
-    } //DisplayInformation::showPlugin
+    } //DisplayInformation::on_showPlugin
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformation::on_hidePlugin()
+    {
+        qDebug() << __FILE__ << __FUNCTION__ ;
+        disconnect(mGPSData,SIGNAL(signalGPSDataUpdated()),this,SLOT(on_gpsdataChanged()));
+    } //DisplayInformation::on_hidePlugin
 
     /*------------------------------------------------------------------------------*
 

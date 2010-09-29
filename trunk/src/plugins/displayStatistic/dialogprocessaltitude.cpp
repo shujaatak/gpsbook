@@ -71,7 +71,7 @@ namespace PluginDisplayStatistic {
      *------------------------------------------------------------------------------*/
     void DialogProcessAltitude::updateAltitude()
     {
-        mGPSData->lockGPSDataForWrite();
+        //mGPSData->lockGPSDataForWrite();
         foreach (Track* track, mGPSData->trackList)
         {
             foreach(TrackSeg* trackSeg, track->trackSegList)

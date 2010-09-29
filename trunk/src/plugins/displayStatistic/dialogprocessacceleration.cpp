@@ -75,7 +75,7 @@ namespace PluginDisplayStatistic {
         WayPoint* waypointBegin = 0;
         WayPoint* waypointEnd = 0;
         double acceleration = 0;
-        mGPSData->lockGPSDataForWrite();
+        //mGPSData->lockGPSDataForWrite();
         foreach (Track* track, mGPSData->trackList)
         {
             foreach(TrackSeg* trackSeg, track->trackSegList)

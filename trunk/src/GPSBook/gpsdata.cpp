@@ -340,6 +340,7 @@ namespace GPSBook {
     */
     void GPSData::setModified(bool value)
     {
+        qDebug() << __FILE__ << __FUNCTION__;
         isModified = value;
         emit signalGPSDataUpdated();
     }

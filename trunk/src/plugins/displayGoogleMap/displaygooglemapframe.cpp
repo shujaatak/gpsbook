@@ -35,10 +35,18 @@ namespace PluginDisplayGoogleMap {
     QFrame(parent),
     m_ui(new Ui::DisplayGoogleMapFrame)
     {
+        QWebSettings::clearMemoryCaches();
         QWebSettings::globalSettings()->setAttribute(QWebSettings::PluginsEnabled, true);
+        QWebSettings::globalSettings()->setAttribute(QWebSettings::JavascriptEnabled, true);
+        QWebSettings::globalSettings()->setAttribute(QWebSettings::AutoLoadImages, true);
+
+
         tempPage = new QTemporaryFile(QDir::tempPath() + QDir::separator() + QCoreApplication::applicationName() + "_googlemap.html");
+
         m_ui->setupUi(this);
+
         m_ui->webView->setPage(new CustomWebPage);
+
     } //DisplayGoogleMapFrame::DisplayGoogleMapFrame
 
     /*------------------------------------------------------------------------------*
@@ -133,13 +141,4 @@ namespace PluginDisplayGoogleMap {
         run();
     } //DisplayGoogleMapFrame::on_commandLinkButton_clicked
 
-    /*------------------------------------------------------------------------------*
-
-     *------------------------------------------------------------------------------*/
-    void DisplayGoogleMapFrame::on_webView_loadFinished(bool )
-    {
-        //qDebug() << __FUNCTION__ << success;
-        //Page has been served, deleting temporary file.
-        //tempPage->remove();
-    } //DisplayGoogleMapFrame::on_webView_loadFinished
 }

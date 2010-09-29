@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>591</width>
-    <height>588</height>
+    <width>584</width>
+    <height>549</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,8 +30,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>589</width>
-        <height>586</height>
+        <width>582</width>
+        <height>547</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -40,7 +40,7 @@
          <property name="currentIndex">
           <number>4</number>
          </property>
-         <widget class="QWidget" name="page_4">
+         <widget class="QWidget" name="pageNoSelection">
           <layout class="QVBoxLayout" name="verticalLayout_7">
            <item>
             <widget class="QLabel" name="label_12">
@@ -70,7 +70,7 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="page">
+         <widget class="QWidget" name="pageGPX">
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
             <widget class="QGroupBox" name="groupBox">
@@ -151,7 +151,20 @@
                <widget class="QLineEdit" name="lineEditMetaDataAuthorName"/>
               </item>
               <item row="1" column="1">
-               <widget class="QLineEdit" name="lineEditMetaDataEMailId"/>
+               <widget class="QLineEdit" name="lineEditMetaDataEMailId">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+               </widget>
               </item>
               <item row="1" column="0">
                <widget class="QLabel" name="label_5">
@@ -161,7 +174,14 @@
                </widget>
               </item>
               <item row="1" column="3">
-               <widget class="QLineEdit" name="lineEditMetaDataEMailDomain"/>
+               <widget class="QLineEdit" name="lineEditMetaDataEMailDomain">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
               </item>
               <item row="1" column="2">
                <widget class="QLabel" name="label_6">
@@ -170,18 +190,90 @@
                 </property>
                </widget>
               </item>
-              <item row="2" column="0">
+              <item row="4" column="0">
                <widget class="QLabel" name="label_9">
                 <property name="text">
-                 <string>Link</string>
+                 <string>Links</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="1" colspan="3">
-               <widget class="QLineEdit" name="lineEditMetaDataLink">
+              <item row="4" column="4">
+               <widget class="QToolButton" name="toolButtonMetadataAddLink">
                 <property name="enabled">
                  <bool>false</bool>
                 </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
+                  <normaloff>:/icons/gtk/object-add.png</normaloff>:/icons/gtk/object-add.png</iconset>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="4">
+               <widget class="QToolButton" name="toolButtonMetadataDeleteLink">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
+                  <normaloff>:/icons/gtk/editdelete.png</normaloff>:/icons/gtk/editdelete.png</iconset>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="4">
+               <widget class="QToolButton" name="toolButtonMetadataEditLink">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
+                  <normaloff>:/icons/gtk/format-text-direction-ltr.png</normaloff>:/icons/gtk/format-text-direction-ltr.png</iconset>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="4">
+               <spacer name="verticalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="4" column="1" rowspan="4" colspan="3">
+               <widget class="QListWidget" name="listWidgetMetaDataLink">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Link sample</string>
+                 </property>
+                 <property name="checkState">
+                  <enum>Unchecked</enum>
+                 </property>
+                </item>
                </widget>
               </item>
              </layout>
@@ -231,59 +323,77 @@
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="page_3">
-          <layout class="QVBoxLayout" name="verticalLayout_6">
+         <widget class="QWidget" name="pageWaypoint">
+          <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
-            <widget class="QGroupBox" name="groupBox_6">
+            <widget class="QGroupBox" name="groupBox_5">
              <property name="title">
-              <string>Track</string>
+              <string>Waypoint</string>
              </property>
-             <layout class="QGridLayout" name="gridLayout_6">
+             <layout class="QGridLayout" name="gridLayout_5">
               <property name="leftMargin">
                <number>9</number>
               </property>
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_27">
+              <item row="0" column="0" colspan="3">
+               <widget class="QLabel" name="label_20">
                 <property name="text">
                  <string>Name</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
-               <widget class="QLineEdit" name="lineEditTrackName"/>
+              <item row="0" column="3" colspan="2">
+               <widget class="QLineEdit" name="lineEditWaypointName"/>
               </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_28">
+              <item row="1" column="0" colspan="3">
+               <widget class="QLabel" name="label_21">
                 <property name="text">
                  <string>Description</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="lineEditTrackDescription"/>
+              <item row="1" column="3" colspan="2">
+               <widget class="QLineEdit" name="lineEditWaypointDescription"/>
               </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_29">
+              <item row="2" column="0" colspan="3">
+               <widget class="QLabel" name="label_22">
                 <property name="text">
                  <string>Source</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="1">
-               <widget class="QLineEdit" name="lineEditTrackSource"/>
+              <item row="2" column="3" colspan="2">
+               <widget class="QLineEdit" name="lineEditWaypointSource"/>
+              </item>
+              <item row="3" column="0" colspan="3">
+               <widget class="QLabel" name="label_23">
+                <property name="text">
+                 <string>Type</string>
+                </property>
+               </widget>
               </item>
               <item row="4" column="0">
-               <widget class="QLabel" name="label_31">
+               <widget class="QLabel" name="label_26">
+                <property name="text">
+                 <string>Symbole</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0" colspan="3">
+               <widget class="QLabel" name="label_24">
                 <property name="text">
                  <string>Comment</string>
                 </property>
                </widget>
               </item>
-              <item row="4" column="1">
-               <widget class="QTextEdit" name="textEditTrackComment">
-                <property name="enabled">
-                 <bool>false</bool>
+              <item row="6" column="0" rowspan="5" colspan="3">
+               <widget class="QLabel" name="label_25">
+                <property name="text">
+                 <string>Links</string>
                 </property>
+               </widget>
+              </item>
+              <item row="5" column="3">
+               <widget class="QTextEdit" name="textEditWaypointComment">
                 <property name="html">
                  <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -298,40 +408,133 @@ p, li { white-space: pre-wrap; }
                 </property>
                </widget>
               </item>
-              <item row="5" column="0">
-               <widget class="QLabel" name="label_32">
-                <property name="text">
-                 <string>Links</string>
-                </property>
-               </widget>
+              <item row="4" column="3">
+               <widget class="QLineEdit" name="lineEditWaypointSymbole"/>
               </item>
-              <item row="5" column="1">
-               <widget class="QListView" name="listViewTrackLinks">
+              <item row="3" column="3">
+               <widget class="QLineEdit" name="lineEditWaypointType"/>
+              </item>
+              <item row="6" column="3" rowspan="5">
+               <widget class="QListWidget" name="listWidgetWaypointLinks">
                 <property name="enabled">
                  <bool>false</bool>
                 </property>
+                <item>
+                 <property name="text">
+                  <string>Link sample</string>
+                 </property>
+                 <property name="checkState">
+                  <enum>Unchecked</enum>
+                 </property>
+                </item>
                </widget>
               </item>
-              <item row="3" column="1">
-               <widget class="QComboBox" name="comboBoxTrackType">
+              <item row="4" column="4">
+               <widget class="QToolButton" name="toolButtonWaypointSymbole">
                 <property name="enabled">
                  <bool>false</bool>
                 </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_30">
                 <property name="text">
-                 <string>Type</string>
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../GPSBook/icons/map-icons-collection/map-icons.qrc">
+                  <normaloff>:/icons/icons/cluster4.png</normaloff>:/icons/icons/cluster4.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>24</width>
+                  <height>24</height>
+                 </size>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
                 </property>
                </widget>
+              </item>
+              <item row="3" column="4">
+               <widget class="QToolButton" name="toolButtonWaypointType">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="4">
+               <widget class="QToolButton" name="toolButtonWaypointAddLink">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
+                  <normaloff>:/icons/gtk/object-add.png</normaloff>:/icons/gtk/object-add.png</iconset>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="4">
+               <widget class="QToolButton" name="toolButtonWaypointEditLink">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
+                  <normaloff>:/icons/gtk/format-text-direction-ltr.png</normaloff>:/icons/gtk/format-text-direction-ltr.png</iconset>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="9" column="4">
+               <widget class="QToolButton" name="toolButtonWaypointDeleteLink">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
+                  <normaloff>:/icons/gtk/editdelete.png</normaloff>:/icons/gtk/editdelete.png</iconset>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="10" column="4">
+               <spacer name="verticalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
              </layout>
             </widget>
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="page_5">
+         <widget class="QWidget" name="pageRoute">
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
             <widget class="QGroupBox" name="groupBox_4">
@@ -349,7 +552,7 @@ p, li { white-space: pre-wrap; }
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
+              <item row="0" column="2" colspan="2">
                <widget class="QLineEdit" name="lineEditRouteName"/>
               </item>
               <item row="1" column="0">
@@ -359,7 +562,7 @@ p, li { white-space: pre-wrap; }
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
+              <item row="1" column="2" colspan="2">
                <widget class="QLineEdit" name="lineEditRouteDescription"/>
               </item>
               <item row="2" column="0">
@@ -369,20 +572,13 @@ p, li { white-space: pre-wrap; }
                 </property>
                </widget>
               </item>
-              <item row="2" column="1">
+              <item row="2" column="2" colspan="2">
                <widget class="QLineEdit" name="lineEditRouteSource"/>
               </item>
               <item row="3" column="0">
                <widget class="QLabel" name="label_18">
                 <property name="text">
                  <string>Type</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QComboBox" name="comboBoxRouteType">
-                <property name="enabled">
-                 <bool>false</bool>
                 </property>
                </widget>
               </item>
@@ -393,11 +589,8 @@ p, li { white-space: pre-wrap; }
                 </property>
                </widget>
               </item>
-              <item row="4" column="1">
-               <widget class="QTextEdit" name="textEditRouteComments">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
+              <item row="4" column="2" colspan="2">
+               <widget class="QTextEdit" name="textEditRouteComment">
                 <property name="html">
                  <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -408,21 +601,112 @@ p, li { white-space: pre-wrap; }
 &lt;td style=&quot;border: none;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
                </widget>
               </item>
-              <item row="5" column="0">
-               <widget class="QLabel" name="label_14">
+              <item row="3" column="2">
+               <widget class="QLineEdit" name="lineEditRouteType"/>
+              </item>
+              <item row="3" column="3">
+               <widget class="QToolButton" name="toolButtonRouteType">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="text">
-                 <string>Links</string>
+                 <string>...</string>
                 </property>
                </widget>
               </item>
-              <item row="5" column="1">
-               <widget class="QListView" name="listViewRouteLinks">
+              <item row="7" column="3">
+               <widget class="QToolButton" name="toolButtonRouteDeleteLink">
                 <property name="enabled">
                  <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
+                  <normaloff>:/icons/gtk/editdelete.png</normaloff>:/icons/gtk/editdelete.png</iconset>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="3">
+               <widget class="QToolButton" name="toolButtonRouteAddLink">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
+                  <normaloff>:/icons/gtk/object-add.png</normaloff>:/icons/gtk/object-add.png</iconset>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="3">
+               <widget class="QToolButton" name="toolButtonRouteEditLink">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
+                  <normaloff>:/icons/gtk/format-text-direction-ltr.png</normaloff>:/icons/gtk/format-text-direction-ltr.png</iconset>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="3">
+               <spacer name="verticalSpacer_6">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="5" column="2" rowspan="4">
+               <widget class="QListWidget" name="listWidgetRouteLinks">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Link sample</string>
+                 </property>
+                 <property name="checkState">
+                  <enum>Unchecked</enum>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="5" column="0" rowspan="4">
+               <widget class="QLabel" name="label_14">
+                <property name="text">
+                 <string>Links</string>
                 </property>
                </widget>
               </item>
@@ -431,101 +715,56 @@ p, li { white-space: pre-wrap; }
            </item>
           </layout>
          </widget>
-         <widget class="QWidget" name="page_2">
-          <layout class="QVBoxLayout" name="verticalLayout_5">
+         <widget class="QWidget" name="pageTrack">
+          <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
-            <widget class="QGroupBox" name="groupBox_5">
+            <widget class="QGroupBox" name="groupBox_6">
              <property name="title">
-              <string>Waypoint</string>
+              <string>Track</string>
              </property>
-             <layout class="QGridLayout" name="gridLayout_5">
+             <layout class="QGridLayout" name="gridLayout_6">
               <property name="leftMargin">
                <number>9</number>
               </property>
               <item row="0" column="0">
-               <widget class="QLabel" name="label_20">
+               <widget class="QLabel" name="label_27">
                 <property name="text">
                  <string>Name</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
-               <widget class="QLineEdit" name="lineEditWaypointName"/>
+              <item row="0" column="1" colspan="3">
+               <widget class="QLineEdit" name="lineEditTrackName"/>
               </item>
               <item row="1" column="0">
-               <widget class="QLabel" name="label_21">
+               <widget class="QLabel" name="label_28">
                 <property name="text">
                  <string>Description</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
-               <widget class="QLineEdit" name="lineEditWaypointDescription"/>
+              <item row="1" column="1" colspan="3">
+               <widget class="QLineEdit" name="lineEditTrackDescription"/>
               </item>
               <item row="2" column="0">
-               <widget class="QLabel" name="label_22">
+               <widget class="QLabel" name="label_29">
                 <property name="text">
                  <string>Source</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="1">
-               <widget class="QLineEdit" name="lineEditWaypointSource"/>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_23">
-                <property name="text">
-                 <string>Type</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QComboBox" name="comboBoxWaypointType">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
+              <item row="2" column="1" colspan="3">
+               <widget class="QLineEdit" name="lineEditTrackSource"/>
               </item>
               <item row="4" column="0">
-               <widget class="QLabel" name="label_26">
-                <property name="text">
-                 <string>Symbole</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="QComboBox" name="comboBoxWaypointSymbole">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="0">
-               <widget class="QLabel" name="label_24">
+               <widget class="QLabel" name="label_31">
                 <property name="text">
                  <string>Comment</string>
                 </property>
                </widget>
               </item>
-              <item row="6" column="0">
-               <widget class="QLabel" name="label_25">
-                <property name="text">
-                 <string>Links</string>
-                </property>
-               </widget>
-              </item>
-              <item row="6" column="1">
-               <widget class="QListView" name="listViewWaypointLinks">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="1">
-               <widget class="QTextEdit" name="textEditWayPointComment">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
+              <item row="4" column="1" colspan="3">
+               <widget class="QTextEdit" name="textEditTrackComment">
                 <property name="html">
                  <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -537,9 +776,119 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;          &lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;           &lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
                 </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_30">
+                <property name="text">
+                 <string>Type</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLineEdit" name="lineEditTrackType"/>
+              </item>
+              <item row="5" column="3">
+               <widget class="QToolButton" name="toolButtonTrackAddLink">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
+                  <normaloff>:/icons/gtk/object-add.png</normaloff>:/icons/gtk/object-add.png</iconset>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="3">
+               <widget class="QToolButton" name="toolButtonTrackDeleteLink">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
+                  <normaloff>:/icons/gtk/editdelete.png</normaloff>:/icons/gtk/editdelete.png</iconset>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="3">
+               <widget class="QToolButton" name="toolButtonTrackEditLink">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
+                  <normaloff>:/icons/gtk/format-text-direction-ltr.png</normaloff>:/icons/gtk/format-text-direction-ltr.png</iconset>
+                </property>
+                <property name="autoRaise">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="8" column="3">
+               <spacer name="verticalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>20</width>
+                  <height>40</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="3" column="3">
+               <widget class="QToolButton" name="toolButtonTrackType">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0" rowspan="4">
+               <widget class="QLabel" name="label_32">
+                <property name="text">
+                 <string>Links</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1" rowspan="4" colspan="2">
+               <widget class="QListWidget" name="listWidgetTrackLinks">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Link sample</string>
+                 </property>
+                 <property name="checkState">
+                  <enum>Unchecked</enum>
+                 </property>
+                </item>
                </widget>
               </item>
              </layout>
@@ -568,6 +917,9 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../../GPSBook/icons/gtk/gtk_icons.qrc"/>
+  <include location="../../GPSBook/icons/map-icons-collection/map-icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

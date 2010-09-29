@@ -64,8 +64,12 @@ namespace PluginDisplayInformation {
     void DisplayInformationFrame::autoSetEnabled()
     {
         qDebug() << __FILE__ << __FUNCTION__ ;
-        bool enabled = (!mGPSData->trackList.isEmpty() || (!mGPSData->routeList.isEmpty()));
-        setEnabled(enabled);
+        bool enabled = (!mGPSData->trackList.isEmpty() ||
+                        !mGPSData->routeList.isEmpty() ||
+                        !mGPSData->wayPointList.isEmpty());
+        if (enabled != isEnabled()) {
+            setEnabled(enabled);
+        }
     } //DisplayInformationFrame::autoSetEnabled
 
     /*------------------------------------------------------------------------------*
@@ -83,69 +87,84 @@ namespace PluginDisplayInformation {
     void DisplayInformationFrame::updateDisplay()
     {
         qDebug() << __FILE__ << __FUNCTION__;
+
+        mGPSData->blockSignals(true);
+
         mGPSData->lockGPSDataForRead();
-        if (mGPSData->displayedWaypointIndex >= 0)
-        {
-            m_ui->stackedWidget->setCurrentIndex(4);
-            if (mGPSData->displayedWaypointIndex >= 0 ) {
-                m_ui->lineEditWaypointName->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->name);
-                m_ui->lineEditWaypointDescription->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->desc);
-                m_ui->lineEditWaypointSource->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->src);
-                //comboBoxWaypointType
-                //comboBoxWaypointSymbole
-                //listViewWaypointLinks
-            }return;
-        }
-        else if (mGPSData->displayedRouteIndex >= 0)
-        {
-            m_ui->stackedWidget->setCurrentIndex(3);
-            if (mGPSData->displayedRouteIndex >= 0 ) {
-                m_ui->lineEditRouteName->setText(mGPSData->routeList[mGPSData->displayedRouteIndex]->name);
-                m_ui->lineEditRouteDescription->setText(mGPSData->routeList[mGPSData->displayedRouteIndex]->desc);
-                m_ui->lineEditRouteSource->setText(mGPSData->routeList[mGPSData->displayedRouteIndex]->src);
-                //comboBoxRouteType
-                m_ui->textEditRouteComments->setText(mGPSData->routeList[mGPSData->displayedRouteIndex]->cmt);
-                //listViewRouteLinks
-            }
-            return;
-        }
-        else if (mGPSData->displayedTrackIndex >= 0)
-        {
-            m_ui->stackedWidget->setCurrentIndex(2);
-            if (mGPSData->displayedTrackIndex >= 0) {
-                m_ui->lineEditTrackName->setText(mGPSData->trackList[mGPSData->displayedTrackIndex]->name);
-                m_ui->lineEditTrackDescription->setText(mGPSData->trackList[mGPSData->displayedTrackIndex]->desc);
-                m_ui->lineEditTrackSource->setText(mGPSData->trackList[mGPSData->displayedTrackIndex]->src);
-                m_ui->textEditTrackComment->setText(mGPSData->trackList[mGPSData->displayedTrackIndex]->cmt);
-                //m_ui->listViewTrackLinks
-                //m_ui->comboBoxTrackType
-            }
-            return;
-        }
-        else if (mGPSData->displayedWaypointIndex == -2 &&
-                 mGPSData->displayedRouteIndex    == -2 &&
-                 mGPSData->displayedTrackIndex    == -2 &&
-                 mGPSData->displayedSegmentIndex  == -2 )
-        {
-            m_ui->stackedWidget->setCurrentIndex(1);
-            //Metadata
-            m_ui->lineEditMetaDataName->setText(mGPSData->metadata->name);
-            m_ui->lineEditMetaDataDescription->setText(mGPSData->metadata->desc);
-            m_ui->dateTimeEditMetaDataDate->setDateTime(mGPSData->metadata->time);
-            m_ui->lineEditMetaDataKeywords->setText(mGPSData->metadata->keywords);
-            m_ui->lineEditMetaDataAuthorName->setText(mGPSData->metadata->author->name);
-            m_ui->lineEditMetaDataEMailId->setText(mGPSData->metadata->author->email->id);
-            m_ui->lineEditMetaDataEMailDomain->setText(mGPSData->metadata->author->email->domain);
-            m_ui->lineEditMetaDataCopyrightOwner->setText(mGPSData->metadata->copyright->author);
-            m_ui->lineEditMetaDataCopyrightLicense->setText(mGPSData->metadata->copyright->license);
-            m_ui->lineEditMetaDataLicenseYear->setText(QString::number(mGPSData->metadata->copyright->year));
-        }
+        if (mGPSData->trackList.isEmpty()) {
+             m_ui->stackedWidget->setCurrentIndex(0);
+         }
         else
         {
-            m_ui->stackedWidget->setCurrentIndex(0);
+            if (mGPSData->displayedWaypointIndex >= 0)
+            {
+                m_ui->stackedWidget->setCurrentIndex(2);
+                if (mGPSData->displayedWaypointIndex >= 0 ) {
+                    m_ui->lineEditWaypointName->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->name);
+                    m_ui->lineEditWaypointDescription->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->desc);
+                    m_ui->lineEditWaypointSource->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->src);
+                    m_ui->lineEditWaypointType->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->type);
+                    m_ui->lineEditWaypointSymbole->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->sym);
+                    m_ui->textEditWaypointComment->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->cmt);
+                    //listViewWaypointLinks
+                }
+            }
+            else if (mGPSData->displayedRouteIndex >= 0)
+            {
+                m_ui->stackedWidget->setCurrentIndex(3);
+                if (mGPSData->displayedRouteIndex >= 0 ) {
+                    m_ui->lineEditRouteName->setText(mGPSData->routeList[mGPSData->displayedRouteIndex]->name);
+                    m_ui->lineEditRouteDescription->setText(mGPSData->routeList[mGPSData->displayedRouteIndex]->desc);
+                    m_ui->lineEditRouteSource->setText(mGPSData->routeList[mGPSData->displayedRouteIndex]->src);
+                    m_ui->lineEditRouteType->setText(mGPSData->routeList[mGPSData->displayedRouteIndex]->type);
+                    m_ui->textEditRouteComment->setText(mGPSData->routeList[mGPSData->displayedRouteIndex]->cmt);
+                    //listViewRouteLinks
+                }
+            }
+            else if (mGPSData->displayedTrackIndex >= 0)
+            {
+                m_ui->stackedWidget->setCurrentIndex(4);
+                if (mGPSData->displayedTrackIndex >= 0) {
+                    m_ui->lineEditTrackName->setText(mGPSData->trackList[mGPSData->displayedTrackIndex]->name);
+                    m_ui->lineEditTrackDescription->setText(mGPSData->trackList[mGPSData->displayedTrackIndex]->desc);
+                    m_ui->lineEditTrackSource->setText(mGPSData->trackList[mGPSData->displayedTrackIndex]->src);
+                    m_ui->lineEditTrackType->setText(mGPSData->trackList[mGPSData->displayedTrackIndex]->type);
+                    m_ui->textEditTrackComment->setText(mGPSData->trackList[mGPSData->displayedTrackIndex]->cmt);
+                    //m_ui->listViewTrackLinks
+                }
+            }
+            else if (mGPSData->displayedWaypointIndex == -2 &&
+                     mGPSData->displayedRouteIndex    == -2 &&
+                     mGPSData->displayedTrackIndex    == -2 &&
+                     mGPSData->displayedSegmentIndex  == -2 )
+            {
+                m_ui->stackedWidget->setCurrentIndex(1);
+                //Metadata
+                m_ui->lineEditMetaDataName->setText(mGPSData->metadata->name);
+                m_ui->lineEditMetaDataDescription->setText(mGPSData->metadata->desc);
+                m_ui->dateTimeEditMetaDataDate->setDateTime(mGPSData->metadata->time);
+                m_ui->lineEditMetaDataKeywords->setText(mGPSData->metadata->keywords);
+                m_ui->lineEditMetaDataAuthorName->setText(mGPSData->metadata->author->name);
+                m_ui->lineEditMetaDataEMailId->setText(mGPSData->metadata->author->email->id);
+                m_ui->lineEditMetaDataEMailDomain->setText(mGPSData->metadata->author->email->domain);
+                m_ui->lineEditMetaDataCopyrightOwner->setText(mGPSData->metadata->copyright->author);
+                m_ui->lineEditMetaDataCopyrightLicense->setText(mGPSData->metadata->copyright->license);
+                m_ui->lineEditMetaDataLicenseYear->setText(QString::number(mGPSData->metadata->copyright->year));
+            }
+            else
+            {
+                m_ui->stackedWidget->setCurrentIndex(0);
+            }
         }
         mGPSData->unlockGPSData();
+
+        mGPSData->blockSignals(false);
+
     } //DisplayInformationFrame::updateDisplay
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     /*------------------------------------------------------------------------------*
 
@@ -256,60 +275,133 @@ namespace PluginDisplayInformation {
         //mGPSData->unlockGPSData();
         mGPSData->setModified(true);
     } //DisplayInformationFrame::on_lineEditCopyrightLicense_editingFinished
-}
 
-void PluginDisplayInformation::DisplayInformationFrame::on_lineEditTrackName_editingFinished()
-{
-    mGPSData->trackList[mGPSData->displayedTrackIndex]->name = m_ui->lineEditTrackName->text();
-    mGPSData->setModified(true);
 
-}
 
-void PluginDisplayInformation::DisplayInformationFrame::on_lineEditTrackDescription_editingFinished()
-{
-    mGPSData->trackList[mGPSData->displayedTrackIndex]->desc = m_ui->lineEditTrackDescription->text();
-    mGPSData->setModified(true);
-}
+    /////////////////////////////////////////////////////////////////////////////////////////////////
 
-void PluginDisplayInformation::DisplayInformationFrame::on_lineEditTrackSource_editingFinished()
-{
-    mGPSData->trackList[mGPSData->displayedTrackIndex]->src = m_ui->lineEditTrackSource->text();
-    mGPSData->setModified(true);
-}
 
-void PluginDisplayInformation::DisplayInformationFrame::on_lineEditRouteName_cursorPositionChanged(int , int )
-{
-    mGPSData->routeList[mGPSData->displayedRouteIndex]->name = m_ui->lineEditRouteName->text();
-    mGPSData->setModified(true);
-}
+    /*------------------------------------------------------------------------------*
 
-void PluginDisplayInformation::DisplayInformationFrame::on_lineEditRouteDescription_editingFinished()
-{
-    mGPSData->routeList[mGPSData->displayedRouteIndex]->desc = m_ui->lineEditRouteDescription->text();
-    mGPSData->setModified(true);
-}
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_lineEditTrackName_editingFinished()
+    {
+        mGPSData->trackList[mGPSData->displayedTrackIndex]->name = m_ui->lineEditTrackName->text();
+        mGPSData->setModified(true);
+    } // DisplayInformationFrame::on_lineEditTrackName_editingFinished
 
-void PluginDisplayInformation::DisplayInformationFrame::on_lineEditRouteSource_editingFinished()
-{
-    mGPSData->routeList[mGPSData->displayedRouteIndex]->src = m_ui->lineEditRouteSource->text();
-    mGPSData->setModified(true);
+    /*------------------------------------------------------------------------------*
 
-}
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_lineEditTrackDescription_editingFinished()
+    {
+        mGPSData->trackList[mGPSData->displayedTrackIndex]->desc = m_ui->lineEditTrackDescription->text();
+        mGPSData->setModified(true);
+    } // DisplayInformationFrame::on_lineEditTrackDescription_editingFinished
 
-void PluginDisplayInformation::DisplayInformationFrame::on_lineEditWaypointName_editingFinished()
-{
-    mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->name = m_ui->lineEditWaypointName->text();
-    mGPSData->setModified(true);
-}
+    /*------------------------------------------------------------------------------*
 
-void PluginDisplayInformation::DisplayInformationFrame::on_lineEditWaypointDescription_editingFinished()
-{
-    mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->desc = m_ui->lineEditWaypointDescription->text();
-    mGPSData->setModified(true);
-}
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_lineEditTrackSource_editingFinished()
+    {
+        mGPSData->trackList[mGPSData->displayedTrackIndex]->src = m_ui->lineEditTrackSource->text();
+        mGPSData->setModified(true);
+    } // DisplayInformationFrame::on_lineEditTrackSource_editingFinished
 
-void PluginDisplayInformation::DisplayInformationFrame::on_lineEditWaypointSource_editingFinished()
-{
-    mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->src = m_ui->lineEditWaypointSource->text();
-    mGPSData->setModified(true);
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_textEditTrackComment_textChanged()
+    {
+        mGPSData->trackList[mGPSData->displayedTrackIndex]->cmt = m_ui->textEditTrackComment->toPlainText();
+        mGPSData->setModified(true);
+    } // DisplayInformationFrame::on_textEditTrackComment_textChange
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_lineEditTrackType_editingFinished()
+    {
+        mGPSData->trackList[mGPSData->displayedTrackIndex]->type = m_ui->lineEditTrackType->text();
+        mGPSData->setModified(true);
+    } // DisplayInformationFrame::on_lineEditTrackType_editingFinished
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_lineEditRouteName_cursorPositionChanged(int , int )
+    {
+        mGPSData->routeList[mGPSData->displayedRouteIndex]->name = m_ui->lineEditRouteName->text();
+        mGPSData->setModified(true);
+    } // DisplayInformationFrame::on_lineEditRouteName_cursorPositionChanged
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_lineEditRouteDescription_editingFinished()
+    {
+        mGPSData->routeList[mGPSData->displayedRouteIndex]->desc = m_ui->lineEditRouteDescription->text();
+        mGPSData->setModified(true);
+    } // DisplayInformationFrame::on_lineEditRouteDescription_editingFinished
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_lineEditRouteSource_editingFinished()
+    {
+        mGPSData->routeList[mGPSData->displayedRouteIndex]->src = m_ui->lineEditRouteSource->text();
+        mGPSData->setModified(true);
+    } // DisplayInformationFrame::on_lineEditRouteSource_editingFinished
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_textEditRouteComment_textChanged()
+    {
+        mGPSData->routeList[mGPSData->displayedRouteIndex]->cmt = m_ui->textEditRouteComment->toPlainText();
+        mGPSData->setModified(true);
+    } // DisplayInformationFrame::on_textEditRouteComment_textChanged
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_lineEditWaypointName_editingFinished()
+    {
+        mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->name = m_ui->lineEditWaypointName->text();
+        mGPSData->setModified(true);
+    } // DisplayInformationFrame::on_lineEditWaypointName_editingFinished
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_lineEditWaypointDescription_editingFinished()
+    {
+        mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->desc = m_ui->lineEditWaypointDescription->text();
+        mGPSData->setModified(true);
+    } // DisplayInformationFrame::on_lineEditWaypointDescription_editingFinished
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_lineEditWaypointSource_editingFinished()
+    {
+        mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->src = m_ui->lineEditWaypointSource->text();
+        mGPSData->setModified(true);
+    } // DisplayInformationFrame::on_lineEditWaypointSource_editingFinished
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_textEditWaypointComment_textChanged()
+    {
+        mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->cmt = m_ui->textEditWaypointComment->toPlainText();
+        mGPSData->setModified(true);
+    } // DisplayInformationFrame::on_textEditWaypointComment_textChanged
 }
