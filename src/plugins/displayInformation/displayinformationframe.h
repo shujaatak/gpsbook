@@ -24,6 +24,7 @@
 
 #include <QtGui/QFrame>
 #include <gpsdata.h>
+#include <interface.h>
 
 namespace Ui {
     class DisplayInformationFrame;
@@ -52,15 +53,22 @@ namespace PluginDisplayInformation {
 
 
     private slots:
+        void on_textEditWaypointComment_textChanged();
         void on_lineEditWaypointSource_editingFinished();
         void on_lineEditWaypointDescription_editingFinished();
         void on_lineEditWaypointName_editingFinished();
+
+        void on_textEditRouteComment_textChanged();
         void on_lineEditRouteSource_editingFinished();
         void on_lineEditRouteDescription_editingFinished();
         void on_lineEditRouteName_cursorPositionChanged(int , int );
+
+        void on_lineEditTrackType_editingFinished();
+        void on_textEditTrackComment_textChanged();
         void on_lineEditTrackSource_editingFinished();
         void on_lineEditTrackDescription_editingFinished();
         void on_lineEditTrackName_editingFinished();
+
         void on_lineEditMetaDataCopyrightLicense_editingFinished();
         void on_lineEditMetaDataLicenseYear_editingFinished();
         void on_lineEditMetaDataCopyrightOwner_editingFinished();

@@ -481,7 +481,7 @@ namespace PluginIOGPX {
     {
         mGPSData = gpsdata;
 
-        mGPSData->lockGPSDataForWrite();
+        //mGPSData->lockGPSDataForWrite();
 
         mGPSData->clearData();
 

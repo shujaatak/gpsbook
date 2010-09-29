@@ -62,7 +62,7 @@ namespace PluginFilterCleanup {
      *------------------------------------------------------------------------------*/
     void FilterCleanupDialog::on_toolButtonRemoveDesc_clicked()
     {
-        mGPSData->lockGPSDataForWrite();
+        //mGPSData->lockGPSDataForWrite();
         setEnabled(false);
         foreach (Track* track,mGPSData->trackList)
         {
@@ -89,7 +89,7 @@ namespace PluginFilterCleanup {
      *------------------------------------------------------------------------------*/
     void FilterCleanupDialog::on_toolButtonRemoveHighSpeed_clicked()
     {
-        mGPSData->lockGPSDataForWrite();
+        //mGPSData->lockGPSDataForWrite();
         setEnabled(false);
         foreach (Track* track,mGPSData->trackList)
         {
@@ -120,7 +120,7 @@ namespace PluginFilterCleanup {
      *------------------------------------------------------------------------------*/
     void FilterCleanupDialog::on_toolButtonRemoveHighSpeedRemoveHighAcceleration_clicked()
     {
-        mGPSData->lockGPSDataForWrite();
+        //mGPSData->lockGPSDataForWrite();
         setEnabled(false);
         foreach (Track* track,mGPSData->trackList)
         {
@@ -185,7 +185,7 @@ namespace PluginFilterCleanup {
     {
         WayPoint* waypointOrigin = 0;
         setEnabled(false);
-        mGPSData->lockGPSDataForWrite();
+        //mGPSData->lockGPSDataForWrite();
         foreach (Track* track,mGPSData->trackList)
         {
             foreach (TrackSeg* trackSeg, track->trackSegList)

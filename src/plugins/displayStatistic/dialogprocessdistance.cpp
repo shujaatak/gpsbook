@@ -104,7 +104,7 @@ namespace PluginDisplayStatistic {
     void DialogProcessDistance::updateDistance()
     {
         //TODO: use the service instead of this (duplicated) code
-        mGPSData->lockGPSDataForWrite();
+        //mGPSData->lockGPSDataForWrite();
         foreach (Track* track,  mGPSData->trackList )
         {
             foreach (TrackSeg* trackSeg, track->trackSegList )

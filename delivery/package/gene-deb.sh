@@ -9,6 +9,7 @@ cd $SRC_DIR
 
 #Define the global variable needed to build the packet
 TARGET=$(uname -m)
+#VERSION=$(grep DBUILD_VERSION GPSBookConfig.pro | cut -d\" -f2 | sed "s/\\\//g")-$(date +"%Y%m%d%H%M%S")
 VERSION=$(grep DBUILD_VERSION GPSBookConfig.pro | cut -d\" -f2 | sed "s/\\\//g")-$(svnversion . | cut -f '2' -d ':')
 DATETIME=$(date -R)
 DATE=$(date +"%F")
@@ -46,18 +47,16 @@ cat $DELIVERY_DIR/bin/gpsbook.desktop | sed "s/{{VERSION}}/$VERSION/" > $APP/gps
 
 #Create the directories of the software
 INSTALL_DIR=$PACKAGE_DIR/debian/usr/local/gpsbook 
-for file in $(find $DELIVERY_DIR | grep -v svn | grep -v package | grep -v dll | grep -v sqlite); do 
+mkdir -p $INSTALL_DIR
+mkdir -p $INSTALL_DIR/bin
+mkdir -p $INSTALL_DIR/lib
+mkdir -p $INSTALL_DIR/plugins
+for file in $(ls $DELIVERY_DIR/bin/gpsbook* | grep -v exe$) $DELIVERY_DIR/lib/lib* $DELIVERY_DIR/plugins/lib*; do
   DESTINATION=$INSTALL_DIR/$(echo $file | cut -b$(($(echo $DELIVERY_DIR | wc -c) +1))-)
-  if [ -d $file ]; then 
-    mkdir -p $DESTINATION 
-  else
-    cp -P $file $DESTINATION 
-  fi;
+  cp -P $file $DESTINATION 
 done;
 sudo chown -R root: $PACKAGE_DIR/debian/usr
 
-echo "Ready to build package"
-read
 #Create the package
 cd $PACKAGE_DIR
 dpkg-deb --build debian

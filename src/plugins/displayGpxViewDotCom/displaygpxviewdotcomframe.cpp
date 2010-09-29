@@ -141,15 +141,6 @@ namespace PluginDisplayGpxViewDotCom {
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotComFrame::on_commandLinkButton_customContextMenuRequested(QPoint pos)
-    {
-        //qDebug() << "DisplayGpxViewDotComFrame::" << __FUNCTION__;
-        menu->exec(mapToGlobal(pos));
-    } //DisplayGpxViewDotComFrame::on_commandLinkButton_customContextMenuRequested
-
-    /*------------------------------------------------------------------------------*
-
-     *------------------------------------------------------------------------------*/
     void DisplayGpxViewDotComFrame::downloadFinished()
     {
         unsupportedContent(reply);

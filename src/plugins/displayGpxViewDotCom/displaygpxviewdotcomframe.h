@@ -77,7 +77,6 @@ namespace PluginDisplayGpxViewDotCom {
     private slots:
         void downloadFinished();
         void on_webView_linkClicked( QUrl url );
-        void on_commandLinkButton_customContextMenuRequested( QPoint pos );
         void on_buttonGpxView_toggled(bool checked);
         void on_buttonVisuGpx_toggled(bool checked);
 

@@ -59,7 +59,7 @@ namespace PluginDisplayInformation {
         void on_fileLoaded();
         void on_about();
         void on_showPlugin();
-        void on_hidePlugin() {}
+        void on_hidePlugin();
 
     };
 }

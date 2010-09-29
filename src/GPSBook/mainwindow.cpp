@@ -550,13 +550,14 @@ namespace GPSBook {
             waypointItem->setText(0,(waypoint->name != "") ? waypoint->name : tr("No name"));
             waypointItem->setIcon(0,QIcon(":/icons/silk/script_code.png"));
             waypointItem->setData(0,Qt::UserRole + 1,WAYPOINT);
-            waypointItem->setData(0,Qt::UserRole + 2,waypointIndex++);
+            waypointItem->setData(0,Qt::UserRole + 2,waypointIndex);
             waypointListItem->addChild(waypointItem);
             if (mGPSData->displayedWaypointIndex == waypointIndex)
             {
                 ui->treeWidgetCurrentGPX->expandItem(waypointItem);
                 ui->treeWidgetCurrentGPX->setCurrentItem(waypointItem);
             }
+            waypointIndex++;
         }
 
         QTreeWidgetItem* routeListItem = new QTreeWidgetItem();
@@ -571,13 +572,14 @@ namespace GPSBook {
             routeItem->setText(0,(route->name != "") ? route->name : tr("No name"));
             routeItem->setIcon(0,QIcon(":/icons/silk/script_code_red.png"));
             routeItem->setData(0,Qt::UserRole + 1,ROUTE);
-            routeItem->setData(0,Qt::UserRole + 2,routeIndex++);
+            routeItem->setData(0,Qt::UserRole + 2,routeIndex);
             routeListItem->addChild(routeItem);
             if (mGPSData->displayedRouteIndex == routeIndex)
             {
                 ui->treeWidgetCurrentGPX->expandItem(routeItem);
                 ui->treeWidgetCurrentGPX->setCurrentItem(routeItem);
             }
+            routeIndex++;
         }
 
         QTreeWidgetItem* trackListItem = new QTreeWidgetItem();
@@ -1139,4 +1141,3 @@ void GPSBook::MainWindow::on_treeWidgetHelp_itemClicked(QTreeWidgetItem* item, i
         ui->treeWidgetHelp->setCurrentItem(item,0);
     }
 }
-

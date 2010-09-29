@@ -7,8 +7,8 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{D213F2FB-7B4E-4686-B5E2-456DD963AFC8}
 AppName=GPSBook
-AppVersion=0.1-Alpha2
-AppVerName=GPSBook 0.1-Alpha2
+AppVersion=0.1-Alpha3
+AppVerName=GPSBook 0.1-Alpha3
 AppPublisher=gpsbook-team
 AppPublisherURL=http://gpsbook.free.fr/
 AppSupportURL=http://gpsbook.free.fr/
@@ -18,7 +18,7 @@ DefaultGroupName=GPSBook
 AllowNoIcons=no
 LicenseFile=C:\Developpement\GPSBook\delivery\package\gpl-2.0.txt
 OutputDir=C:\Developpement\GPSBook\delivery\package\windows
-OutputBaseFilename=gpsbook_setup_alpha2
+OutputBaseFilename=gpsbook_setup_alpha3
 Compression=lzma
 SolidCompression=yes
 
@@ -27,7 +27,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 ; Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
@@ -47,7 +47,7 @@ Source: "C:\Developpement\GPSBook\delivery\bin\QGLViewer2.dll"; DestDir: "{app}/
 Source: "C:\Developpement\GPSBook\delivery\bin\qwt6.dll"; DestDir: "{app}/bin"; Flags: ignoreversion
 Source: "C:\Developpement\GPSBook\delivery\bin\phonon4.dll"; DestDir: "{app}/bin"; Flags: ignoreversion
 Source: "C:\Developpement\GPSBook\delivery\bin\QtXmlPatterns4.dll"; DestDir: "{app}/bin"; Flags: ignoreversion
-Source: "C:\Developpement\GPSBook\delivery\bin\sqldrivers\qsqlite4.dll"; DestDir: "{app}/bin"; Flags: ignoreversion
+Source: "C:\Developpement\GPSBook\delivery\bin\sqldrivers\qsqlite4.dll"; DestDir: "{app}/bin/sqldrivers"; Flags: ignoreversion
 Source: "C:\Developpement\GPSBook\delivery\plugins\displayGoogleMap.dll"; DestDir: "{app}/plugins"; Flags: ignoreversion
 Source: "C:\Developpement\GPSBook\delivery\plugins\displayGpxViewDotCom.dll"; DestDir: "{app}/plugins"; Flags: ignoreversion
 Source: "C:\Developpement\GPSBook\delivery\plugins\displayGraphic2D.dll"; DestDir: "{app}/plugins"; Flags: ignoreversion
@@ -67,4 +67,11 @@ Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\GPSBook"; Filename
 
 [Run]
 Filename: "{app}\bin\gpsbook.exe"; Description: "{cm:LaunchProgram,GPSBook}"; Flags: nowait postinstall skipifsilent
+
+
+
+
+
+
+
 
