@@ -27,10 +27,29 @@ DisplayInformationOptionsFrame::DisplayInformationOptionsFrame(QWidget *parent) 
     ui(new Ui::DisplayInformationOptionsFrame)
 {
     ui->setupUi(this);
+    settings = new QSettings("GPSBook","GPSBook");
+    connect(ui->groupBoxAutoFill, SIGNAL(toggled(bool)), this, SLOT(modified()));
+    ui->groupBoxAutoFill->setChecked(settings->value("displayInformationDefaultFilling",false).toBool());
+
+    connect(ui->lineEditAuthorName, SIGNAL(editingFinished()), this, SLOT(modified()));
+    ui->lineEditAuthorName->setText(settings->value("displayInformationDefaultAuthorName","").toString());
+
+    connect(ui->lineEditEMailId, SIGNAL(editingFinished()), this, SLOT(modified()));
+    ui->lineEditEMailId->setText(settings->value("displayInformationDefaultEMailId","").toString());
+
+    connect(ui->lineEditEMailDomain, SIGNAL(editingFinished()), this, SLOT(modified()));
+    ui->lineEditEMailDomain->setText(settings->value("displayInformationDefaultEMailDomain","").toString());
+
+    connect(ui->lineEditOwner, SIGNAL(editingFinished()), this, SLOT(modified()));
+    ui->lineEditOwner->setText(settings->value("displayInformationDefaultOwner","").toString());
+
+    connect(ui->lineEditLicense, SIGNAL(editingFinished()), this, SLOT(modified()));
+    ui->lineEditLicense->setText(settings->value("displayInformationDefaultLicense","").toString());
 }
 
 DisplayInformationOptionsFrame::~DisplayInformationOptionsFrame()
 {
+    delete settings;
     delete ui;
 }
 
@@ -44,4 +63,20 @@ void DisplayInformationOptionsFrame::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void DisplayInformationOptionsFrame::modified()
+{
+    ui->buttonBox->setEnabled(true);
+}
+
+void DisplayInformationOptionsFrame::on_buttonBox_clicked(QAbstractButton*)
+{
+    settings->setValue("displayInformationDefaultFilling",     ui->groupBoxAutoFill->isChecked());
+    settings->setValue("displayInformationDefaultAuthorName",  ui->lineEditAuthorName->text());
+    settings->setValue("displayInformationDefaultEMailId",     ui->lineEditEMailId->text());
+    settings->setValue("displayInformationDefaultEMailDomain", ui->lineEditEMailDomain->text());
+    settings->setValue("displayInformationDefaultOwner",       ui->lineEditOwner->text());
+    settings->setValue("displayInformationDefaultLicense",     ui->lineEditLicense->text());
+    ui->buttonBox->setEnabled(false);
 }

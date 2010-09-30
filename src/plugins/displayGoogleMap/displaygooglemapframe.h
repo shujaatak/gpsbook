@@ -32,12 +32,14 @@
 #include <QWebPage>
 #include <QDir>
 #include "gpsdata.h"
+#include "QProgressIndicator.h"
 
 namespace Ui {
     class DisplayGoogleMapFrame;
 }
 
 using namespace GPSBook;
+using namespace ProgressIndicator;
 
 namespace PluginDisplayGoogleMap {
     //Define fake user agent as google chrome to make visible the earth plugin
@@ -76,6 +78,7 @@ namespace PluginDisplayGoogleMap {
         GPSData* trackList;
         QTemporaryFile* tempPage;
         QTemporaryFile* tempGPX;
+        QProgressIndicator* progressIndicator;
 
     private slots:
         void on_commandLinkButton_clicked();

@@ -33,6 +33,8 @@ namespace PluginDisplayInformation {
         m_ui(new Ui::DisplayInformationFrame)
     {
         m_ui->setupUi(this);
+        settings = new QSettings("GPSBook","GPSBook");
+
         m_ui->stackedWidget->setCurrentIndex(0);
     } //DisplayInformationFrame::DisplayInformationFrame
 
@@ -88,7 +90,10 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
 
+        bool modified = false;
         mGPSData->blockSignals(true);
+
+        autoFillDefault = settings->value("displayInformationDefaultFilling",false).toBool();
 
         mGPSData->lockGPSDataForRead();
         if (mGPSData->trackList.isEmpty()) {
@@ -144,11 +149,47 @@ namespace PluginDisplayInformation {
                 m_ui->lineEditMetaDataDescription->setText(mGPSData->metadata->desc);
                 m_ui->dateTimeEditMetaDataDate->setDateTime(mGPSData->metadata->time);
                 m_ui->lineEditMetaDataKeywords->setText(mGPSData->metadata->keywords);
+                //-----------------
+                if (autoFillDefault &&  (mGPSData->metadata->author->name == ""))
+                {
+                    mGPSData->metadata->author->name = settings->value("displayInformationDefaultAuthorName","").toString();
+                    modified = true;
+                }
                 m_ui->lineEditMetaDataAuthorName->setText(mGPSData->metadata->author->name);
+                //-----------------
+                if (autoFillDefault &&  (mGPSData->metadata->author->email->id == ""))
+                {
+                    mGPSData->metadata->author->email->id = settings->value("displayInformationDefaultEMailId","").toString();
+                    modified = true;
+                }
                 m_ui->lineEditMetaDataEMailId->setText(mGPSData->metadata->author->email->id);
+                //-----------------
+                if (autoFillDefault &&  (mGPSData->metadata->author->email->domain == ""))
+                {
+                    mGPSData->metadata->author->email->domain = settings->value("displayInformationDefaultEMailDomain","").toString();
+                    modified = true;
+                }
                 m_ui->lineEditMetaDataEMailDomain->setText(mGPSData->metadata->author->email->domain);
+                //-----------------
+                if (autoFillDefault &&  (mGPSData->metadata->copyright->author == ""))
+                {
+                    mGPSData->metadata->copyright->author = settings->value("displayInformationDefaultOwner","").toString();
+                    modified = true;
+                }
                 m_ui->lineEditMetaDataCopyrightOwner->setText(mGPSData->metadata->copyright->author);
+                //-----------------
+                if (autoFillDefault &&  (mGPSData->metadata->copyright->license == ""))
+                {
+                    mGPSData->metadata->copyright->license = settings->value("displayInformationDefaultLicense","").toString();
+                    modified = true;
+                }
                 m_ui->lineEditMetaDataCopyrightLicense->setText(mGPSData->metadata->copyright->license);
+                //-----------------
+                if (autoFillDefault &&  (mGPSData->metadata->copyright->year == 0))
+                {
+                    mGPSData->metadata->copyright->year = 2010;
+                    modified = true;
+                }
                 m_ui->lineEditMetaDataLicenseYear->setText(QString::number(mGPSData->metadata->copyright->year));
             }
             else
@@ -159,6 +200,7 @@ namespace PluginDisplayInformation {
         mGPSData->unlockGPSData();
 
         mGPSData->blockSignals(false);
+        mGPSData->setModified(modified);
 
     } //DisplayInformationFrame::updateDisplay
 
@@ -171,9 +213,8 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditMetaDataName_editingFinished()
     {
-        //mGPSData->lockGPSDataForWrite();
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->name = m_ui->lineEditMetaDataName->text();
-        //mGPSData->unlockGPSData();
         mGPSData->setModified(true);
     } //DisplayInformationFrame::on_lineEditGPSDataName_editingFinished
 
@@ -182,9 +223,8 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditMetaDataDescription_editingFinished()
     {
-        //mGPSData->lockGPSDataForWrite();
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->desc = m_ui->lineEditMetaDataDescription->text();
-        //mGPSData->unlockGPSData();
         mGPSData->setModified(true);
     } //DisplayInformationFrame::on_lineEditDescription_editingFinished
 
@@ -193,9 +233,8 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_dateTimeEditMetaDataDate_editingFinished()
     {
-        //mGPSData->lockGPSDataForWrite();
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->time = m_ui->dateTimeEditMetaDataDate->dateTime();
-        //mGPSData->unlockGPSData();
         mGPSData->setModified(true);
     } //DisplayInformationFrame::on_dateTimeEdit_editingFinished
 
@@ -204,9 +243,8 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditMetaDataKeywords_editingFinished()
     {
-        //mGPSData->lockGPSDataForWrite();
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->keywords = m_ui->lineEditMetaDataKeywords->text();
-        //mGPSData->unlockGPSData();
         mGPSData->setModified(true);
     } //DisplayInformationFrame::on_lineEditKeywords_editingFinished
 
@@ -215,9 +253,8 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditMetaDataAuthorName_editingFinished()
     {
-        //mGPSData->lockGPSDataForWrite();
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->author->name = m_ui->lineEditMetaDataAuthorName->text();
-        //mGPSData->unlockGPSData();
         mGPSData->setModified(true);
     } //DisplayInformationFrame::on_lineEditAuthorName_editingFinished
 
@@ -226,9 +263,8 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditMetaDataEMailId_editingFinished()
     {
-        //mGPSData->lockGPSDataForWrite();
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->author->email->id = m_ui->lineEditMetaDataEMailId->text();
-        //mGPSData->unlockGPSData();
         mGPSData->setModified(true);
     } //DisplayInformationFrame::on_lineEditEMailId_editingFinished
 
@@ -237,9 +273,8 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditMetaDataEMailDomain_editingFinished()
     {
-        //mGPSData->lockGPSDataForWrite();
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->author->email->domain = m_ui->lineEditMetaDataEMailDomain->text();
-        //mGPSData->unlockGPSData();
         mGPSData->setModified(true);
     } //DisplayInformationFrame::on_lineEditEMailDomain_editingFinished
 
@@ -248,9 +283,8 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditMetaDataCopyrightOwner_editingFinished()
     {
-        //mGPSData->lockGPSDataForWrite();
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->copyright->author = m_ui->lineEditMetaDataCopyrightOwner->text();
-        //mGPSData->unlockGPSData();
         mGPSData->setModified(true);
     } //DisplayInformationFrame::on_lineEditCopyrightOwner_editingFinished
 
@@ -259,9 +293,8 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditMetaDataLicenseYear_editingFinished()
     {
-        //mGPSData->lockGPSDataForWrite();
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->copyright->year = m_ui->lineEditMetaDataLicenseYear->text().toInt();
-        //mGPSData->unlockGPSData();
         mGPSData->setModified(true);
     } //DisplayInformationFrame::on_lineEditLicenseYear_editingFinished
 
@@ -270,9 +303,8 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditMetaDataCopyrightLicense_editingFinished()
     {
-        //mGPSData->lockGPSDataForWrite();
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->copyright->license = m_ui->lineEditMetaDataCopyrightLicense->text();
-        //mGPSData->unlockGPSData();
         mGPSData->setModified(true);
     } //DisplayInformationFrame::on_lineEditCopyrightLicense_editingFinished
 
@@ -286,6 +318,7 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditTrackName_editingFinished()
     {
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->trackList[mGPSData->displayedTrackIndex]->name = m_ui->lineEditTrackName->text();
         mGPSData->setModified(true);
     } // DisplayInformationFrame::on_lineEditTrackName_editingFinished
@@ -295,6 +328,7 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditTrackDescription_editingFinished()
     {
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->trackList[mGPSData->displayedTrackIndex]->desc = m_ui->lineEditTrackDescription->text();
         mGPSData->setModified(true);
     } // DisplayInformationFrame::on_lineEditTrackDescription_editingFinished
@@ -304,6 +338,7 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditTrackSource_editingFinished()
     {
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->trackList[mGPSData->displayedTrackIndex]->src = m_ui->lineEditTrackSource->text();
         mGPSData->setModified(true);
     } // DisplayInformationFrame::on_lineEditTrackSource_editingFinished
@@ -313,8 +348,12 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_textEditTrackComment_textChanged()
     {
-        mGPSData->trackList[mGPSData->displayedTrackIndex]->cmt = m_ui->textEditTrackComment->toPlainText();
-        mGPSData->setModified(true);
+        qDebug() << __FILE__ << __FUNCTION__;
+        if (isVisible()) {
+            mGPSData->trackList[mGPSData->displayedTrackIndex]->cmt = m_ui->textEditTrackComment->toPlainText();
+            mGPSData->setModified(true);
+        }
+
     } // DisplayInformationFrame::on_textEditTrackComment_textChange
 
     /*------------------------------------------------------------------------------*
@@ -322,6 +361,7 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditTrackType_editingFinished()
     {
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->trackList[mGPSData->displayedTrackIndex]->type = m_ui->lineEditTrackType->text();
         mGPSData->setModified(true);
     } // DisplayInformationFrame::on_lineEditTrackType_editingFinished
@@ -334,6 +374,7 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditRouteName_cursorPositionChanged(int , int )
     {
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->routeList[mGPSData->displayedRouteIndex]->name = m_ui->lineEditRouteName->text();
         mGPSData->setModified(true);
     } // DisplayInformationFrame::on_lineEditRouteName_cursorPositionChanged
@@ -343,6 +384,7 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditRouteDescription_editingFinished()
     {
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->routeList[mGPSData->displayedRouteIndex]->desc = m_ui->lineEditRouteDescription->text();
         mGPSData->setModified(true);
     } // DisplayInformationFrame::on_lineEditRouteDescription_editingFinished
@@ -352,6 +394,7 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditRouteSource_editingFinished()
     {
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->routeList[mGPSData->displayedRouteIndex]->src = m_ui->lineEditRouteSource->text();
         mGPSData->setModified(true);
     } // DisplayInformationFrame::on_lineEditRouteSource_editingFinished
@@ -361,8 +404,11 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_textEditRouteComment_textChanged()
     {
-        mGPSData->routeList[mGPSData->displayedRouteIndex]->cmt = m_ui->textEditRouteComment->toPlainText();
-        mGPSData->setModified(true);
+        qDebug() << __FILE__ << __FUNCTION__;
+        if (isVisible()) {
+            mGPSData->routeList[mGPSData->displayedRouteIndex]->cmt = m_ui->textEditRouteComment->toPlainText();
+            mGPSData->setModified(true);
+        }
     } // DisplayInformationFrame::on_textEditRouteComment_textChanged
 
 
@@ -374,6 +420,7 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditWaypointName_editingFinished()
     {
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->name = m_ui->lineEditWaypointName->text();
         mGPSData->setModified(true);
     } // DisplayInformationFrame::on_lineEditWaypointName_editingFinished
@@ -383,6 +430,7 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditWaypointDescription_editingFinished()
     {
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->desc = m_ui->lineEditWaypointDescription->text();
         mGPSData->setModified(true);
     } // DisplayInformationFrame::on_lineEditWaypointDescription_editingFinished
@@ -392,6 +440,7 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_lineEditWaypointSource_editingFinished()
     {
+        qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->src = m_ui->lineEditWaypointSource->text();
         mGPSData->setModified(true);
     } // DisplayInformationFrame::on_lineEditWaypointSource_editingFinished
@@ -401,7 +450,10 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_textEditWaypointComment_textChanged()
     {
-        mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->cmt = m_ui->textEditWaypointComment->toPlainText();
-        mGPSData->setModified(true);
+        qDebug() << __FILE__ << __FUNCTION__;
+        if (isVisible()) {
+            mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->cmt = m_ui->textEditWaypointComment->toPlainText();
+            mGPSData->setModified(true);
+        }
     } // DisplayInformationFrame::on_textEditWaypointComment_textChanged
 }
