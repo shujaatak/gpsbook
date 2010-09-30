@@ -43,6 +43,11 @@ namespace PluginDisplayGpxViewDotCom {
     {
         m_ui->setupUi(this);
 
+        progressIndicator = new QProgressIndicator();
+        m_ui->horizontalLayout->addWidget(progressIndicator);
+        connect(m_ui->webView, SIGNAL(loadStarted()),progressIndicator,SLOT(startAnimation()));
+        connect(m_ui->webView, SIGNAL(loadFinished(bool)),progressIndicator,SLOT(stopAnimation()));
+
         tmpFile = new QTemporaryFile (QDir::tempPath() + QDir::separator() + QCoreApplication::applicationName() + "_gpx-view.gpx");
 
         activeSite = "http://www.gpx-view.com/gpxMap.php";
@@ -64,7 +69,9 @@ namespace PluginDisplayGpxViewDotCom {
      *------------------------------------------------------------------------------*/
     DisplayGpxViewDotComFrame::~DisplayGpxViewDotComFrame()
     {
-        tmpFile->remove();
+        if (tmpFile->exists()) {
+            tmpFile->remove();
+        }
         delete m_ui;
     } //DisplayGpxViewDotComFrame::~DisplayGpxViewDotComFrame
 
@@ -114,12 +121,9 @@ namespace PluginDisplayGpxViewDotCom {
                     //filename = filename.right(filename.length()-filename.indexOf("=")-1);
                     mGPSData->filename=fileName;
 
-                    //Delete temporary file
-                    //tmpFile.remove();
                 }
             }
         }
-        m_ui->webView->reload();
     } //DisplayGpxViewDotComFrame::unsupportedContent
 
     /*------------------------------------------------------------------------------*
@@ -171,7 +175,7 @@ namespace PluginDisplayGpxViewDotCom {
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotComFrame::on_buttonGpxView_toggled(bool checked)
+    void DisplayGpxViewDotComFrame::on_buttonGpxView_toggled(bool)
     {
         activeSite = "http://www.gpx-view.com/gpxMap.php";
         m_ui->webView->setUrl(QUrl(activeSite));
@@ -181,7 +185,7 @@ namespace PluginDisplayGpxViewDotCom {
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotComFrame::on_buttonVisuGpx_toggled(bool checked)
+    void DisplayGpxViewDotComFrame::on_buttonVisuGpx_toggled(bool)
     {
         activeSite = "http://www.visugpx.com/recherche.php5";
         m_ui->webView->setUrl(QUrl(activeSite));

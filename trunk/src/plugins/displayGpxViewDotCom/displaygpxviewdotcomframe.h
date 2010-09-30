@@ -34,12 +34,14 @@
 #include <QTemporaryFile>
 #include "interface.h"
 #include "gpsdata.h"
+#include "QProgressIndicator.h"
 
 namespace Ui {
     class DisplayGpxViewDotComFrame;
 }
 
 using namespace GPSBook;
+using namespace ProgressIndicator;
 
 namespace PluginDisplayGpxViewDotCom {
 
@@ -69,6 +71,7 @@ namespace PluginDisplayGpxViewDotCom {
         QNetworkReply* reply;
         QNetworkProxy proxy;
         QTemporaryFile* tmpFile;
+        QProgressIndicator* progressIndicator;
 
     public slots:
         void unsupportedContent ( QNetworkReply* reply );
@@ -77,8 +80,8 @@ namespace PluginDisplayGpxViewDotCom {
     private slots:
         void downloadFinished();
         void on_webView_linkClicked( QUrl url );
-        void on_buttonGpxView_toggled(bool checked);
-        void on_buttonVisuGpx_toggled(bool checked);
+        void on_buttonGpxView_toggled(bool);
+        void on_buttonVisuGpx_toggled(bool);
 
   };
 }

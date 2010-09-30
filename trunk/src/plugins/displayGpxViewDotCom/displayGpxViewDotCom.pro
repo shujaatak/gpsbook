@@ -17,14 +17,16 @@ SOURCES += displaygpxviewdotcom.cpp \
     displaygpxviewdotcomframe.cpp \
     displaygpxviewdotcomhelp.cpp \
     displaygpxviewdotcomoptionsframe.cpp \
-    ../../GPSBook/gpsdata.cpp
+    ../../GPSBook/gpsdata.cpp \
+    ../../GPSBook/QProgressIndicator.cpp
 HEADERS += displaygpxviewdotcom.h \
     ../../GPSBook/gpsdata.h \
     pixmap.h \
     ../../GPSBook/interface.h \
     displaygpxviewdotcomhelp.h \
     displaygpxviewdotcomoptionsframe.h \
-    displaygpxviewdotcomframe.h
+    displaygpxviewdotcomframe.h \
+    ../../GPSBook/QProgressIndicator.h
 TRANSLATIONS = displayGpxViewDotCom_fr_fr.ts \
                displayGpxViewDotCom_en_us.ts
 OTHER_FILES +=

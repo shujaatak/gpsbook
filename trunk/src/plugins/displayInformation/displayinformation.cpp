@@ -167,7 +167,7 @@ namespace PluginDisplayInformation {
     void DisplayInformation::on_hidePlugin()
     {
         qDebug() << __FILE__ << __FUNCTION__ ;
-        disconnect(mGPSData,SIGNAL(signalGPSDataUpdated()),this,SLOT(on_gpsdataChanged()));
+        connect(mGPSData,SIGNAL(signalGPSDataUpdated()),this,SLOT(on_gpsdataChanged()));
     } //DisplayInformation::on_hidePlugin
 
     /*------------------------------------------------------------------------------*

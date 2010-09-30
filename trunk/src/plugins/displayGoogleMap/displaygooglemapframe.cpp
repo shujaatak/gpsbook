@@ -40,10 +40,14 @@ namespace PluginDisplayGoogleMap {
         QWebSettings::globalSettings()->setAttribute(QWebSettings::JavascriptEnabled, true);
         QWebSettings::globalSettings()->setAttribute(QWebSettings::AutoLoadImages, true);
 
-
         tempPage = new QTemporaryFile(QDir::tempPath() + QDir::separator() + QCoreApplication::applicationName() + "_googlemap.html");
 
         m_ui->setupUi(this);
+
+        progressIndicator = new QProgressIndicator();
+        m_ui->horizontalLayout->addWidget(progressIndicator);
+        connect(m_ui->webView, SIGNAL(loadStarted()),progressIndicator,SLOT(startAnimation()));
+        connect(m_ui->webView, SIGNAL(loadFinished(bool)),progressIndicator,SLOT(stopAnimation()));
 
         m_ui->webView->setPage(new CustomWebPage);
 
@@ -54,7 +58,9 @@ namespace PluginDisplayGoogleMap {
      *------------------------------------------------------------------------------*/
     DisplayGoogleMapFrame::~DisplayGoogleMapFrame()
     {
-        tempPage->remove();
+        if (tempPage->exists()){
+            tempPage->remove();
+        }
         delete m_ui;
     } //DisplayGoogleMapFrame::~DisplayGoogleMapFrame
 

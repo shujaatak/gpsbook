@@ -109,7 +109,7 @@ namespace GPSBook {
         void on_toolButtonPrev_clicked();
         void on_calendarWidget_selectionChanged();
         void on_toolButtonHome_clicked();
-        void on_treeWidgetContextMenuClicked();
+        void treeWidgetContextMenuClicked();
         void on_treeWidgetCatalog_doubleClicked(QModelIndex index);
         void on_toolButtonAdd_clicked();
         void on_actionAboutQt_triggered();

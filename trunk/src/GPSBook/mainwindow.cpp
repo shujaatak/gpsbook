@@ -426,6 +426,8 @@ namespace GPSBook {
                 qWarning( )  << __FILE__ << __FUNCTION__ << "ERROR: " << loader.errorString();
             }
         }
+        ui->treeWidgetHelp->expandAll();
+        ui->treeWidgetOptions->expandAll();
         //qDebug( )  << __FILE__ << __FUNCTION__ << "Plugins loaded";
 
     } //MainWindow::loadPlugins
@@ -783,7 +785,7 @@ namespace GPSBook {
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void MainWindow::on_treeWidgetContextMenuClicked()
+    void MainWindow::treeWidgetContextMenuClicked()
     {
         QTreeWidgetItem *index = ui->treeWidgetCatalog->currentItem();
         DialogTrackProperty *trackProperty = new DialogTrackProperty();
@@ -797,7 +799,7 @@ namespace GPSBook {
         Database::updateTrackProperties(trackProperty->fileName(), trackProperty->displayName(), trackProperty->description());
         Database::updateTreeWidget(ui->treeWidgetCatalog, ui->calendarWidget->selectedDate());
         delete trackProperty;
-    } //MainWindow::on_treeWidgetContextMenuClicked
+    } //MainWindow::treeWidgetContextMenuClicked
 
     /*------------------------------------------------------------------------------*
 
@@ -865,7 +867,7 @@ namespace GPSBook {
         QMenu menu(ui->treeWidgetCatalog);
         QAction *action = new QAction(tr("Properties..."),ui->treeWidgetCatalog);
         menu.addAction(action);
-        QObject::connect(action, SIGNAL(triggered()), this, SLOT(on_treeWidgetContextMenuClicked()));
+        QObject::connect(action, SIGNAL(triggered()), this, SLOT(treeWidgetContextMenuClicked()));
         menu.exec(ui->treeWidgetCatalog->mapToGlobal(pos));
     } //MainWindow::on_treeWidgetCatalog_customContextMenuRequested
 

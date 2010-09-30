@@ -23,6 +23,7 @@
 #define DISPLAYINFORMATIONFRAME_H
 
 #include <QtGui/QFrame>
+#include <QSettings>
 #include <gpsdata.h>
 #include <interface.h>
 
@@ -50,7 +51,8 @@ namespace PluginDisplayInformation {
     private:
         Ui::DisplayInformationFrame *m_ui;
         GPSData* mGPSData;
-
+        QSettings* settings;
+        bool autoFillDefault;
 
     private slots:
         void on_textEditWaypointComment_textChanged();

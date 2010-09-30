@@ -3,8 +3,8 @@
 # -------------------------------------------------
 include ( ../../GPSBook/GPSBookConfig.pro)
 
-DEFINES  += QT_NO_WARNING_OUTPUT
-DEFINES  += QT_NO_DEBUG_OUTPUT
+#DEFINES  += QT_NO_WARNING_OUTPUT
+#DEFINES  += QT_NO_DEBUG_OUTPUT
 
 QT += network webkit
 TARGET = displayGoogleMap
@@ -16,14 +16,16 @@ SOURCES += displaygooglemap.cpp \
            displaygooglemaphelp.cpp \
            displaygooglemapframe.cpp \
            displaygooglemapoptionsframe.cpp \
-           ../../GPSBook/gpsdata.cpp
+           ../../GPSBook/gpsdata.cpp \
+    ../../GPSBook/QProgressIndicator.cpp
 HEADERS += displaygooglemap.h \
            displaygooglemaphelp.h \
            displaygooglemapoptionsframe.h \
            displaygooglemapframe.h \
            pixmap.h \
            ../../GPSBook/gpsdata.h \
-           ../../GPSBook/interface.h
+           ../../GPSBook/interface.h \
+    ../../GPSBook/QProgressIndicator.h
 TRANSLATIONS = displayGoogleMap_fr_fr.ts  \
                displayGoogleMap_en_us.ts
 OTHER_FILES += index.html

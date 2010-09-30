@@ -23,6 +23,8 @@
 #define DISPLAYINFORMATIONOPTIONSFRAME_H
 
 #include <QFrame>
+#include <QSettings>
+#include <QAbstractButton>
 
 namespace Ui {
     class DisplayInformationOptionsFrame;
@@ -41,6 +43,11 @@ protected:
 
 private:
     Ui::DisplayInformationOptionsFrame *ui;
+    QSettings* settings;
+
+private slots:
+    void on_buttonBox_clicked(QAbstractButton*);
+    void modified();
 };
 
 #endif // DISPLAYINFORMATIONOPTIONSFRAME_H
