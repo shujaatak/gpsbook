@@ -815,7 +815,7 @@ p, li { white-space: pre-wrap; }
         </size>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tabWidgetCatalog">
         <property name="sizePolicy">
@@ -918,8 +918,8 @@ p, li { white-space: pre-wrap; }
                <string>Add Tracklist in catalog</string>
               </property>
               <property name="icon">
-               <iconset resource="icons/gtk/gtk_icons.qrc">
-                <normaloff>:/icons/gtk/new-tab.png</normaloff>:/icons/gtk/new-tab.png</iconset>
+               <iconset resource="icons/silk/silk_icons.qrc">
+                <normaloff>:/icons/silk/add.png</normaloff>:/icons/silk/add.png</iconset>
               </property>
               <property name="autoRaise">
                <bool>true</bool>
@@ -983,8 +983,11 @@ p, li { white-space: pre-wrap; }
                <string>Add current trace to the catalog</string>
               </property>
               <property name="icon">
-               <iconset resource="icons/gtk/gtk_icons.qrc">
-                <normaloff>:/icons/gtk/object-add.png</normaloff>:/icons/gtk/object-add.png</iconset>
+               <iconset resource="icons/silk/silk_icons.qrc">
+                <normaloff>:/icons/silk/book_open.png</normaloff>:/icons/silk/book_open.png</iconset>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
               </property>
               <property name="autoRaise">
                <bool>true</bool>
@@ -1137,6 +1140,9 @@ p, li { white-space: pre-wrap; }
          </item>
          <item row="0" column="2">
           <widget class="QToolButton" name="toolButtonInCatalog">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="icon">
             <iconset resource="icons/silk/silk_icons.qrc">
              <normaloff>:/icons/silk/book_open.png</normaloff>:/icons/silk/book_open.png</iconset>
