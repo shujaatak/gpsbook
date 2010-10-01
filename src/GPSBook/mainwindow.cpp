@@ -24,7 +24,6 @@
 #include <QDir>
 #include <QString>
 #include <QMdiSubWindow>
-#include <QFileDialog>
 #include <QDebug>
 #include <QLabel>
 #include <QtGui>
@@ -79,6 +78,8 @@ namespace GPSBook {
         mGPSData = new GPSData();
 
         seletectItem = NULL;
+
+        settings = new QSettings("GPSBook","GPSBook");
 
     } //MainWindow::MainWindow
 
@@ -171,12 +172,11 @@ namespace GPSBook {
 
             ui->comboBoxLanguageSelection->addItem(name,avail);
         }
-        QSettings settings("GPSBook","GPSBook");
-        ui->comboBoxLanguageSelection->setCurrentIndex(ui->comboBoxLanguageSelection->findData(settings.value("Translation","").toString()));
+        ui->comboBoxLanguageSelection->setCurrentIndex(ui->comboBoxLanguageSelection->findData(settings->value("Translation","").toString()));
 
         //Manage Storage Location
         qDebug() << __FILE__ << __FUNCTION__ << "Storage";
-        QString tmpstr = settings.value("StorageLocation","").toString();
+        QString tmpstr = settings->value("StorageLocation","").toString();
         if (tmpstr == "")
         {
             tmpstr = QDir::homePath()+"/gpsbook/";
@@ -186,7 +186,7 @@ namespace GPSBook {
 
         //------------------- Mainwindow -------------------
         // Display the favorite plugin
-        int preferedPluginId = settings.value("PreferedPluginId",3).toInt();
+        int preferedPluginId = settings->value("PreferedPluginId",3).toInt();
         ui->stackedWidget->setCurrentIndex(preferedPluginId);
         ui->comboBoxPreferedPlugin->setCurrentIndex(preferedPluginId);
         actionGroup->actions().at(preferedPluginId)->setChecked(true);
@@ -204,13 +204,13 @@ namespace GPSBook {
 
         //Start full screen
         qDebug() << __FILE__ << __FUNCTION__ << "Fullscreen";
-        bool startFullScreen = settings.value("StartFullScreen",false).toBool();
+        bool startFullScreen = settings->value("StartFullScreen",false).toBool();
         ui->checkBoxStartFullScreen->setChecked(startFullScreen);
         if (startFullScreen) {
             setWindowState(Qt::WindowFullScreen);
         }
         //Manage menu and toolbar visibility
-        bool menuVisibility = settings.value("MenuVisibility",false).toBool();
+        bool menuVisibility = settings->value("MenuVisibility",false).toBool();
 #if defined(Q_OS_MAC)
         menuVisibility = true;
         ui->checkBoxMenuVisibility->setEnabled(false);
@@ -218,7 +218,7 @@ namespace GPSBook {
         ui->checkBoxMenuVisibility->setChecked(menuVisibility);
         ui->menuBar->setVisible(menuVisibility);
 
-        bool toolbarVisibility = settings.value("ToolbarVisibility",true).toBool();
+        bool toolbarVisibility = settings->value("ToolbarVisibility",true).toBool();
         ui->checkBoxToolbarVisibility->setChecked(toolbarVisibility);
         ui->mainToolBar->setVisible(toolbarVisibility);
         ui->toolBar->setVisible(toolbarVisibility);
@@ -426,6 +426,11 @@ namespace GPSBook {
                 qWarning( )  << __FILE__ << __FUNCTION__ << "ERROR: " << loader.errorString();
             }
         }
+
+        openDialog->restoreState(settings->value("openstate").toByteArray());
+        openDialog = new QFileDialog(this, tr("Open GPS trace"), QString(), openFilters);
+        openDialog->selectNameFilter(settings->value("openstatefilter",gpxPlugin->getOpenFilter()).toString());
+
         ui->treeWidgetHelp->expandAll();
         ui->treeWidgetOptions->expandAll();
         //qDebug( )  << __FILE__ << __FUNCTION__ << "Plugins loaded";
@@ -476,14 +481,36 @@ namespace GPSBook {
      *------------------------------------------------------------------------------*/
     void MainWindow::on_actionOpen_triggered()
     {
-        QSettings settings("GPSBook","GPSBook");
-        QFileDialog* openDialog = new QFileDialog(this, tr("Open GPS trace"), QString(), openFilters);
-        openDialog->restoreState(settings.value("openstate").toByteArray());
-        openDialog->selectNameFilter(settings.value("openstatefilter",gpxPlugin->getOpenFilter()).toString());
         if (openDialog->exec() == QDialog::Accepted)
         {
-            loadFile(QString(openDialog->selectedFiles()[0]),false);
+            //If one file is opened, we load the file else, we add files to the catalog
+            if (openDialog->selectedFiles().count() == 1) {
+                loadFile(QString(openDialog->selectedFiles()[0]),false);
+            }
+            else
+            {
+                if (openDialog->selectedFilter() == gpxPlugin->getOpenFilter())
+                {
+                    mGPSData->clearData();
+                    foreach (QString filename, openDialog->selectedFiles()) {
+                        //Copy file into the storage directory
+                        QString storagePath = settings->value("StorageLocation","").toString();
+                        QFileInfo info(filename);
+                        QFile::copy(filename, storagePath + "/data/"+info.fileName());
+                        //Add the file into the database
+                        Database::addFileInDatabase(storagePath +"/data/"+info.fileName());
+                        //Update gpx list
+                        Database::updateTreeWidget(ui->treeWidgetCatalog, ui->calendarWidget->selectedDate());
+                    }
+                }
+                else
+                {
+                    QMessageBox::warning(NULL,qApp->applicationName(),tr("Multiple file loading is only allowed for GPX files."),QMessageBox::Ok);
+                }
+            }
         }
+        openDialog->setFileMode(QFileDialog::ExistingFile);
+
     } //MainWindow::on_actionOpen_triggered
 
     /*------------------------------------------------------------------------------*
@@ -508,9 +535,10 @@ namespace GPSBook {
         //Update mainwindows state
         ui->actionClose_current_trace->setEnabled(true);
         ui->toolButtonInCatalog->setChecked(isFromCatalog);
+        ui->toolButtonAddToCatalog->setChecked(isFromCatalog);
+        ui->toolButtonAddToCatalog->setDisabled(isFromCatalog);
         ui->labelTrackDate->setText( mGPSData->metadata->time.toString("dd/MM/yyyy") );
         ui->labelTrackName->setText( QFileInfo(mGPSData->filename).fileName());
-        ui->toolButtonAddToCatalog->setEnabled(true);
         initCurrentGPXTreeview();
         ui->tabWidgetLeftPanel->setCurrentIndex(1);
         mGPSData->setFromCatalog(isFromCatalog);
@@ -775,11 +803,17 @@ namespace GPSBook {
      *------------------------------------------------------------------------------*/
     void MainWindow::on_toolButtonAdd_clicked()
     {
+        //
+        openDialog->setFileMode(QFileDialog::ExistingFiles);
+
         //Open the file (we don't care about the format, the plugin is here for that)
         on_actionOpen_triggered();
 
         //Add it into the catalog
-        on_toolButtonAddToCatalog_clicked();
+        if (!mGPSData->trackList.isEmpty()) {
+            on_toolButtonAddToCatalog_clicked();
+        }
+
     } //MainWindow::on_toolButtonAdd_clicked
 
     /*------------------------------------------------------------------------------*
@@ -944,12 +978,11 @@ namespace GPSBook {
      *------------------------------------------------------------------------------*/
     void MainWindow::on_actionSaveAs_triggered()
     {
-        QSettings settings("GPSBook","GPSBook");
         QFileDialog* saveDialog = new QFileDialog(this, tr("Save GPS trace"), QString(), saveFilters);
         saveDialog->setConfirmOverwrite(true);
         saveDialog->setAcceptMode(QFileDialog::AcceptSave);
-        saveDialog->restoreState(settings.value("savestate").toByteArray());
-        saveDialog->selectNameFilter(settings.value("savestatefilter",gpxPlugin->getSaveFilter()).toString());
+        saveDialog->restoreState(settings->value("savestate").toByteArray());
+        saveDialog->selectNameFilter(settings->value("savestatefilter",gpxPlugin->getSaveFilter()).toString());
         if (saveDialog->exec() == QDialog::Accepted)
         {
             saveFile(QString(saveDialog->selectedFiles()[0]));
@@ -962,8 +995,7 @@ namespace GPSBook {
     void MainWindow::on_toolButtonAddToCatalog_clicked()
     {
         QFileInfo info(mGPSData->filename);
-        QSettings settings("GPSBook","GPSBook");
-        QString storagePath = settings.value("StorageLocation","").toString();
+        QString storagePath = settings->value("StorageLocation","").toString();
         mGPSData->filename = storagePath + "/data/" + info.fileName();
 
         saveFile(mGPSData->filename);
@@ -975,9 +1007,10 @@ namespace GPSBook {
         Database::updateTreeWidget(ui->treeWidgetCatalog, ui->calendarWidget->selectedDate());
         updateNavigationButtons();
         ui->toolButtonInCatalog->setChecked(true);
+        ui->toolButtonAddToCatalog->setChecked(true);
+        ui->toolButtonAddToCatalog->setDisabled(true);
         ui->labelTrackDate->setText(    mGPSData->metadata->time.toString("dd/MM/yyyy") );
         ui->labelTrackName->setText(    QFileInfo(mGPSData->filename).fileName());
-        ui->toolButtonAddToCatalog->setEnabled(false);
     } //MainWindow::on_toolButtonAddToCatalog_clicked
 
     /*------------------------------------------------------------------------------*
@@ -991,8 +1024,10 @@ namespace GPSBook {
         ui->toolButtonInCatalog->setChecked(false);
         ui->labelTrackDate->setText( "-" );
         ui->labelTrackName->setText( "-" );
-        ui->toolButtonAddToCatalog->setEnabled(false);
         ui->actionClose_current_trace->setEnabled(false);
+        ui->toolButtonInCatalog->setChecked(false);
+        ui->toolButtonAddToCatalog->setChecked(false);
+        ui->toolButtonAddToCatalog->setDisabled(false);
         ui->treeWidgetCurrentGPX->clear();
         QTreeWidgetItem * clearItem = new QTreeWidgetItem ();
         clearItem->setText(0,tr("No trace loaded"));
@@ -1035,13 +1070,12 @@ namespace GPSBook {
      *------------------------------------------------------------------------------*/
     void MainWindow::on_buttonBoxApply_clicked(QAbstractButton* )
     {
-        QSettings settings("GPSBook","GPSBook");
-        settings.setValue("Translation",ui->comboBoxLanguageSelection->itemData(ui->comboBoxLanguageSelection->currentIndex()).toString());
-        settings.setValue("StorageLocation",ui->lineEditStorageLocation->text());
-        settings.setValue("PreferedPluginId",ui->comboBoxPreferedPlugin->currentIndex());
-        settings.setValue("StartFullScreen",ui->checkBoxStartFullScreen->checkState());
-        settings.setValue("MenuVisibility",ui->checkBoxMenuVisibility->checkState());
-        settings.setValue("ToolbarVisibility",ui->checkBoxToolbarVisibility->checkState());
+        settings->setValue("Translation",ui->comboBoxLanguageSelection->itemData(ui->comboBoxLanguageSelection->currentIndex()).toString());
+        settings->setValue("StorageLocation",ui->lineEditStorageLocation->text());
+        settings->setValue("PreferedPluginId",ui->comboBoxPreferedPlugin->currentIndex());
+        settings->setValue("StartFullScreen",ui->checkBoxStartFullScreen->checkState());
+        settings->setValue("MenuVisibility",ui->checkBoxMenuVisibility->checkState());
+        settings->setValue("ToolbarVisibility",ui->checkBoxToolbarVisibility->checkState());
         ui->buttonBoxApply->setEnabled(false);
     } //MainWindow::on_buttonBoxApply_clicked
 

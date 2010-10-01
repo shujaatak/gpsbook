@@ -195,6 +195,37 @@ namespace GPSBook {
         }
     } //Database::addTrackInDatabase
 
+
+    /*------------------------------------------------------------------------------*
+      Add file into database
+     *------------------------------------------------------------------------------*/
+    void Database::addFileInDatabase(QString filename)
+    {
+        qDebug( )  << __FILE__ << __FUNCTION__;
+        QSqlDatabase db = QSqlDatabase::database();
+        QSqlQuery query(QString::null, db);
+
+        //Look into DB to find if file is not already in catalog
+        QString sql = "SELECT * FROM gpsbook_track "
+                      "WHERE track_filename=\""+filename+"\"";
+        //File is in catalog
+        if (query.exec(sql) && query.first())
+        {
+            //TODO: Check integrity ?
+        }
+        //File is not in catalog
+        else
+        {
+            //Adding track in db
+            sql = "INSERT INTO gpsbook_track (track_filename, track_md5sum, track_date) "
+                                "VALUES(\""+QFile(filename).fileName()+"\", "
+                                       "\""+Database::getMd5sumSignature(filename)+"\","
+                                       "\""+QDate::currentDate().toString(Qt::ISODate)+"\")";
+            query.first();
+            query.exec(sql);
+        }
+    } //Database::addTrackInDatabase
+
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/

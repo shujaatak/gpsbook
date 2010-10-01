@@ -49,11 +49,11 @@ namespace PluginDisplayGoogleMap {
        QString userAgentForUrl ( const QUrl & ) const
        {
 #if defined(Q_OS_LINUX)
-    return "Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.126 Safari/533.4";
+    return "Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/6.0.472.63 Safari/534.3";
 #elif defined(Q_OS_WIN)
-    return "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.126 Safari/533.4";
+    return "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/6.0.472.63 Safari/534.3";
 #elif defined(Q_OS_MAC)
-    return "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_3; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/5.0.375.126 Safari/533.4";
+    return "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_3; en-US) AppleWebKit/533.4 (KHTML, like Gecko) Chrome/6.0.472.63 Safari/534.3";
 #endif
        }
     };

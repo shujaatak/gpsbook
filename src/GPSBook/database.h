@@ -37,6 +37,7 @@ namespace GPSBook {
     public:
         static void initializeDatabase();
         static void addTrackInDatabase(GPSData* gpsdata);
+        static void addFileInDatabase(QString filename);
         static QString getMd5sumSignature(QString filename);
         static void updateTreeWidget(QTreeWidget* treeWidget, QDate date);
         static QDate getPrevDate(QDate currentDate);

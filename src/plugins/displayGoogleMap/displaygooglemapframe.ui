@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>291</width>
+    <width>428</width>
     <height>242</height>
    </rect>
   </property>
@@ -42,6 +42,20 @@
        <property name="icon">
         <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
          <normaloff>:/icons/gtk/go-refresh.png</normaloff>:/icons/gtk/go-refresh.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCommandLinkButton" name="commandLinkButton_2">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Snapshot</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+         <normaloff>:/icons/silk/camera.png</normaloff>:/icons/silk/camera.png</iconset>
        </property>
       </widget>
      </item>
@@ -92,6 +106,7 @@
  </customwidgets>
  <resources>
   <include location="../../GPSBook/icons/gtk/gtk_icons.qrc"/>
+  <include location="../../GPSBook/icons/silk/silk_icons.qrc"/>
  </resources>
  <connections/>
 </ui>

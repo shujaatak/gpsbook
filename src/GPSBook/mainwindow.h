@@ -30,6 +30,7 @@
 #include <QSettings>
 #include <QTreeWidgetItem>
 #include <QModelIndex>
+#include <QFileDialog>
 #include "interface.h"
 #include "webproxy.h"
 #include "QProgressIndicator.h"
@@ -60,7 +61,8 @@ namespace GPSBook {
 
     private:
         Ui::MainWindowClass *ui;
-        GPSData*            mGPSData;
+        GPSData* mGPSData;
+        QSettings* settings;
         QActionGroup* actionGroup;
         QProgressIndicator* progressIndicator;
         QDir pluginsDir;
@@ -78,6 +80,7 @@ namespace GPSBook {
         WebProxy* webProxy;
         bool isCatalogVisible;
         QTreeWidgetItem* seletectItem;
+        QFileDialog* openDialog;
 
         void loadPlugins();
     public slots:
