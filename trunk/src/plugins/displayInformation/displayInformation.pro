@@ -15,16 +15,19 @@ SOURCES += displayinformation.cpp \
     displayinformationframe.cpp \
     displayinformationoptionsframe.cpp \
     displayinformationhelp.cpp \
-    ../../GPSBook/gpsdata.cpp
+    ../../GPSBook/gpsdata.cpp \
+    dialoglinkedition.cpp
 HEADERS += displayinformation.h \
     ../../GPSBook/interface.h \
     pixmap.h \
     displayinformationframe.h \
     displayinformationoptionsframe.h \
     displayinformationhelp.h \
-    ../../GPSBook/gpsdata.h
+    ../../GPSBook/gpsdata.h \
+    dialoglinkedition.h
 FORMS += displayinformationframe.ui \
     displayinformationoptionsframe.ui \
-    displayinformationhelp.ui
+    displayinformationhelp.ui \
+    dialoglinkedition.ui
 TRANSLATIONS = displayInformation_fr_fr.ts \
                displayInformation_en_us.ts

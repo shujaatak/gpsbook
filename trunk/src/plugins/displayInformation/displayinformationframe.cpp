@@ -22,6 +22,8 @@
 #include "displayinformationframe.h"
 #include "ui_displayinformationframe.h"
 #include <QDebug>
+#include <QMessageBox>
+#include "dialoglinkedition.h"
 
 namespace PluginDisplayInformation {
 
@@ -111,7 +113,7 @@ namespace PluginDisplayInformation {
                     m_ui->lineEditWaypointType->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->type);
                     m_ui->lineEditWaypointSymbole->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->sym);
                     m_ui->textEditWaypointComment->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->cmt);
-                    //listViewWaypointLinks
+                    updateWaypointlinks();
                 }
             }
             else if (mGPSData->displayedRouteIndex >= 0)
@@ -123,7 +125,7 @@ namespace PluginDisplayInformation {
                     m_ui->lineEditRouteSource->setText(mGPSData->routeList[mGPSData->displayedRouteIndex]->src);
                     m_ui->lineEditRouteType->setText(mGPSData->routeList[mGPSData->displayedRouteIndex]->type);
                     m_ui->textEditRouteComment->setText(mGPSData->routeList[mGPSData->displayedRouteIndex]->cmt);
-                    //listViewRouteLinks
+                    updateRoutelinks();
                 }
             }
             else if (mGPSData->displayedTrackIndex >= 0)
@@ -135,7 +137,7 @@ namespace PluginDisplayInformation {
                     m_ui->lineEditTrackSource->setText(mGPSData->trackList[mGPSData->displayedTrackIndex]->src);
                     m_ui->lineEditTrackType->setText(mGPSData->trackList[mGPSData->displayedTrackIndex]->type);
                     m_ui->textEditTrackComment->setText(mGPSData->trackList[mGPSData->displayedTrackIndex]->cmt);
-                    //m_ui->listViewTrackLinks
+                    updateTracklinks();
                 }
             }
             else if (mGPSData->displayedWaypointIndex == -2 &&
@@ -191,6 +193,7 @@ namespace PluginDisplayInformation {
                     modified = true;
                 }
                 m_ui->lineEditMetaDataLicenseYear->setText(QString::number(mGPSData->metadata->copyright->year));
+                updateMetadatalinks();
             }
             else
             {
@@ -200,10 +203,41 @@ namespace PluginDisplayInformation {
         mGPSData->unlockGPSData();
 
         mGPSData->blockSignals(false);
-        mGPSData->setModified(modified);
-
+        if (modified){
+            //Send signal only if modified
+            mGPSData->setModified(modified);
+        }
     } //DisplayInformationFrame::updateDisplay
 
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::editLink(QList<Link*>* linkList, int id)
+    {
+        DialogLinkEdition* linkEdition = new DialogLinkEdition(this);
+        Link* link;
+        if(id < linkList->count())
+        {
+            link = linkList->at(id);
+            linkEdition->init(link->text,link->href,link->type);
+        }
+        else
+        {
+            link = new Link();
+        }
+        if (linkEdition->exec() == QDialog::Accepted)
+        {
+            link->text = linkEdition->text;
+            link->href = linkEdition->url;
+            link->type = linkEdition->mimetype;
+            if(id == linkList->count())
+            {
+                linkList->append(link);
+            }
+            mGPSData->setModified(true);
+        }
+        delete linkEdition;
+    }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -308,7 +342,18 @@ namespace PluginDisplayInformation {
         mGPSData->setModified(true);
     } //DisplayInformationFrame::on_lineEditCopyrightLicense_editingFinished
 
+    /*------------------------------------------------------------------------------*
 
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::updateMetadatalinks()
+    {
+        qDebug() << __FILE__ << __FUNCTION__;
+        m_ui->listWidgetMetaDataLinks->clear();
+        foreach (Link* link, mGPSData->metadata->linkList) {
+            QListWidgetItem* item = new QListWidgetItem(link->text);
+            m_ui->listWidgetMetaDataLinks->addItem(item);
+        }
+    } // DisplayInformationFrame::updateTracklinks
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -366,6 +411,19 @@ namespace PluginDisplayInformation {
         mGPSData->setModified(true);
     } // DisplayInformationFrame::on_lineEditTrackType_editingFinished
 
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::updateTracklinks()
+    {
+        qDebug() << __FILE__ << __FUNCTION__;
+        m_ui->listWidgetTrackLinks->clear();
+        foreach (Link* link, mGPSData->trackList[mGPSData->displayedTrackIndex]->linkList) {
+            QListWidgetItem* item = new QListWidgetItem(link->text);
+            m_ui->listWidgetTrackLinks->addItem(item);
+        }
+    } // DisplayInformationFrame::updateTracklinks
+
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -412,6 +470,19 @@ namespace PluginDisplayInformation {
     } // DisplayInformationFrame::on_textEditRouteComment_textChanged
 
 
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::updateRoutelinks()
+    {
+        qDebug() << __FILE__ << __FUNCTION__;
+        m_ui->listWidgetRouteLinks->clear();
+        foreach (Link* link, mGPSData->routeList[mGPSData->displayedRouteIndex]->linkList) {
+            QListWidgetItem* item = new QListWidgetItem(link->text);
+            m_ui->listWidgetRouteLinks->addItem(item);
+        }
+    } // DisplayInformationFrame::updateRoutelinks
+
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -456,4 +527,190 @@ namespace PluginDisplayInformation {
             mGPSData->setModified(true);
         }
     } // DisplayInformationFrame::on_textEditWaypointComment_textChanged
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::updateWaypointlinks()
+    {
+        qDebug() << __FILE__ << __FUNCTION__;
+        m_ui->listWidgetWaypointLinks->clear();
+        foreach (Link* link, mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->linkList) {
+            QListWidgetItem* item = new QListWidgetItem(link->text);
+            m_ui->listWidgetWaypointLinks->addItem(item);
+        }
+    } // DisplayInformationFrame::updateRoutelinks
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_toolButtonTrackAddLink_clicked()
+    {
+        QList<Link*> *linkList = &(mGPSData->trackList[mGPSData->displayedTrackIndex]->linkList);
+        editLink(linkList,linkList->count());
+        updateTracklinks();
+    }// DisplayInformationFrame::on_toolButtonTrackAddLink_clicked
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_toolButtonTrackEditLink_clicked()
+    {
+        if (m_ui->listWidgetTrackLinks->selectedItems().count())
+        {
+            QList<Link*> *linkList = &(mGPSData->trackList[mGPSData->displayedTrackIndex]->linkList);
+            editLink(linkList,m_ui->listWidgetTrackLinks->currentIndex().row());
+            updateTracklinks();
+        }
+    }// DisplayInformationFrame::on_toolButtonTrackEditLink_clicked
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_toolButtonTrackDeleteLink_clicked()
+    {
+        if (m_ui->listWidgetTrackLinks->selectedItems().count())
+        {
+            if (QMessageBox::question(this,
+                                      tr("Deleting link"),
+                                      tr("Your are about to delete the selected link.") ,
+                                      QMessageBox::Ok|QMessageBox::Cancel) == QMessageBox::Ok)
+            {
+                mGPSData->trackList[mGPSData->displayedTrackIndex]->linkList.removeAt(m_ui->listWidgetTrackLinks->currentIndex().row());
+                mGPSData->setModified(true);
+                updateTracklinks();
+            }
+        }
+
+    }// DisplayInformationFrame::on_toolButtonTrackDeleteLink_clicked
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_listWidgetTrackLinks_itemSelectionChanged()
+    {
+        m_ui->toolButtonTrackEditLink->setEnabled(m_ui->listWidgetTrackLinks->selectedItems().count() != 0);
+        m_ui->toolButtonTrackDeleteLink->setEnabled(m_ui->listWidgetTrackLinks->selectedItems().count() != 0);
+    }// DisplayInformationFrame::on_listWidgetTrackLinks_itemSelectionChanged
+
+
+    void DisplayInformationFrame::on_toolButtonMetadataAddLink_clicked()
+    {
+        QList<Link*> *linkList = &(mGPSData->metadata->linkList);
+        editLink(linkList,linkList->count());
+        updateMetadatalinks();
+    }
+
+    void DisplayInformationFrame::on_toolButtonMetadataEditLink_clicked()
+    {
+        if (m_ui->listWidgetMetaDataLinks->selectedItems().count())
+        {
+            QList<Link*> *linkList = &(mGPSData->metadata->linkList);
+            editLink(linkList,m_ui->listWidgetMetaDataLinks->currentIndex().row());
+            updateMetadatalinks();
+        }
+    }
+
+    void DisplayInformationFrame::on_toolButtonMetadataDeleteLink_clicked()
+    {
+        if (m_ui->listWidgetMetaDataLinks->selectedItems().count())
+        {
+            if (QMessageBox::question(this,
+                                      tr("Deleting link"),
+                                      tr("Your are about to delete the selected link.") ,
+                                      QMessageBox::Ok|QMessageBox::Cancel) == QMessageBox::Ok)
+            {
+                mGPSData->metadata->linkList.removeAt(m_ui->listWidgetMetaDataLinks->currentIndex().row());
+                mGPSData->setModified(true);
+                updateTracklinks();
+            }
+        }
+    }
+
+    void DisplayInformationFrame::on_listWidgetMetaDataLinks_itemSelectionChanged()
+    {
+        m_ui->toolButtonMetadataEditLink->setEnabled(m_ui->listWidgetMetaDataLinks->selectedItems().count() != 0);
+        m_ui->toolButtonMetadataDeleteLink->setEnabled(m_ui->listWidgetMetaDataLinks->selectedItems().count() != 0);
+    }
+
+    void DisplayInformationFrame::on_toolButtonWaypointAddLink_clicked()
+    {
+        QList<Link*> *linkList = &(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->linkList);
+        editLink(linkList,linkList->count());
+        updateWaypointlinks();
+    }
+
+    void DisplayInformationFrame::on_toolButtonWaypointEditLink_clicked()
+    {
+        if (m_ui->listWidgetWaypointLinks->selectedItems().count())
+        {
+            QList<Link*> *linkList = &(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->linkList);
+            editLink(linkList,m_ui->listWidgetWaypointLinks->currentIndex().row());
+            updateWaypointlinks();
+        }
+    }
+
+    void DisplayInformationFrame::on_toolButtonWaypointDeleteLink_clicked()
+    {
+        if (m_ui->listWidgetWaypointLinks->selectedItems().count())
+        {
+            if (QMessageBox::question(this,
+                                      tr("Deleting link"),
+                                      tr("Your are about to delete the selected link.") ,
+                                      QMessageBox::Ok|QMessageBox::Cancel) == QMessageBox::Ok)
+            {
+                mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->linkList.removeAt(m_ui->listWidgetWaypointLinks->currentIndex().row());
+                mGPSData->setModified(true);
+                updateWaypointlinks();
+            }
+        }
+    }
+
+    void DisplayInformationFrame::on_listWidgetWaypointLinks_itemSelectionChanged()
+    {
+        m_ui->toolButtonWaypointEditLink->setEnabled(m_ui->listWidgetWaypointLinks->selectedItems().count() != 0);
+        m_ui->toolButtonWaypointDeleteLink->setEnabled(m_ui->listWidgetWaypointLinks->selectedItems().count() != 0);
+    }
+
+    void DisplayInformationFrame::on_toolButtonRouteAddLink_clicked()
+    {
+        QList<Link*> *linkList = &(mGPSData->routeList[mGPSData->displayedRouteIndex]->linkList);
+        editLink(linkList,linkList->count());
+        updateRoutelinks();
+    }
+
+    void DisplayInformationFrame::on_toolButtonRouteEditLink_clicked()
+    {
+        if (m_ui->listWidgetRouteLinks->selectedItems().count())
+        {
+            QList<Link*> *linkList = &(mGPSData->routeList[mGPSData->displayedRouteIndex]->linkList);
+            editLink(linkList,m_ui->listWidgetRouteLinks->currentIndex().row());
+            updateRoutelinks();
+        }
+    }
+
+    void DisplayInformationFrame::on_toolButtonRouteDeleteLink_clicked()
+    {
+        if (m_ui->listWidgetRouteLinks->selectedItems().count())
+        {
+            if (QMessageBox::question(this,
+                                      tr("Deleting link"),
+                                      tr("Your are about to delete the selected link.") ,
+                                      QMessageBox::Ok|QMessageBox::Cancel) == QMessageBox::Ok)
+            {
+                mGPSData->routeList[mGPSData->displayedRouteIndex]->linkList.removeAt(m_ui->listWidgetRouteLinks->currentIndex().row());
+                mGPSData->setModified(true);
+                updateRoutelinks();
+            }
+        }
+    }
+
+    void DisplayInformationFrame::on_listWidgetRouteLinks_itemSelectionChanged()
+    {
+        m_ui->toolButtonRouteEditLink->setEnabled(m_ui->listWidgetRouteLinks->selectedItems().count() != 0);
+        m_ui->toolButtonRouteDeleteLink->setEnabled(m_ui->listWidgetRouteLinks->selectedItems().count() != 0);
+    }
 }

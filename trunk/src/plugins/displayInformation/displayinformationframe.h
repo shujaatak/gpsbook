@@ -53,24 +53,46 @@ namespace PluginDisplayInformation {
         GPSData* mGPSData;
         QSettings* settings;
         bool autoFillDefault;
+        void editLink(QList<Link*> *linkList, int id);
+        void updateWaypointlinks();
+        void updateRoutelinks();
+        void updateTracklinks();
+        void updateMetadatalinks();
 
     private slots:
+
+        void on_listWidgetWaypointLinks_itemSelectionChanged();
+        void on_toolButtonWaypointDeleteLink_clicked();
+        void on_toolButtonWaypointEditLink_clicked();
+        void on_toolButtonWaypointAddLink_clicked();
         void on_textEditWaypointComment_textChanged();
         void on_lineEditWaypointSource_editingFinished();
         void on_lineEditWaypointDescription_editingFinished();
         void on_lineEditWaypointName_editingFinished();
 
+        void on_listWidgetRouteLinks_itemSelectionChanged();
+        void on_toolButtonRouteDeleteLink_clicked();
+        void on_toolButtonRouteEditLink_clicked();
+        void on_toolButtonRouteAddLink_clicked();
         void on_textEditRouteComment_textChanged();
         void on_lineEditRouteSource_editingFinished();
         void on_lineEditRouteDescription_editingFinished();
         void on_lineEditRouteName_cursorPositionChanged(int , int );
 
+        void on_listWidgetTrackLinks_itemSelectionChanged();
+        void on_toolButtonTrackDeleteLink_clicked();
+        void on_toolButtonTrackEditLink_clicked();
+        void on_toolButtonTrackAddLink_clicked();
         void on_lineEditTrackType_editingFinished();
         void on_textEditTrackComment_textChanged();
         void on_lineEditTrackSource_editingFinished();
         void on_lineEditTrackDescription_editingFinished();
         void on_lineEditTrackName_editingFinished();
 
+        void on_listWidgetMetaDataLinks_itemSelectionChanged();
+        void on_toolButtonMetadataDeleteLink_clicked();
+        void on_toolButtonMetadataEditLink_clicked();
+        void on_toolButtonMetadataAddLink_clicked();
         void on_lineEditMetaDataCopyrightLicense_editingFinished();
         void on_lineEditMetaDataLicenseYear_editingFinished();
         void on_lineEditMetaDataCopyrightOwner_editingFinished();
