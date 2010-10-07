@@ -263,6 +263,13 @@ namespace PluginDisplayGraphic2D {
     void Plot::updateTracklistCurve(GPSData* gpsdata, XAxis X_Axis, YAxis Y_Axis)
     {
         qDebug() << __FILE__ << __FUNCTION__ ;
+
+        QLinearGradient gradient;
+        gradient.setCoordinateMode(QGradient::ObjectBoundingMode);
+        gradient.setColorAt(0,Qt::white);
+        gradient.setStart(0, 0);
+        gradient.setFinalStop(1, 1);
+
         double minXValue = 1e300;
         double maxXValue = -1e300;
         double minYValue = 1e300;
@@ -291,10 +298,20 @@ namespace PluginDisplayGraphic2D {
             int idx = 0;
             for (int routeId = routeIdStart; routeId < routeIdStop ; routeId++ )
             {
-
-                Curve* curve = new Curve();
                 QRgb rgb = (uint)rand();
-                curve->setPen(QColor(rgb));
+                Curve* curve = new Curve();
+                QPen* pen = new QPen(QColor(Qt::black));
+                pen->setWidth(2);
+                if (X_Axis != Plot::axis_x_longitude) {
+                    gradient.setColorAt(1,QColor(rgb));
+                    QBrush brush(gradient);
+                    curve->setBrush(brush);
+                }
+                else
+                {
+                    pen->setColor(QColor(rgb));
+                }
+                curve->setPen(*pen);
 
                 double x[gpsdata->routeList[routeId]->routePointList.count()];
                 double y[gpsdata->routeList[routeId]->routePointList.count()];
@@ -392,10 +409,20 @@ namespace PluginDisplayGraphic2D {
                 int idx = 0;
                 for (int trackSegId = segmentIdStart; trackSegId < segmentIdStop ; trackSegId++ )
                 {
-
-                    Curve* curve = new Curve();
                     QRgb rgb = (uint)rand();
-                    curve->setPen(QColor(rgb));
+                    Curve* curve = new Curve();
+                    QPen* pen = new QPen(QColor(Qt::black));
+                    pen->setWidth(2);
+                    if (X_Axis != Plot::axis_x_longitude) {
+                        gradient.setColorAt(1,QColor(rgb));
+                        QBrush brush(gradient);
+                        curve->setBrush(brush);
+                    }
+                    else
+                    {
+                        pen->setColor(QColor(rgb));
+                    }
+                    curve->setPen(*pen);
 
                     double x[gpsdata->trackList[trackId]->trackSegList[trackSegId]->trackPointList.count()];
                     double y[gpsdata->trackList[trackId]->trackSegList[trackSegId]->trackPointList.count()];
@@ -466,8 +493,10 @@ namespace PluginDisplayGraphic2D {
                         maxYValue = curve->maxYValue();
                     }
                 }
-
             }
+        }
+        foreach(Curve* curve, curveList){
+            curve->setBaseline(minYValue);
         }
         gpsdata->unlockGPSData();
         switch (X_Axis)

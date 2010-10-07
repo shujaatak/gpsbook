@@ -51,6 +51,11 @@ namespace PluginDisplayGraphic2D {
         QWidget* getOptions();
         void init(QWidget* , GPSData* gpsdata);
         void update();
+        QStringList* getServiceList(){ return NULL; }
+        ServiceInterface* getService(const char * serviceName,
+                                     const char * serviceId) { return NULL; }
+        QStringList* getServicePropertyList(const char * serviceName,
+                                           const char * serviceId){ return NULL; }
 
     public slots:
         void on_gpsdataChanged();
@@ -59,6 +64,7 @@ namespace PluginDisplayGraphic2D {
         void on_about();
         void on_showPlugin();
         void on_hidePlugin() {}
+        void on_all_plugins_loaded(){}
 
     };
 }

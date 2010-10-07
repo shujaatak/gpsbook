@@ -320,7 +320,7 @@ namespace GPSBook {
                     DisplayPluginInterface *displayPlugin = qobject_cast<DisplayPluginInterface*>(plugin);
                     if (displayPlugin)
                     {
-                        qDebug( )  << __FILE__ << __FUNCTION__ << "This is a vusual plugin " << fileName;
+                        //qDebug( )  << __FILE__ << __FUNCTION__ << "This is a vusual plugin " << fileName;
 
                         //Create Action
                         QAction *action = new QAction(displayPlugin->getName(), plugin);
@@ -427,13 +427,14 @@ namespace GPSBook {
             }
         }
 
+        qWarning( )  << __FILE__ << __FUNCTION__ << "Preparing open dialog box";
         openDialog->restoreState(settings->value("openstate").toByteArray());
         openDialog = new QFileDialog(this, tr("Open GPS trace"), QString(), openFilters);
         openDialog->selectNameFilter(settings->value("openstatefilter",gpxPlugin->getOpenFilter()).toString());
 
         ui->treeWidgetHelp->expandAll();
         ui->treeWidgetOptions->expandAll();
-        //qDebug( )  << __FILE__ << __FUNCTION__ << "Plugins loaded";
+        qDebug( )  << __FILE__ << __FUNCTION__ << "Plugins loaded";
 
     } //MainWindow::loadPlugins
 

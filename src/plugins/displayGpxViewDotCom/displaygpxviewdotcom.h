@@ -51,6 +51,11 @@ namespace PluginDisplayGpxViewDotCom {
             void init(QWidget* parent, GPSData* gpsdata);
             void update() {}
             void loadFile(QString filename);
+            QStringList* getServiceList(){ return NULL; }
+            ServiceInterface* getService(const char * serviceName,
+                                         const char * serviceId) { return NULL; }
+            QStringList* getServicePropertyList(const char * serviceName,
+                                               const char * serviceId){ return NULL; }
 
         public slots:
             void on_gpsdataChanged();
@@ -59,6 +64,7 @@ namespace PluginDisplayGpxViewDotCom {
             void on_about();
             void on_showPlugin();
             void on_hidePlugin() {}
+            void on_all_plugins_loaded(){}
 
 
 };
