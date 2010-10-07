@@ -25,6 +25,7 @@
 #include <QObject>
 #include <QThread>
 #include <QtPlugin>
+#include <QStringList>
 #include <gpsdata.h>
 
 using namespace GPSBook;
@@ -32,7 +33,7 @@ using namespace GPSBook;
 class QIcon;
 class QString;
 class QWidget;
-class QStringList;
+class ServiceInterface;
 
 
 /*!
@@ -43,22 +44,41 @@ class QStringList;
   This is a singleton owned by the main application and sent to plugins once all plugins
   are loaded.
 */
-/*class ServiceProvider : public QObject
+class ServiceProvider
 {
-    Q_OBJECT
     private:
       static ServiceProvider* mInstance;
-      ServiceProvider();
+      ServiceProvider() {}
+
     public:
-      ServiceProvider* getServiceProvider(){
+      ~ServiceProvider(){
+          delete mInstance;
+          mInstance = 0;
+      }
+
+      static ServiceProvider* getServiceProvider(){
           if (mInstance == 0)
               mInstance = new ServiceProvider();
           return (mInstance);
       }
-      ~ServiceProvider(){
-          mInstance = 0;
-      }
-};*/
+
+      QStringList* getServiceList() { return NULL; }
+
+      ServiceInterface* getService(const char * serviceName,
+                                   const char * serviceId){}
+      QStringList* getServicePropertyList(const char * serviceName,
+                                          const char * serviceId) { return NULL; }
+      QStringList* getServicePropertydescription(const char * serviceName,
+                                                 const char * serviceId,
+                                                 const char * property ){ return NULL; }
+
+      ServiceProvider(const ServiceProvider &);             // hide copy constructor
+      ServiceProvider& operator=(const ServiceProvider &);  // hide assign operator
+                                                            // we leave just the declarations, so the compiler will warn us
+                                                            // if we try to use those two functions by accident
+
+
+};
 
 /*!
    \brief Interface for services
@@ -72,21 +92,15 @@ class QStringList;
    The following keyword are reserved:
      GPSDATA to assign an instance os GPSData to the service
 
-
  */
 class ServiceInterface : public QObject
 {
     Q_OBJECT
     public:
-      virtual void        run()                    = 0;
-      virtual QWidget*    getWidget()              = 0;
-      virtual QStringList getServicePropertyList() = 0;
-
-    public slots:
-      virtual void on_gpsdataChanged()   = 0;
-      virtual void on_selectionChanged() = 0;
-      virtual void on_fileLoaded()       = 0;
-
+      virtual void         run()                           = 0;
+      virtual QWidget*     getWidget()                     = 0;
+      virtual QStringList* getServicePropertyList()        = 0;
+      virtual QStringList* getServicePropertyDescription() = 0;
 };
 
 
@@ -109,16 +123,15 @@ class PluginInterface : public QObject
         virtual void     init(QWidget* parent, GPSData* gpsdata) = 0;
         virtual void     update() = 0;
 
-        //virtual QStringList       getServiceList() = 0;
-        //virtual ServiceInterface* getService(const char * serviceName,
-        //                                     const char * serviceId) = 0;
-        //virtual QStringList getServicePropertyList(const char * serviceName,
-        //                                           const char * serviceId) = 0;
-
+        virtual QStringList* getServiceList() = 0;
+        virtual ServiceInterface* getService(const char * serviceName,
+                                             const char * serviceId) = 0;
+        virtual QStringList* getServicePropertyList(const char * serviceName,
+                                                   const char * serviceId) = 0;
 
      public slots:
         virtual void on_about() = 0;
-        //virtual void on_all_plugins_loaded() = 0;
+        virtual void on_all_plugins_loaded() = 0;
 
  };
 

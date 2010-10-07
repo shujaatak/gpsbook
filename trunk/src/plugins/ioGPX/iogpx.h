@@ -53,8 +53,14 @@ namespace PluginIOGPX {
             void save(QString filename, GPSData* gpsdata);
             void init( QWidget* , GPSData* );
             void update() {}
+            QStringList* getServiceList(){ return NULL; }
+            ServiceInterface* getService(const char * serviceName,
+                                         const char * serviceId) { return NULL; }
+            QStringList* getServicePropertyList(const char * serviceName,
+                                               const char * serviceId){ return NULL; }
         public slots:
             void on_about();
+            void on_all_plugins_loaded(){}
     };
 } //ioGPX
 
