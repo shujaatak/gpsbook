@@ -45,6 +45,7 @@ namespace PluginDisplayGraphic2D {
         geoPlotSizePolicy.setHeightForWidth(geoPlot->sizePolicy().hasHeightForWidth());
         geoPlot->setSizePolicy(geoPlotSizePolicy);
         m_ui->frameGeoPlot->layout()->addWidget(geoPlot);
+        geoPlot->setFrameStyle(0);
 
         //
         plot = new Plot(this);
@@ -54,6 +55,7 @@ namespace PluginDisplayGraphic2D {
         plotSizePolicy.setHeightForWidth(plot->sizePolicy().hasHeightForWidth());
         plot->setSizePolicy(plotSizePolicy);
         m_ui->framePlot->layout()->addWidget(plot);
+        plot->setFrameStyle(0);
 
         connect(plot,SIGNAL(signalReplot()),geoPlot,SLOT(replot()));
         connect(geoPlot,SIGNAL(signalReplot()),plot,SLOT(replot()));

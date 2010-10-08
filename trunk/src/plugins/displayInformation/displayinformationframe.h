@@ -58,14 +58,17 @@ namespace PluginDisplayInformation {
         void updateRoutelinks();
         void updateTracklinks();
         void updateMetadatalinks();
+        void updateToolButtonWaypointSymbol();
 
     private slots:
 
+        void on_toolButtonWaypointSymbol_clicked();
         void on_listWidgetWaypointLinks_itemSelectionChanged();
         void on_toolButtonWaypointDeleteLink_clicked();
         void on_toolButtonWaypointEditLink_clicked();
         void on_toolButtonWaypointAddLink_clicked();
         void on_textEditWaypointComment_textChanged();
+        void on_lineEditWaypointSymbol_editingFinished();
         void on_lineEditWaypointSource_editingFinished();
         void on_lineEditWaypointDescription_editingFinished();
         void on_lineEditWaypointName_editingFinished();

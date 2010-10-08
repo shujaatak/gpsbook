@@ -498,8 +498,6 @@
         <file>icons/youthhostel.png</file>
         <file>icons/zipline.png</file>
         <file>icons/zoo.png</file>
-    </qresource>
-    <qresource prefix="/numeric">
         <file>numeric/black00.png</file>
         <file>numeric/black01.png</file>
         <file>numeric/black02.png</file>

@@ -16,7 +16,8 @@ SOURCES += displayinformation.cpp \
     displayinformationoptionsframe.cpp \
     displayinformationhelp.cpp \
     ../../GPSBook/gpsdata.cpp \
-    dialoglinkedition.cpp
+    dialoglinkedition.cpp \
+    dialogselectsymbol.cpp
 HEADERS += displayinformation.h \
     ../../GPSBook/interface.h \
     pixmap.h \
@@ -24,10 +25,12 @@ HEADERS += displayinformation.h \
     displayinformationoptionsframe.h \
     displayinformationhelp.h \
     ../../GPSBook/gpsdata.h \
-    dialoglinkedition.h
+    dialoglinkedition.h \
+    dialogselectsymbol.h
 FORMS += displayinformationframe.ui \
     displayinformationoptionsframe.ui \
     displayinformationhelp.ui \
-    dialoglinkedition.ui
+    dialoglinkedition.ui \
+    dialogselectsymbol.ui
 TRANSLATIONS = displayInformation_fr_fr.ts \
                displayInformation_en_us.ts
