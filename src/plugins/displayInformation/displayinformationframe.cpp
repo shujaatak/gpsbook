@@ -23,7 +23,9 @@
 #include "ui_displayinformationframe.h"
 #include <QDebug>
 #include <QMessageBox>
+#include <QFileInfo>
 #include "dialoglinkedition.h"
+#include "dialogselectsymbol.h"
 
 namespace PluginDisplayInformation {
 
@@ -111,7 +113,8 @@ namespace PluginDisplayInformation {
                     m_ui->lineEditWaypointDescription->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->desc);
                     m_ui->lineEditWaypointSource->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->src);
                     m_ui->lineEditWaypointType->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->type);
-                    m_ui->lineEditWaypointSymbole->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->sym);
+                    m_ui->lineEditWaypointSymbol->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->sym);
+                    updateToolButtonWaypointSymbol();
                     m_ui->textEditWaypointComment->setText(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->cmt);
                     updateWaypointlinks();
                 }
@@ -528,6 +531,21 @@ namespace PluginDisplayInformation {
         }
     } // DisplayInformationFrame::on_textEditWaypointComment_textChanged
 
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_lineEditWaypointSymbol_editingFinished()
+    {
+        qDebug() << __FILE__ << __FUNCTION__;
+        if (isVisible()) {
+            mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->sym = m_ui->lineEditWaypointSymbol->text();
+            updateToolButtonWaypointSymbol();
+            mGPSData->setModified(true);
+        }
+    } // DisplayInformationFrame::on_textEditWaypointComment_textChanged
+
+
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
@@ -597,13 +615,19 @@ namespace PluginDisplayInformation {
     }// DisplayInformationFrame::on_listWidgetTrackLinks_itemSelectionChanged
 
 
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_toolButtonMetadataAddLink_clicked()
     {
         QList<Link*> *linkList = &(mGPSData->metadata->linkList);
         editLink(linkList,linkList->count());
         updateMetadatalinks();
-    }
+    }// DisplayInformationFrame::on_toolButtonMetadataAddLink_clicked()
 
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_toolButtonMetadataEditLink_clicked()
     {
         if (m_ui->listWidgetMetaDataLinks->selectedItems().count())
@@ -612,8 +636,11 @@ namespace PluginDisplayInformation {
             editLink(linkList,m_ui->listWidgetMetaDataLinks->currentIndex().row());
             updateMetadatalinks();
         }
-    }
+    }// DisplayInformationFrame::on_toolButtonMetadataEditLink_clicked()
 
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_toolButtonMetadataDeleteLink_clicked()
     {
         if (m_ui->listWidgetMetaDataLinks->selectedItems().count())
@@ -628,21 +655,30 @@ namespace PluginDisplayInformation {
                 updateTracklinks();
             }
         }
-    }
+    }// DisplayInformationFrame::on_toolButtonMetadataDeleteLink_clicked()
 
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_listWidgetMetaDataLinks_itemSelectionChanged()
     {
         m_ui->toolButtonMetadataEditLink->setEnabled(m_ui->listWidgetMetaDataLinks->selectedItems().count() != 0);
         m_ui->toolButtonMetadataDeleteLink->setEnabled(m_ui->listWidgetMetaDataLinks->selectedItems().count() != 0);
-    }
+    }// DisplayInformationFrame::on_listWidgetMetaDataLinks_itemSelectionChanged()
 
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_toolButtonWaypointAddLink_clicked()
     {
         QList<Link*> *linkList = &(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->linkList);
         editLink(linkList,linkList->count());
         updateWaypointlinks();
-    }
+    }// DisplayInformationFrame::on_toolButtonWaypointAddLink_clicked()
 
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_toolButtonWaypointEditLink_clicked()
     {
         if (m_ui->listWidgetWaypointLinks->selectedItems().count())
@@ -651,8 +687,11 @@ namespace PluginDisplayInformation {
             editLink(linkList,m_ui->listWidgetWaypointLinks->currentIndex().row());
             updateWaypointlinks();
         }
-    }
+    }// DisplayInformationFrame::on_toolButtonWaypointEditLink_clicked()
 
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_toolButtonWaypointDeleteLink_clicked()
     {
         if (m_ui->listWidgetWaypointLinks->selectedItems().count())
@@ -667,21 +706,30 @@ namespace PluginDisplayInformation {
                 updateWaypointlinks();
             }
         }
-    }
+    }// DisplayInformationFrame::on_toolButtonWaypointDeleteLink_clicked()
 
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_listWidgetWaypointLinks_itemSelectionChanged()
     {
         m_ui->toolButtonWaypointEditLink->setEnabled(m_ui->listWidgetWaypointLinks->selectedItems().count() != 0);
         m_ui->toolButtonWaypointDeleteLink->setEnabled(m_ui->listWidgetWaypointLinks->selectedItems().count() != 0);
-    }
+    }// DisplayInformationFrame::on_listWidgetWaypointLinks_itemSelectionChanged()
 
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_toolButtonRouteAddLink_clicked()
     {
         QList<Link*> *linkList = &(mGPSData->routeList[mGPSData->displayedRouteIndex]->linkList);
         editLink(linkList,linkList->count());
         updateRoutelinks();
-    }
+    }// DisplayInformationFrame::on_toolButtonRouteAddLink_clicked()
 
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_toolButtonRouteEditLink_clicked()
     {
         if (m_ui->listWidgetRouteLinks->selectedItems().count())
@@ -690,8 +738,11 @@ namespace PluginDisplayInformation {
             editLink(linkList,m_ui->listWidgetRouteLinks->currentIndex().row());
             updateRoutelinks();
         }
-    }
+    }// DisplayInformationFrame::on_toolButtonRouteEditLink_clicked()
 
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_toolButtonRouteDeleteLink_clicked()
     {
         if (m_ui->listWidgetRouteLinks->selectedItems().count())
@@ -706,11 +757,49 @@ namespace PluginDisplayInformation {
                 updateRoutelinks();
             }
         }
-    }
+    }// DisplayInformationFrame::on_toolButtonRouteDeleteLink_clicked()
 
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_listWidgetRouteLinks_itemSelectionChanged()
     {
         m_ui->toolButtonRouteEditLink->setEnabled(m_ui->listWidgetRouteLinks->selectedItems().count() != 0);
         m_ui->toolButtonRouteDeleteLink->setEnabled(m_ui->listWidgetRouteLinks->selectedItems().count() != 0);
-    }
+    }// DisplayInformationFrame::on_listWidgetRouteLinks_itemSelectionChanged()
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::on_toolButtonWaypointSymbol_clicked()
+    {
+        DialogSelectSymbol* selectSymbol = new DialogSelectSymbol(this);
+        selectSymbol->setSelectedIcon(m_ui->lineEditWaypointSymbol->text());
+        if (selectSymbol->exec() == QDialog::Accepted)
+        {
+            m_ui->lineEditWaypointSymbol->setText(selectSymbol->getSelectedSymbolName());
+            on_lineEditWaypointSymbol_editingFinished();
+        }
+        delete selectSymbol;
+    }// DisplayInformationFrame::on_toolButtonWaypointSymbol_clicked()
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInformationFrame::updateToolButtonWaypointSymbol()
+    {
+        if (QFileInfo( ":/icons/icons/" +  m_ui->lineEditWaypointSymbol->text() + ".png" ).exists()) {
+            m_ui->toolButtonWaypointSymbol->setIcon(QIcon(":/icons/icons/" +  m_ui->lineEditWaypointSymbol->text() + ".png"));
+        }
+        else if (QFileInfo( ":/icons/google-marker/" +  m_ui->lineEditWaypointSymbol->text() + ".png" ).exists()) {
+            m_ui->toolButtonWaypointSymbol->setIcon(QIcon(":/icons/google-marker/" +  m_ui->lineEditWaypointSymbol->text() + ".png"));
+        }
+        else if (QFileInfo( ":/icons/numeric/" +  m_ui->lineEditWaypointSymbol->text() + ".png" ).exists()) {
+            m_ui->toolButtonWaypointSymbol->setIcon(QIcon(":/icons/numeric/" +  m_ui->lineEditWaypointSymbol->text() + ".png"));
+        }
+        else
+        {
+            m_ui->toolButtonWaypointSymbol->setIcon(QIcon(":/icons/icons/cluster4.png"));
+        }
+    }// DisplayInformationFrame::updateToolButtonWaypointSymbol()
 }

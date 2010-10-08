@@ -427,9 +427,9 @@ namespace GPSBook {
             }
         }
 
-        qWarning( )  << __FILE__ << __FUNCTION__ << "Preparing open dialog box";
-        openDialog->restoreState(settings->value("openstate").toByteArray());
+        qDebug( )  << __FILE__ << __FUNCTION__ << "Preparing open dialog box";
         openDialog = new QFileDialog(this, tr("Open GPS trace"), QString(), openFilters);
+        openDialog->restoreState(settings->value("openstate","").toByteArray());
         openDialog->selectNameFilter(settings->value("openstatefilter",gpxPlugin->getOpenFilter()).toString());
 
         ui->treeWidgetHelp->expandAll();

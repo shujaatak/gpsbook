@@ -38,7 +38,8 @@ RESOURCES += \
     icons/silk/silk_icons.qrc \
     icons/gtk/gtk_icons.qrc \
     icons/gpsbook/gpsbook_icons.qrc \
-    icons/map-icons-collection/map-icons.qrc
+    icons/map-icons-collection/map-icons.qrc \
+    icons/google-marker/google-marker.qrc
 #icon
 win32:RC_FILE = gpsbook.rc
 ICON = GPSBook.icns

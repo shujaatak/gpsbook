@@ -8,12 +8,12 @@ unix {
 }
 mac {
 
-    QMAKE_CXXFLAGS += -DBUILD_DATE=\\\"20100929\\\"
-    QMAKE_CXXFLAGS += -DSVN_VERSION=\\\"Alpha3\\\"
+    QMAKE_CXXFLAGS += -DBUILD_DATE=\\\"20101007\\\"
+    QMAKE_CXXFLAGS += -DSVN_VERSION=\\\"Alpha4\\\"
 }
 
 win32 {
-    QMAKE_CXXFLAGS += -DBUILD_DATE=\\\"20100929\\\"
-    QMAKE_CXXFLAGS += -DSVN_VERSION=\\\"Alpha3\\\"
+    QMAKE_CXXFLAGS += -DBUILD_DATE=\\\"20101007\\\"
+    QMAKE_CXXFLAGS += -DSVN_VERSION=\\\"Alpha4\\\"
     CONFIG -= console
 }
