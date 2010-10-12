@@ -96,7 +96,7 @@ namespace PluginDisplayGraphic3D {
             }
             for (int routeId = routeIdStart; routeId < routeIdStop; routeId++ )
             {
-                foreach (WayPoint* waypoint, viewer->gpsdata->routeList[routeId]->routePointList)
+                foreach (WayPoint* waypoint, viewer->gpsdata->routeList[routeId]->wayPointList)
                 {
                     if (waypoint->lat < viewer->minlat) { viewer->minlat = waypoint->lat; }
                     if (waypoint->lat > viewer->maxlat) { viewer->maxlat = waypoint->lat; }
@@ -129,7 +129,7 @@ namespace PluginDisplayGraphic3D {
                 }
                 for (int trackSegId = segmentIdStart; trackSegId < segmentIdStop ; trackSegId++ )
                 {
-                    foreach (WayPoint* waypoint, viewer->gpsdata->trackList[trackId]->trackSegList[trackSegId]->trackPointList)
+                    foreach (WayPoint* waypoint, viewer->gpsdata->trackList[trackId]->trackSegList[trackSegId]->wayPointList)
                     {
                         if (waypoint->lat < viewer->minlat) { viewer->minlat = waypoint->lat; }
                         if (waypoint->lat > viewer->maxlat) { viewer->maxlat = waypoint->lat; }

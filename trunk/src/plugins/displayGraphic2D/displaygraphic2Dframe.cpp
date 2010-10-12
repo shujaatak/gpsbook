@@ -37,8 +37,11 @@ namespace PluginDisplayGraphic2D {
         qDebug() << __FILE__ << __FUNCTION__ ;
         m_ui->setupUi(this);
 
+        settings = new QSettings("GPSBook","GPSBook");
+
         //
         geoPlot = new Plot(this);
+        geoPlot->fillcurve = false;
         QSizePolicy geoPlotSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         geoPlotSizePolicy.setHorizontalStretch(0);
         geoPlotSizePolicy.setVerticalStretch(0);
@@ -196,8 +199,10 @@ namespace PluginDisplayGraphic2D {
         menuY->addAction(m_ui->actionYAcceleration);
         m_ui->toolButtonX->setIcon(m_ui->actionXAbsoluteTime->icon());
         m_ui->toolButtonY->setIcon(m_ui->actionYAltitude->icon());
+        m_ui->toolButtonFullfil->setChecked(settings->value("pluginGraph2DFullfilAbsoluteTime",true).toBool());
         xAxis = Plot::axis_x_absolute_time;
         yAxis = Plot::axis_y_altitude;
+        plot->fillcurve = m_ui->toolButtonFullfil->isChecked();
         plot->updateTracklistCurve(trackList,xAxis,yAxis);
     } //DisplayGraphic2DFrame::on_actionXAbsoluteTime_triggered
 
@@ -214,8 +219,10 @@ namespace PluginDisplayGraphic2D {
         menuY->addAction(m_ui->actionYAcceleration);
         m_ui->toolButtonX->setIcon(m_ui->actionXDistance->icon());
         m_ui->toolButtonY->setIcon(m_ui->actionYAltitude->icon());
+        m_ui->toolButtonFullfil->setChecked(settings->value("pluginGraph2DFullfilDistance",false).toBool());
         xAxis = Plot::axis_x_distance;
         yAxis = Plot::axis_y_altitude;
+        plot->fillcurve = m_ui->toolButtonFullfil->isChecked();
         plot->updateTracklistCurve(trackList,xAxis,yAxis);
     } //DisplayGraphic2DFrame::on_actionXDistance_triggered
 
@@ -233,8 +240,10 @@ namespace PluginDisplayGraphic2D {
         menuY->addAction(m_ui->actionYAcceleration);
         m_ui->toolButtonX->setIcon(m_ui->actionXDuration->icon());
         m_ui->toolButtonY->setIcon(m_ui->actionYAltitude->icon());
+        m_ui->toolButtonFullfil->setChecked(settings->value("pluginGraph2DFullfilDuration",false).toBool());
         xAxis = Plot::axis_x_duration;
         yAxis = Plot::axis_y_altitude;
+        plot->fillcurve = m_ui->toolButtonFullfil->isChecked();
         plot->updateTracklistCurve(trackList,xAxis,yAxis);
     } //DisplayGraphic2DFrame::on_actionXDuration_triggered
 
@@ -249,8 +258,10 @@ namespace PluginDisplayGraphic2D {
         m_ui->actionYLatitude->setChecked(true);
         m_ui->toolButtonX->setIcon(m_ui->actionXLongitude->icon());
         m_ui->toolButtonY->setIcon(m_ui->actionYLatitude->icon());
+        m_ui->toolButtonFullfil->setChecked(false);
         xAxis = Plot::axis_x_longitude;
         yAxis = Plot::axis_y_latitude;
+        plot->fillcurve = m_ui->toolButtonFullfil->isChecked();
         plot->updateTracklistCurve(trackList,xAxis,yAxis);
     } //DisplayGraphic2DFrame::on_actionXLongitude_triggered
 
@@ -268,8 +279,10 @@ namespace PluginDisplayGraphic2D {
         menuY->addAction(m_ui->actionYAcceleration);
         m_ui->toolButtonX->setIcon(m_ui->actionXPoints->icon());
         m_ui->toolButtonY->setIcon(m_ui->actionYAltitude->icon());
+        m_ui->toolButtonFullfil->setChecked(settings->value("pluginGraph2DFullfilPoint",true).toBool());
         xAxis = Plot::axis_x_point;
         yAxis = Plot::axis_y_altitude;
+        plot->fillcurve = m_ui->toolButtonFullfil->isChecked();
         plot->updateTracklistCurve(trackList,xAxis,yAxis);
     } //DisplayGraphic2DFrame::on_actionXPoints_triggered
 
@@ -281,6 +294,7 @@ namespace PluginDisplayGraphic2D {
         qDebug() << __FILE__ << __FUNCTION__ ;
         m_ui->toolButtonY->setIcon(m_ui->actionYAcceleration->icon());
         yAxis = Plot::axis_y_acceleration;
+        plot->fillcurve = m_ui->toolButtonFullfil->isChecked();
         plot->updateTracklistCurve(trackList,xAxis,yAxis);
     } //DisplayGraphic2DFrame::on_actionYAcceleration_triggered
 
@@ -292,6 +306,7 @@ namespace PluginDisplayGraphic2D {
         qDebug() << __FILE__ << __FUNCTION__ ;
         m_ui->toolButtonY->setIcon(m_ui->actionYAltitude->icon());
         yAxis = Plot::axis_y_altitude;
+        plot->fillcurve = m_ui->toolButtonFullfil->isChecked();
         plot->updateTracklistCurve(trackList,xAxis,yAxis);
     } //DisplayGraphic2DFrame::on_actionYAltitude_triggered
 
@@ -303,6 +318,7 @@ namespace PluginDisplayGraphic2D {
         qDebug() << __FILE__ << __FUNCTION__ ;
         m_ui->toolButtonY->setIcon(m_ui->actionYDistance->icon());
         yAxis = Plot::axis_y_distance;
+        plot->fillcurve = m_ui->toolButtonFullfil->isChecked();
         plot->updateTracklistCurve(trackList,xAxis,yAxis);
     } //DisplayGraphic2DFrame::on_actionYDistance_triggered
 
@@ -314,6 +330,7 @@ namespace PluginDisplayGraphic2D {
         qDebug() << __FILE__ << __FUNCTION__ ;
         m_ui->toolButtonY->setIcon(m_ui->actionYSpeed->icon());
         yAxis = Plot::axis_y_speed;
+        plot->fillcurve = m_ui->toolButtonFullfil->isChecked();
         plot->updateTracklistCurve(trackList,xAxis,yAxis);
     } //DisplayGraphic2DFrame::on_actionYSpeed_triggered
 
@@ -325,6 +342,7 @@ namespace PluginDisplayGraphic2D {
         qDebug() << __FILE__ << __FUNCTION__ ;
         m_ui->toolButtonY->setIcon(m_ui->actionYLatitude->icon());
         yAxis = Plot::axis_y_latitude;
+        plot->fillcurve = m_ui->toolButtonFullfil->isChecked();
         plot->updateTracklistCurve(trackList,xAxis,yAxis);
     } //DisplayGraphic2DFrame::on_actionYLatitude_triggered
 
@@ -344,6 +362,7 @@ namespace PluginDisplayGraphic2D {
     {
         qDebug() << __FILE__ << __FUNCTION__ ;
         getGeoPlot()->updateTracklistCurve(trackList,Plot::axis_x_longitude,Plot::axis_y_latitude);
+        plot->fillcurve = m_ui->toolButtonFullfil->isChecked();
         plot->updateTracklistCurve(trackList,xAxis,yAxis);
     } //DisplayGraphic2DFrame::on_update
 
@@ -358,13 +377,23 @@ namespace PluginDisplayGraphic2D {
         TrackSeg* newTrackSeg = new TrackSeg();
         trackList->trackList[trackList->selectedTrackIndex]->trackSegList << newTrackSeg;
 
-        while ( trackList->selectedWaypointIndex < trackSeg->trackPointList.count() )
+        while ( trackList->selectedWaypointIndex < trackSeg->wayPointList.count() )
         {
-            newTrackSeg->trackPointList << trackSeg->trackPointList.at(trackList->selectedWaypointIndex);
-            trackSeg->trackPointList.removeAt(trackList->selectedWaypointIndex);
+            newTrackSeg->wayPointList << trackSeg->wayPointList.at(trackList->selectedWaypointIndex);
+            trackSeg->wayPointList.removeAt(trackList->selectedWaypointIndex);
         }
 
         trackList->setModified(true);
         trackList->unlockGPSData();
     } //DisplayGraphic2DFrame::on_actionSplitSegment_triggered
+
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayGraphic2DFrame::on_toolButtonFullfil_clicked()
+    {
+        plot->fillcurve = m_ui->toolButtonFullfil->isChecked();
+        plot->updateTracklistCurve(trackList,xAxis,yAxis);
+    } // DisplayGraphic2DFrame::on_toolButtonFullfil_clicked
 }

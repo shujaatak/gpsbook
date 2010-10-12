@@ -152,7 +152,7 @@ namespace PluginIOGPX {
                 writeTextElement("number",QString::number(route->number));
             if (route->type != "")
                 writeTextElement("type",route->type);
-            foreach(WayPoint* wayPoint, route->routePointList)
+            foreach(WayPoint* wayPoint, route->wayPointList)
                 writeWayPoint(wayPoint, "rtept");
             writeStartElement("extension");
                 writeExtensions(route->extensions);
@@ -170,7 +170,7 @@ namespace PluginIOGPX {
             writeStartElement("extension");
                 writeExtensions(trackseg->extensions);
             writeEndElement();
-            foreach(WayPoint* wayPoint, trackseg->trackPointList)
+            foreach(WayPoint* wayPoint, trackseg->wayPointList)
                 writeWayPoint(wayPoint, "trkpt");
         writeEndElement();
     } //GpxWriter::writeTrackSeg

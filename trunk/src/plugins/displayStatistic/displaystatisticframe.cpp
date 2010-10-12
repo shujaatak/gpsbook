@@ -252,7 +252,7 @@ namespace PluginDisplayStatistic {
                         {
                             distance      += getDistance(trackSeg);
                             duration      += getDuration(trackSeg);
-                            points        += trackSeg->trackPointList.count();
+                            points        += trackSeg->wayPointList.count();
                             elevationGain += getElevationGain(trackSeg);
                             elevationDrop += getElevationDrop(trackSeg);
                         }
@@ -265,7 +265,7 @@ namespace PluginDisplayStatistic {
                     {
                         distance += getDistance(trackSeg);
                         duration += getDuration(trackSeg);
-                        points   += trackSeg->trackPointList.count();
+                        points   += trackSeg->wayPointList.count();
                         elevationGain += getElevationGain(trackSeg);
                         elevationDrop += getElevationDrop(trackSeg);
                     }
@@ -278,7 +278,7 @@ namespace PluginDisplayStatistic {
                 TrackSeg* trackSeg = mGPSData->trackList[mGPSData->displayedTrackIndex]->trackSegList[mGPSData->displayedSegmentIndex];
                 distance = getDistance(trackSeg);
                 duration = getDuration(trackSeg);
-                points   = trackSeg->trackPointList.count();
+                points   = trackSeg->wayPointList.count();
                 elevationGain = getElevationGain(trackSeg);
                 elevationDrop = getElevationDrop(trackSeg);
             }
@@ -300,7 +300,7 @@ namespace PluginDisplayStatistic {
      *------------------------------------------------------------------------------*/
     int DisplayStatisticFrame::getDuration(TrackSeg* trackSeg)
     {
-        return trackSeg->trackPointList.last()->time.toTime_t() - trackSeg->trackPointList.first()->time.toTime_t();
+        return trackSeg->wayPointList.last()->time.toTime_t() - trackSeg->wayPointList.first()->time.toTime_t();
     } //DisplayStatisticFrame::getDuration
 
     /*------------------------------------------------------------------------------*
@@ -308,7 +308,7 @@ namespace PluginDisplayStatistic {
      *------------------------------------------------------------------------------*/
     double DisplayStatisticFrame::getDistance(TrackSeg* trackSeg)
     {
-        return mGPSData->getExtensionData(trackSeg->trackPointList.last()->extensions,"GPSBookWayPointExtension","distance").toDouble();
+        return mGPSData->getExtensionData(trackSeg->wayPointList.last()->extensions,"GPSBookWayPointExtension","distance").toDouble();
     } //DisplayStatisticFrame::getDistance
 
     /*------------------------------------------------------------------------------*

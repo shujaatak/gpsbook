@@ -32,7 +32,7 @@
          <bool>false</bool>
         </property>
         <property name="text">
-         <string>Compress gpx file (zip)</string>
+         <string>Compress gpx file (tar.gz)</string>
         </property>
        </widget>
       </item>

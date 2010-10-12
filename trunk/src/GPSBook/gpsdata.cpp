@@ -97,11 +97,11 @@ namespace GPSBook {
     */
     void TrackSeg::clearData()
     {
-        while (!trackPointList.isEmpty())
+        while (!wayPointList.isEmpty())
         {
-            trackPointList.takeFirst()->clearData();
-            if (!trackPointList.isEmpty())
-                delete trackPointList.takeFirst();
+            wayPointList.takeFirst()->clearData();
+            if (!wayPointList.isEmpty())
+                delete wayPointList.takeFirst();
         }
     }
 
@@ -135,16 +135,11 @@ namespace GPSBook {
     */
     void Route::clearData()
     {
+        TrackSeg::clearData();
         while (!linkList.isEmpty())
         {
             if (!linkList.isEmpty())
                 delete linkList.takeFirst();
-        }
-        while (!routePointList.isEmpty())
-        {
-            routePointList.takeFirst()->clearData();
-            if (!routePointList.isEmpty())
-                delete routePointList.takeFirst();
         }
     }
 

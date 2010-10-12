@@ -205,7 +205,7 @@ namespace GPSBook {
 
         public:
             void clearData();
-            QList<WayPoint*> trackPointList;
+            QList<WayPoint*> wayPointList;
             QVariantHash extensions;
     };
 
@@ -256,7 +256,7 @@ namespace GPSBook {
         <rtept> wptType </rtept> [0..*]
       </rte>
     */
-    class Route : public QObject
+    class Route : public TrackSeg
     {
         Q_OBJECT
 
@@ -269,8 +269,10 @@ namespace GPSBook {
             QList<Link*> linkList;
             int number;
             QString type;
-            QList<WayPoint*> routePointList;
-            QVariantHash extensions;
+
+            //inherited from trackSegment
+            //QList<WayPoint*> trackPointList;
+            //QVariantHash extensions;
     };
 
 

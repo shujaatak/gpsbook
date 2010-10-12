@@ -80,7 +80,7 @@ namespace PluginDisplayGraphic3D {
                         glBegin(GL_QUAD_STRIP);
                     else
                         glBegin(GL_LINE_STRIP);
-                        foreach (WayPoint* waypoint, gpsdata->routeList[routeId]->routePointList)
+                        foreach (WayPoint* waypoint, gpsdata->routeList[routeId]->wayPointList)
                         {
                             //Recalculate position
                             double lon=(2/(maxlon-minlon))*(waypoint->lon+loncenter)+(-1-((2*minlon)/(maxlon-minlon)));
@@ -123,7 +123,7 @@ namespace PluginDisplayGraphic3D {
                             glBegin(GL_QUAD_STRIP);
                         else
                             glBegin(GL_LINE_STRIP);
-                            foreach (WayPoint* waypoint, gpsdata->trackList[trackId]->trackSegList[trackSegId]->trackPointList)
+                            foreach (WayPoint* waypoint, gpsdata->trackList[trackId]->trackSegList[trackSegId]->wayPointList)
                             {
                                 if (!firstWaypoint)
                                 {

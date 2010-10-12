@@ -122,7 +122,7 @@ namespace PluginDisplayGraphic2D {
     QwtText AccelerationScaleDraw::label(double v) const
     {
         QString result = QString::number(v);
-        return result + "m/s²";
+        return result + "m/s/s";
     } //AccelerationScaleDraw::label
 
     /*------------------------------------------------------------------------------*
@@ -257,6 +257,127 @@ namespace PluginDisplayGraphic2D {
         canvasPicker->init(gpsdata);
     }
 
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    int Plot::drawSegment(QList<TrackSeg*> segmentList, int trackId, int displayedIndex, XAxis X_Axis, YAxis Y_Axis, int point)
+    {
+        QLinearGradient gradient;
+        gradient.setCoordinateMode(QGradient::ObjectBoundingMode);
+        gradient.setColorAt(0,Qt::white);
+        gradient.setStart(0, 0);
+        gradient.setFinalStop(1, 1);
+
+        int segmentIdStart=0;
+        int segmentIdStop=segmentList.count();
+        if (displayedIndex >= 0 )
+        {
+            segmentIdStart=displayedIndex;
+            segmentIdStop=displayedIndex+1;
+        }
+
+        int colorRef = 360 / (segmentList.count() + 1 );
+        int colorId = segmentIdStart;
+        for (int segmentId = segmentIdStart; segmentId < segmentIdStop ; segmentId++ )
+        {
+            Curve* curve = new Curve();
+            QPen* pen = new QPen(QColor(Qt::black));
+            pen->setWidth(2);
+            if (fillcurve) {
+                gradient.setColorAt(1,QColor::fromHsv(colorRef*colorId,150,150,255));
+                QBrush brush(gradient);
+                curve->setBrush(brush);
+            }
+            else
+            {
+                pen->setColor(QColor::fromHsv(colorRef*colorId,200,200,255));
+            }
+            curve->setPen(*pen);
+            colorId++;
+
+
+            double x[segmentList[segmentId]->wayPointList.count()];
+            double y[segmentList[segmentId]->wayPointList.count()];
+            double origin = segmentList[segmentId]->wayPointList[0]->time.toTime_t();
+            int i=0;
+            foreach (WayPoint* waypoint, segmentList[segmentId]->wayPointList)
+            {
+                switch (X_Axis)
+                {
+                    case Plot::axis_x_absolute_time:
+                        x[i] = waypoint->time.toTime_t();
+                    break;
+                    case Plot::axis_x_distance:
+                        x[i] = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","distance").toDouble();
+                    break;
+                    case Plot::axis_x_duration:
+                        x[i] = waypoint->time.toTime_t() - origin;
+                    break;
+                    case Plot::axis_x_longitude:
+                        x[i] = waypoint->lon;
+                    break;
+                    case Plot::axis_x_point:
+                        x[i] = point;
+                    break;
+
+                }
+                switch (Y_Axis)
+                {
+                    case Plot::axis_y_latitude:
+                        y[i] = waypoint->lat;
+                    break;
+                    case Plot::axis_y_distance:
+                        y[i] = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","distance").toDouble();
+                    break;
+                    case Plot::axis_y_altitude:
+                        y[i] = waypoint->ele;
+                    break;
+                    case Plot::axis_y_speed:
+                        y[i] = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","speed").toDouble();
+                    break;
+                    case Plot::axis_y_acceleration:
+                        y[i] = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","acceleration").toDouble();
+                    break;
+                }
+                i++;
+                point++;
+            }
+            curve->setSamples(x, y, sizeof(x) / sizeof(x[0]));
+            if (trackId != -1 )
+            {
+                curve->setTrackId(trackId);
+                curve->setSegmentId(segmentId);
+                curve->setRouteId(-1);
+            }
+            else
+            {
+                curve->setTrackId(-1);
+                curve->setSegmentId(-1);
+                curve->setRouteId(segmentId);
+            }
+            curve->attach(this);
+            curveList << curve;
+            if ( curve->minXValue() < minXValue)
+            {
+                minXValue = curve->minXValue();
+            }
+            if ( curve->maxXValue() > maxXValue)
+            {
+                maxXValue = curve->maxXValue();
+            }
+            if ( curve->minYValue() < minYValue)
+            {
+                minYValue = curve->minYValue();
+            }
+            if ( curve->maxYValue() > maxYValue)
+            {
+                maxYValue = curve->maxYValue();
+            }
+        }
+        return point;
+    }
+
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
@@ -264,16 +385,10 @@ namespace PluginDisplayGraphic2D {
     {
         qDebug() << __FILE__ << __FUNCTION__ ;
 
-        QLinearGradient gradient;
-        gradient.setCoordinateMode(QGradient::ObjectBoundingMode);
-        gradient.setColorAt(0,Qt::white);
-        gradient.setStart(0, 0);
-        gradient.setFinalStop(1, 1);
-
-        double minXValue = 1e300;
-        double maxXValue = -1e300;
-        double minYValue = 1e300;
-        double maxYValue = -1e300;
+        minXValue = 1e300;
+        maxXValue = -1e300;
+        minYValue = 1e300;
+        maxYValue = -1e300;
         plotPicker->x_axis = X_Axis;
         plotPicker->y_axis = Y_Axis;
         while (!curveList.isEmpty())
@@ -287,102 +402,7 @@ namespace PluginDisplayGraphic2D {
         //ROUTE
         if (gpsdata->displayedRouteIndex != -2)
         {
-            int routeIdStart=0;
-            int routeIdStop=gpsdata->routeList.count();
-            if (gpsdata->displayedRouteIndex >= 0 )
-            {
-                routeIdStart=gpsdata->displayedRouteIndex;
-                routeIdStop=gpsdata->displayedRouteIndex+1;
-            }
-
-            int idx = 0;
-            for (int routeId = routeIdStart; routeId < routeIdStop ; routeId++ )
-            {
-                QRgb rgb = (uint)rand();
-                Curve* curve = new Curve();
-                QPen* pen = new QPen(QColor(Qt::black));
-                pen->setWidth(2);
-                if (X_Axis != Plot::axis_x_longitude) {
-                    gradient.setColorAt(1,QColor(rgb));
-                    QBrush brush(gradient);
-                    curve->setBrush(brush);
-                }
-                else
-                {
-                    pen->setColor(QColor(rgb));
-                }
-                curve->setPen(*pen);
-
-                double x[gpsdata->routeList[routeId]->routePointList.count()];
-                double y[gpsdata->routeList[routeId]->routePointList.count()];
-                double origin = gpsdata->routeList[routeId]->routePointList[0]->time.toTime_t();
-                int i=0;
-                foreach (WayPoint* waypoint, gpsdata->routeList[routeId]->routePointList)
-                {
-                    switch (X_Axis)
-                    {
-                        case Plot::axis_x_absolute_time:
-                            x[i] = waypoint->time.toTime_t();
-                        break;
-                        case Plot::axis_x_distance:
-                            x[i] = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","distance").toDouble();
-                        break;
-                        case Plot::axis_x_duration:
-                            x[i] = waypoint->time.toTime_t() - origin;
-                        break;
-                        case Plot::axis_x_longitude:
-                            x[i] = waypoint->lon;
-                        break;
-                        case Plot::axis_x_point:
-                            x[i] = idx;
-                        break;
-
-                    }
-                    switch (Y_Axis)
-                    {
-                        case Plot::axis_y_latitude:
-                            y[i] = waypoint->lat;
-                        break;
-                        case Plot::axis_y_distance:
-                            y[i] = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","distance").toDouble();
-                        break;
-                        case Plot::axis_y_altitude:
-                            y[i] = waypoint->ele;
-                        break;
-                        case Plot::axis_y_speed:
-                            y[i] = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","speed").toDouble();
-                        break;
-                        case Plot::axis_y_acceleration:
-                            y[i] = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","acceleration").toDouble();
-                        break;
-                    }
-                    i++;
-                    idx++;
-                }
-                curve->setSamples(x, y, sizeof(x) / sizeof(x[0]));
-                curve->setTrackId(-1);
-                curve->setSegmentId(-1);
-                curve->setRouteId(routeId);
-                curve->attach(this);
-                curveList << curve;
-                if ( curve->minXValue() < minXValue)
-                {
-                    minXValue = curve->minXValue();
-                }
-                if ( curve->maxXValue() > maxXValue)
-                {
-                    maxXValue = curve->maxXValue();
-                }
-                if ( curve->minYValue() < minYValue)
-                {
-                    minYValue = curve->minYValue();
-                }
-                if ( curve->maxYValue() > maxYValue)
-                {
-                    maxYValue = curve->maxYValue();
-                }
-            }
-
+            drawSegment(reinterpret_cast< QList<TrackSeg*> &>(gpsdata->routeList), -1, gpsdata->displayedRouteIndex, X_Axis, Y_Axis, 0);
         }
 
 
@@ -396,103 +416,11 @@ namespace PluginDisplayGraphic2D {
                 trackIdStart=gpsdata->displayedTrackIndex;
                 trackIdStop=gpsdata->displayedTrackIndex+1;
             }
+
+            int point = 0;
             for (int trackId = trackIdStart; trackId < trackIdStop; trackId++ )
             {
-                int segmentIdStart=0;
-                int segmentIdStop=gpsdata->trackList[trackId]->trackSegList.count();
-                if (gpsdata->displayedSegmentIndex >= 0 )
-                {
-                    segmentIdStart=gpsdata->displayedSegmentIndex;
-                    segmentIdStop=gpsdata->displayedSegmentIndex+1;
-                }
-
-                int idx = 0;
-                for (int trackSegId = segmentIdStart; trackSegId < segmentIdStop ; trackSegId++ )
-                {
-                    QRgb rgb = (uint)rand();
-                    Curve* curve = new Curve();
-                    QPen* pen = new QPen(QColor(Qt::black));
-                    pen->setWidth(2);
-                    if (X_Axis != Plot::axis_x_longitude) {
-                        gradient.setColorAt(1,QColor(rgb));
-                        QBrush brush(gradient);
-                        curve->setBrush(brush);
-                    }
-                    else
-                    {
-                        pen->setColor(QColor(rgb));
-                    }
-                    curve->setPen(*pen);
-
-                    double x[gpsdata->trackList[trackId]->trackSegList[trackSegId]->trackPointList.count()];
-                    double y[gpsdata->trackList[trackId]->trackSegList[trackSegId]->trackPointList.count()];
-                    double origin = gpsdata->trackList[trackId]->trackSegList[trackSegId]->trackPointList[0]->time.toTime_t();
-                    int i=0;
-                    foreach (WayPoint* waypoint, gpsdata->trackList[trackId]->trackSegList[trackSegId]->trackPointList)
-                    {
-                        switch (X_Axis)
-                        {
-                            case Plot::axis_x_absolute_time:
-                                x[i] = waypoint->time.toTime_t();
-                            break;
-                            case Plot::axis_x_distance:
-                                x[i] = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","distance").toDouble();
-                            break;
-                            case Plot::axis_x_duration:
-                                x[i] = waypoint->time.toTime_t() - origin;
-                            break;
-                            case Plot::axis_x_longitude:
-                                x[i] = waypoint->lon;
-                            break;
-                            case Plot::axis_x_point:
-                                x[i] = idx;
-                            break;
-
-                        }
-                        switch (Y_Axis)
-                        {
-                            case Plot::axis_y_latitude:
-                                y[i] = waypoint->lat;
-                            break;
-                            case Plot::axis_y_distance:
-                                y[i] = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","distance").toDouble();
-                            break;
-                            case Plot::axis_y_altitude:
-                                y[i] = waypoint->ele;
-                            break;
-                            case Plot::axis_y_speed:
-                                y[i] = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","speed").toDouble();
-                            break;
-                            case Plot::axis_y_acceleration:
-                                y[i] = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","acceleration").toDouble();
-                            break;
-                        }
-                        i++;
-                        idx++;
-                    }
-                    curve->setSamples(x, y, sizeof(x) / sizeof(x[0]));
-                    curve->setTrackId(trackId);
-                    curve->setSegmentId(trackSegId);
-                    curve->setRouteId(-1);
-                    curve->attach(this);
-                    curveList << curve;
-                    if ( curve->minXValue() < minXValue)
-                    {
-                        minXValue = curve->minXValue();
-                    }
-                    if ( curve->maxXValue() > maxXValue)
-                    {
-                        maxXValue = curve->maxXValue();
-                    }
-                    if ( curve->minYValue() < minYValue)
-                    {
-                        minYValue = curve->minYValue();
-                    }
-                    if ( curve->maxYValue() > maxYValue)
-                    {
-                        maxYValue = curve->maxYValue();
-                    }
-                }
+                point = drawSegment(gpsdata->trackList[trackId]->trackSegList, trackId, gpsdata->displayedSegmentIndex, X_Axis, Y_Axis, point);
             }
         }
         foreach(Curve* curve, curveList){

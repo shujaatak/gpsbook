@@ -55,7 +55,7 @@ namespace PluginDisplayStatistic {
                 double totalDistance = 0;
                 WayPoint* waypointBegin = 0;
                 WayPoint* waypointEnd = 0;
-                foreach (WayPoint* waypoint, trackSeg->trackPointList)
+                foreach (WayPoint* waypoint, trackSeg->wayPointList)
                 {
                     if ( waypointEnd == 0 )
                         waypointEnd = waypoint;
