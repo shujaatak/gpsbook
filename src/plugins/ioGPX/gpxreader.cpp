@@ -242,7 +242,7 @@ namespace PluginIOGPX {
             if (name() == "rtept")
             {
                 WayPoint* waypoint = new WayPoint();
-                route->routePointList << waypoint;
+                route->wayPointList << waypoint;
                 readWayPoint(waypoint);
             }
             if (name() == "extension")
@@ -268,7 +268,7 @@ namespace PluginIOGPX {
             if (name() == "trkpt")
             {
                 WayPoint* waypoint = new WayPoint();
-                trackseg->trackPointList << waypoint;
+                trackseg->wayPointList << waypoint;
                 readWayPoint(waypoint);
             }
             if (name() == "extension")

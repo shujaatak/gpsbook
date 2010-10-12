@@ -24,6 +24,7 @@
 
 #include <QtGui/QFrame>
 #include <QMenu>
+#include <QSettings>
 #include "plot.h"
 #include "gpsdata.h"
 #include "curve.h"
@@ -64,8 +65,10 @@ namespace PluginDisplayGraphic2D {
         Plot::YAxis yAxis;
         QActionGroup* xActionGroup;
         QActionGroup* yActionGroup;
+        QSettings* settings;
 
     private slots:
+        void on_toolButtonFullfil_clicked();
         void on_actionSplitSegment_triggered();
         void on_toolButtonGeoPlot_toggled(bool checked);
         void on_actionYLatitude_triggered();

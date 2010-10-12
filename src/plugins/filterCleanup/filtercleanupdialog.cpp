@@ -69,8 +69,8 @@ namespace PluginFilterCleanup {
             foreach (TrackSeg* trackSeg, track->trackSegList)
             {
                 int iloop = 0;
-                m_ui->progressBar->setRange(0,trackSeg->trackPointList.count());
-                foreach (WayPoint* waypoint, trackSeg->trackPointList)
+                m_ui->progressBar->setRange(0,trackSeg->wayPointList.count());
+                foreach (WayPoint* waypoint, trackSeg->wayPointList)
                 {
                     m_ui->progressBar->setValue(iloop++);
                     qApp->processEvents();
@@ -96,15 +96,15 @@ namespace PluginFilterCleanup {
             foreach (TrackSeg* trackSeg, track->trackSegList)
             {
                 int iloop = 0;
-                m_ui->progressBar->setRange(0,trackSeg->trackPointList.count());
-                foreach (WayPoint* waypoint, trackSeg->trackPointList)
+                m_ui->progressBar->setRange(0,trackSeg->wayPointList.count());
+                foreach (WayPoint* waypoint, trackSeg->wayPointList)
                 {
                     m_ui->progressBar->setValue(iloop++);
                     qApp->processEvents();
                     double speed = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","speed").toDouble();
                     if (speed > m_ui->doubleSpinBox->value())
                     {
-                        trackSeg->trackPointList.removeAt(trackSeg->trackPointList.indexOf(waypoint,0));
+                        trackSeg->wayPointList.removeAt(trackSeg->wayPointList.indexOf(waypoint,0));
                     }
                 }
             }
@@ -127,15 +127,15 @@ namespace PluginFilterCleanup {
             foreach (TrackSeg* trackSeg, track->trackSegList)
             {
                 int iloop = 0;
-                m_ui->progressBar->setRange(0,trackSeg->trackPointList.count());
-                foreach (WayPoint* waypoint, trackSeg->trackPointList)
+                m_ui->progressBar->setRange(0,trackSeg->wayPointList.count());
+                foreach (WayPoint* waypoint, trackSeg->wayPointList)
                 {
                     m_ui->progressBar->setValue(iloop++);
                     qApp->processEvents();
                     double acceleration = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","acceleration").toDouble();
                     if (abs(acceleration) > m_ui->doubleSpinBoxAcceleration->value())
                     {
-                        trackSeg->trackPointList.removeAt(trackSeg->trackPointList.indexOf(waypoint,0));
+                        trackSeg->wayPointList.removeAt(trackSeg->wayPointList.indexOf(waypoint,0));
                     }
                 }
             }
@@ -191,8 +191,8 @@ namespace PluginFilterCleanup {
             foreach (TrackSeg* trackSeg, track->trackSegList)
             {
                 int iloop = 0;
-                m_ui->progressBar->setRange(0,trackSeg->trackPointList.count());
-                foreach (WayPoint* waypoint, trackSeg->trackPointList)
+                m_ui->progressBar->setRange(0,trackSeg->wayPointList.count());
+                foreach (WayPoint* waypoint, trackSeg->wayPointList)
                 {
                     m_ui->progressBar->setValue(iloop++);
                     qApp->processEvents();
@@ -204,7 +204,7 @@ namespace PluginFilterCleanup {
                     double delta = calculateDistance(waypointOrigin->lon,waypointOrigin->lat,waypoint->lon,waypoint->lat);
                     if (delta < (m_ui->doubleSpinBoxRadius->value()/1000))
                     {
-                        trackSeg->trackPointList.removeAt(trackSeg->trackPointList.indexOf(waypoint,0));
+                        trackSeg->wayPointList.removeAt(trackSeg->wayPointList.indexOf(waypoint,0));
                     }
                     else
                     {

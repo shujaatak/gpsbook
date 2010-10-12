@@ -23,6 +23,7 @@
 #define DISPLAYGRAPHIC2DOPTIONSFRAME_H
 
 #include <QFrame>
+#include <QSettings>
 
 namespace Ui {
     class DisplayGraphic2DOptionsFrame;
@@ -41,6 +42,13 @@ protected:
 
 private:
     Ui::DisplayGraphic2DOptionsFrame *ui;
+    QSettings* settings;
+
+private slots:
+    void on_checkBoxFullfilDuration_toggled(bool);
+    void on_checkBoxFullfilAbsoluteTime_toggled(bool);
+    void on_checkBoxFullfilDistance_toggled(bool);
+    void on_checkBoxFullfilPoints_toggled(bool);
 };
 
 #endif // DISPLAYGRAPHIC2DOPTIONSFRAME_H

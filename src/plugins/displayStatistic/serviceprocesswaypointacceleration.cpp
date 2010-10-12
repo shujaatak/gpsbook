@@ -55,8 +55,8 @@ namespace PluginDisplayStatistic {
         {
             foreach(TrackSeg* trackSeg, track->trackSegList)
             {
-                mGPSData->setExtensionData(trackSeg->trackPointList[0]->extensions,"GPSBookWayPointExtension","acceleration",0);
-                foreach (WayPoint* waypoint, trackSeg->trackPointList)
+                mGPSData->setExtensionData(trackSeg->wayPointList[0]->extensions,"GPSBookWayPointExtension","acceleration",0);
+                foreach (WayPoint* waypoint, trackSeg->wayPointList)
                 {
                     if ( waypointBegin == 0 )
                         waypointEnd = waypoint;
@@ -70,7 +70,7 @@ namespace PluginDisplayStatistic {
                     uint time = timeEnd - timeBegin;
                     if ( time != 0 )
                     {
-                        //Acceleration in m/s²
+                        //Acceleration in m/s2
                         acceleration = 3600 * speedDelta / 1000 / time;
                         //qDebug() << "acceleration=" << acceleration;
 

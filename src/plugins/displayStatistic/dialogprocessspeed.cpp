@@ -82,9 +82,9 @@ namespace PluginDisplayStatistic {
             foreach(TrackSeg* trackSeg, track->trackSegList)
             {
                 int iloop = 0;
-                m_ui->progressBar->setRange(1,trackSeg->trackPointList.count());
-                mGPSData->setExtensionData(trackSeg->trackPointList[0]->extensions,"GPSBookWayPointExtension","speed",0);
-                foreach (WayPoint* waypoint, trackSeg->trackPointList)
+                m_ui->progressBar->setRange(1,trackSeg->wayPointList.count());
+                mGPSData->setExtensionData(trackSeg->wayPointList[0]->extensions,"GPSBookWayPointExtension","speed",0);
+                foreach (WayPoint* waypoint, trackSeg->wayPointList)
                 {
                     m_ui->progressBar->setValue(iloop++);
                     qApp->processEvents();

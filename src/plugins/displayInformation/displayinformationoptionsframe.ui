@@ -31,7 +31,7 @@
         <x>0</x>
         <y>0</y>
         <width>626</width>
-        <height>611</height>
+        <height>610</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -367,94 +367,6 @@
              <size>
               <width>20</width>
               <height>15</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="groupBoxSymbole">
-         <property name="title">
-          <string>Waypoint symboles</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_4">
-          <item row="0" column="0" rowspan="4">
-           <widget class="QListWidget" name="listWidgetWaypointLinks_2">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <item>
-             <property name="text">
-              <string>Symbols</string>
-             </property>
-             <property name="checkState">
-              <enum>Unchecked</enum>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QToolButton" name="toolButtonWaypointAddLink_2">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>...</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
-              <normaloff>:/icons/gtk/object-add.png</normaloff>:/icons/gtk/object-add.png</iconset>
-            </property>
-            <property name="autoRaise">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QToolButton" name="toolButtonWaypointEditLink_2">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>...</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
-              <normaloff>:/icons/gtk/format-text-direction-ltr.png</normaloff>:/icons/gtk/format-text-direction-ltr.png</iconset>
-            </property>
-            <property name="autoRaise">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QToolButton" name="toolButtonWaypointDeleteLink_2">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>...</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
-              <normaloff>:/icons/gtk/editdelete.png</normaloff>:/icons/gtk/editdelete.png</iconset>
-            </property>
-            <property name="autoRaise">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
-           <spacer name="verticalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>27</height>
              </size>
             </property>
            </spacer>

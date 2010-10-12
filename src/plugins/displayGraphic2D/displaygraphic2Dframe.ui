@@ -36,93 +36,164 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QToolButton" name="toolButtonGeoPlot">
-        <property name="text">
-         <string>GeoTrace</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
-          <normaloff>:/icons/silk/chart_curve.png</normaloff>:/icons/silk/chart_curve.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>32</width>
-          <height>16</height>
-         </size>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
-        </property>
-        <property name="arrowType">
-         <enum>Qt::NoArrow</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="toolButtonX">
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
-          <normaloff>:/icons/silk/control_stop.png</normaloff>:/icons/silk/control_stop.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>24</width>
-          <height>16</height>
-         </size>
-        </property>
-        <property name="popupMode">
-         <enum>QToolButton::InstantPopup</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="toolButtonY">
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
-          <normaloff>:/icons/silk/rainbow.png</normaloff>:/icons/silk/rainbow.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>24</width>
-          <height>16</height>
-         </size>
-        </property>
-        <property name="popupMode">
-         <enum>QToolButton::InstantPopup</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QToolButton" name="toolButtonEdit">
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
-          <normaloff>:/icons/silk/note_edit.png</normaloff>:/icons/silk/note_edit.png</iconset>
-        </property>
-        <property name="iconSize">
-         <size>
-          <width>24</width>
-          <height>16</height>
-         </size>
-        </property>
-        <property name="popupMode">
-         <enum>QToolButton::InstantPopup</enum>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QToolButton" name="toolButtonGeoPlot">
+          <property name="text">
+           <string>GeoTrace</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+            <normaloff>:/icons/silk/chart_curve.png</normaloff>:/icons/silk/chart_curve.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+          <property name="arrowType">
+           <enum>Qt::NoArrow</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButton">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+            <normaloff>:/icons/silk/comments.png</normaloff>:/icons/silk/comments.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButtonFullfil">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+            <normaloff>:/icons/silk/chart_bar.png</normaloff>:/icons/silk/chart_bar.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButtonX">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+            <normaloff>:/icons/silk/control_stop.png</normaloff>:/icons/silk/control_stop.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="popupMode">
+           <enum>QToolButton::InstantPopup</enum>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButtonY">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+            <normaloff>:/icons/silk/style.png</normaloff>:/icons/silk/style.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="popupMode">
+           <enum>QToolButton::InstantPopup</enum>
+          </property>
+          <property name="toolButtonStyle">
+           <enum>Qt::ToolButtonIconOnly</enum>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButtonEdit">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+            <normaloff>:/icons/silk/note_edit.png</normaloff>:/icons/silk/note_edit.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>24</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="popupMode">
+           <enum>QToolButton::InstantPopup</enum>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -130,7 +201,7 @@
    <item row="2" column="0">
     <widget class="QFrame" name="framePlot">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+      <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -141,7 +212,7 @@
    <item row="0" column="0" colspan="2">
     <widget class="QFrame" name="frameGeoPlot">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -168,7 +239,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
-     <normaloff>:/icons/silk/anchor.png</normaloff>:/icons/silk/anchor.png</iconset>
+     <normaloff>:/icons/silk/flag_blue.png</normaloff>:/icons/silk/flag_blue.png</iconset>
    </property>
    <property name="text">
     <string>Distance</string>
@@ -243,7 +314,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
-     <normaloff>:/icons/silk/rainbow.png</normaloff>:/icons/silk/rainbow.png</iconset>
+     <normaloff>:/icons/silk/style.png</normaloff>:/icons/silk/style.png</iconset>
    </property>
    <property name="text">
     <string>Altitude</string>
@@ -255,7 +326,7 @@
    </property>
    <property name="icon">
     <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
-     <normaloff>:/icons/silk/anchor.png</normaloff>:/icons/silk/anchor.png</iconset>
+     <normaloff>:/icons/silk/flag_blue.png</normaloff>:/icons/silk/flag_blue.png</iconset>
    </property>
    <property name="text">
     <string>Distance</string>

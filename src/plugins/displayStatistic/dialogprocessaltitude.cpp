@@ -77,12 +77,12 @@ namespace PluginDisplayStatistic {
             foreach(TrackSeg* trackSeg, track->trackSegList)
             {
                 int iloop = 0;
-                ui->progressBar->setRange(1,trackSeg->trackPointList.count());
+                ui->progressBar->setRange(1,trackSeg->wayPointList.count());
                 WayPoint* waypointBegin = 0;
                 WayPoint* waypointEnd = 0;
                 double elevationGain = 0;
                 double elevationDrop = 0;
-                foreach (WayPoint* waypoint, trackSeg->trackPointList)
+                foreach (WayPoint* waypoint, trackSeg->wayPointList)
                 {
                     ui->progressBar->setValue(iloop++);
                     qApp->processEvents();

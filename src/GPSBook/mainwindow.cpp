@@ -136,8 +136,6 @@ namespace GPSBook {
         //------------------- StackWidget -------------------
         //Replace {{VERSION}} keyword
         ui->textEdit->setHtml(ui->textEdit->toHtml().replace("{{VERSION}}",qApp->applicationVersion()));
-        //Display the help page
-        ui->stackedWidget->setCurrentIndex(0);
 
         //Add/move components to the top right toolbar
         progressIndicator = new QProgressIndicator();
@@ -164,7 +162,7 @@ namespace GPSBook {
         ui->comboBoxLanguageSelection->setInsertPolicy(QComboBox::InsertAlphabetically);
         foreach (QString avail, GPSBookApplication::availableLanguages())
         {
-            // figure out nice names for locales
+            // Figure out nice names for locales
             QLocale locale(avail);
             QString language = QLocale::languageToString(locale.language());
             QString country = QLocale::countryToString(locale.country());
@@ -186,7 +184,7 @@ namespace GPSBook {
 
         //------------------- Mainwindow -------------------
         // Display the favorite plugin
-        int preferedPluginId = settings->value("PreferedPluginId",3).toInt();
+        int preferedPluginId = settings->value("PreferedPluginId",0).toInt();
         ui->stackedWidget->setCurrentIndex(preferedPluginId);
         ui->comboBoxPreferedPlugin->setCurrentIndex(preferedPluginId);
         actionGroup->actions().at(preferedPluginId)->setChecked(true);
@@ -226,7 +224,6 @@ namespace GPSBook {
         ui->tabWidgetLeftPanel->setCurrentIndex(0);
 
         qDebug() << __FILE__ << __FUNCTION__ << "END";
-
 
     } //MainWindow::init
 
@@ -1084,15 +1081,22 @@ namespace GPSBook {
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void MainWindow::on_buttonBoxApply_clicked(QAbstractButton* )
+    void MainWindow::on_buttonBoxApply_clicked(QAbstractButton* button)
     {
-        settings->setValue("Translation",ui->comboBoxLanguageSelection->itemData(ui->comboBoxLanguageSelection->currentIndex()).toString());
-        settings->setValue("StorageLocation",ui->lineEditStorageLocation->text());
-        settings->setValue("PreferedPluginId",ui->comboBoxPreferedPlugin->currentIndex());
-        settings->setValue("StartFullScreen",ui->checkBoxStartFullScreen->checkState());
-        settings->setValue("MenuVisibility",ui->checkBoxMenuVisibility->checkState());
-        settings->setValue("ToolbarVisibility",ui->checkBoxToolbarVisibility->checkState());
-        ui->buttonBoxApply->setEnabled(false);
+        switch (ui->buttonBoxApply->standardButton(button)) {
+            case QDialogButtonBox::Apply:
+                settings->setValue("Translation",ui->comboBoxLanguageSelection->itemData(ui->comboBoxLanguageSelection->currentIndex()).toString());
+                settings->setValue("StorageLocation",ui->lineEditStorageLocation->text());
+                settings->setValue("PreferedPluginId",ui->comboBoxPreferedPlugin->currentIndex());
+                settings->setValue("StartFullScreen",ui->checkBoxStartFullScreen->checkState());
+                settings->setValue("MenuVisibility",ui->checkBoxMenuVisibility->checkState());
+                settings->setValue("ToolbarVisibility",ui->checkBoxToolbarVisibility->checkState());
+                ui->buttonBoxApply->setEnabled(false);
+            break;
+            case QDialogButtonBox::Reset:
+                settings->clear();
+            break;
+        }
     } //MainWindow::on_buttonBoxApply_clicked
 
     /*------------------------------------------------------------------------------*

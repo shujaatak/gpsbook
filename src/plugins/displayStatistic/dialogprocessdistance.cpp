@@ -113,8 +113,8 @@ namespace PluginDisplayStatistic {
                 int iloop = 1;
                 WayPoint* waypointBegin = 0;
                 WayPoint* waypointEnd = 0;
-                m_ui->progressBar->setRange(1,trackSeg->trackPointList.count());
-                foreach (WayPoint* waypoint, trackSeg->trackPointList)
+                m_ui->progressBar->setRange(1,trackSeg->wayPointList.count());
+                foreach (WayPoint* waypoint, trackSeg->wayPointList)
                 {
                     m_ui->progressBar->setValue(iloop++);
                     qApp->processEvents();

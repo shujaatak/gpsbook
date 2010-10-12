@@ -107,7 +107,7 @@ namespace PluginDisplayStatistic {
     void ServiceProcessMinMaxSpeed::getSpeedOfSegment(TrackSeg* trackseg)
     {
 
-        foreach(WayPoint* waypoint, trackseg->trackPointList)
+        foreach(WayPoint* waypoint, trackseg->wayPointList)
         {
             double speed = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","speed").toDouble();
             if (  speed > maxValue )

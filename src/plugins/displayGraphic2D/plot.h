@@ -127,6 +127,8 @@ namespace PluginDisplayGraphic2D {
         void doreplot();
         void init(GPSData* gpsdata);
         QPointF position;
+        bool fillcurve;
+
 
     public slots:
         void updateTracklistCurve(GPSData* gpsdata, XAxis X_Axis = axis_x_longitude, YAxis Y_Axis = axis_y_latitude);
@@ -141,7 +143,14 @@ namespace PluginDisplayGraphic2D {
         ushort x; //X Axis
         ushort y; //Y Axis
 
+        double minXValue;
+        double maxXValue;
+        double minYValue;
+        double maxYValue;
+
         GPSData* mGPSData;
+
+        int drawSegment(QList<TrackSeg*> segmentList, int trackId, int displayedIndex, XAxis X_Axis, YAxis Y_Axis, int point);
 
     signals:
         void signalReplot();

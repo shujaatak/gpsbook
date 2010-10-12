@@ -109,7 +109,7 @@ namespace PluginDisplayStatistic {
      *------------------------------------------------------------------------------*/
     void ServiceProcessMinMaxAltitude::getAltitudesOfSegment(TrackSeg* trackseg)
     {
-        foreach(WayPoint* wp, trackseg->trackPointList)
+        foreach(WayPoint* wp, trackseg->wayPointList)
         {
             //Find Minimum Altitude
             if ( wp->ele < minTmpValueZ)

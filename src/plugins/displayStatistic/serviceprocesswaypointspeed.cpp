@@ -56,8 +56,8 @@ namespace PluginDisplayStatistic {
         {
             foreach(TrackSeg* trackSeg, track->trackSegList)
             {
-                mGPSData->setExtensionData(trackSeg->trackPointList[0]->extensions,"GPSBookWayPointExtension","speed",0);
-                foreach (WayPoint* waypoint, trackSeg->trackPointList)
+                mGPSData->setExtensionData(trackSeg->wayPointList[0]->extensions,"GPSBookWayPointExtension","speed",0);
+                foreach (WayPoint* waypoint, trackSeg->wayPointList)
                 {
                     if ( waypointBegin == 0 )
                         waypointEnd = waypoint;

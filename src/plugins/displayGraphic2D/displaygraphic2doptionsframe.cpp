@@ -27,6 +27,13 @@ DisplayGraphic2DOptionsFrame::DisplayGraphic2DOptionsFrame(QWidget *parent) :
     ui(new Ui::DisplayGraphic2DOptionsFrame)
 {
     ui->setupUi(this);
+    settings = new QSettings("GPSBook","GPSBook");
+
+    ui->checkBoxFullfilPoints->setChecked(settings->value("pluginGraph2DFullfilPoint",true).toBool());
+    ui->checkBoxFullfilDistance->setChecked(settings->value("pluginGraph2DFullfilDistance",false).toBool());
+    ui->checkBoxFullfilAbsoluteTime->setChecked(settings->value("pluginGraph2DFullfilAbsoluteTime",true).toBool());
+    ui->checkBoxFullfilDuration->setChecked(settings->value("pluginGraph2DFullfilDuration",false).toBool());
+
 }
 
 DisplayGraphic2DOptionsFrame::~DisplayGraphic2DOptionsFrame()
@@ -44,4 +51,24 @@ void DisplayGraphic2DOptionsFrame::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void DisplayGraphic2DOptionsFrame::on_checkBoxFullfilPoints_toggled(bool)
+{
+    settings->setValue("pluginGraph2DFullfilPoint",ui->checkBoxFullfilPoints->isChecked());
+}
+
+void DisplayGraphic2DOptionsFrame::on_checkBoxFullfilDistance_toggled(bool)
+{
+    settings->setValue("pluginGraph2DFullfilDistance",ui->checkBoxFullfilDistance->isChecked());
+}
+
+void DisplayGraphic2DOptionsFrame::on_checkBoxFullfilAbsoluteTime_toggled(bool)
+{
+    settings->setValue("pluginGraph2DFullfilAbsoluteTime",ui->checkBoxFullfilAbsoluteTime->isChecked());
+}
+
+void DisplayGraphic2DOptionsFrame::on_checkBoxFullfilDuration_toggled(bool)
+{
+    settings->setValue("pluginGraph2DFullfilDuration",ui->checkBoxFullfilDuration->isChecked());
 }
