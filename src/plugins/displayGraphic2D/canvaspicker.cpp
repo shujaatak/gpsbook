@@ -56,6 +56,8 @@ namespace PluginDisplayGraphic2D {
 
         mousePressed = false;
 
+        accelerate = 0;
+
     }
 
     void CanvasPicker::init(GPSData* gpsdata)
@@ -96,24 +98,52 @@ namespace PluginDisplayGraphic2D {
                break;
             case QEvent::KeyPress:
                {
+                   if (((QKeyEvent*)e)->isAutoRepeat()) {
+                       if ( accelerate < 20 ) {
+                           accelerate++;
+                       }
+                   }
+                   else {
+                       accelerate = 1;
+                   }
                    switch(((const QKeyEvent *)e)->key())
                    {
-                       //TODO: Replace 10 by a configurable value
                        case Qt::Key_Right:
-                          if (d_selectedPoint < (d_selectedCurve->data()->size() - 10 - 1))
-                          {
-                              d_selectedPoint += 10;
-                              showCursor();
-                          }
+                            if (d_selectedPoint < (d_selectedCurve->data()->size() - accelerate - 1)){
+                                d_selectedPoint += accelerate;
+                            }
+                            else {
+                                int idx = plot()->curveList.indexOf(d_selectedCurve);
+                                if ((d_selectedPoint == (d_selectedCurve->data()->size()  - 1)) && (idx != (plot()->curveList.count()-1) ) ) {
+                                    d_selectedCurve = plot()->curveList[++idx];
+                                    d_selectedPoint = 0;
+                                    accelerate = 0;
+                                }
+                                else {
+                                    d_selectedPoint =  d_selectedCurve->data()->size()  - 1;
+                                }
+                            }
+                            showCursor();
                        break;
                        case Qt::Key_Left:
-                          if (d_selectedPoint > 10)
-                          {
-                              d_selectedPoint -= 10;
-                              showCursor();
-                          }
+                            if (d_selectedPoint > accelerate) {
+                                d_selectedPoint -= accelerate;
+                            }
+                            else {
+                                int idx = plot()->curveList.indexOf(d_selectedCurve);
+                                if ((d_selectedPoint == 0) && (idx != 0) ) {
+                                    d_selectedCurve = plot()->curveList[--idx];
+                                    d_selectedPoint = d_selectedCurve->data()->size()  - 1;
+                                    accelerate = 0;
+                                }
+                                else {
+                                    d_selectedPoint = 0;
+                                }
+                            }
+                            showCursor();
                        break;
                    }
+
                }
             break;
             default:
