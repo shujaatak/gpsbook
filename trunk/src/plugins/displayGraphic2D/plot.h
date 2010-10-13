@@ -123,6 +123,7 @@ namespace PluginDisplayGraphic2D {
         //inline YAxis yaxis() const { return static_cast<YAxis>(y); }
 
         Plot(QWidget *parent = NULL);
+        QList<Curve*> curveList;
         void setDisplayCursorInfo(bool enabled);
         void doreplot();
         void init(GPSData* gpsdata);
@@ -135,7 +136,6 @@ namespace PluginDisplayGraphic2D {
         void replot();
 
     private:
-        QList<Curve*> curveList;
         PlotPicker* plotPicker;
         QwtPlotRescaler *rescaler;
         CanvasPicker *canvasPicker;

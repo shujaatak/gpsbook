@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DialogLinkEdition</class>
+ <widget class="QDialog" name="DialogLinkEdition">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>420</width>
+    <height>162</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Text</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>URL</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="4">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QLineEdit" name="lineEditURL"/>
+   </item>
+   <item row="0" column="2">
+    <widget class="QLineEdit" name="lineEditText"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Type</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QToolButton" name="toolButtonAutoCompleteMimeType">
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+       <normaloff>:/icons/silk/spellcheck.png</normaloff>:/icons/silk/spellcheck.png</iconset>
+     </property>
+     <property name="autoRaise">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QLineEdit" name="lineEditMimeType"/>
+   </item>
+   <item row="3" column="2">
+    <widget class="QLabel" name="label_4">
+     <property name="font">
+      <font>
+       <pointsize>7</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Tip: Click on the ABC icon to automatically fulfill the type</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../../GPSBook/icons/silk/silk_icons.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>DialogLinkEdition</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>DialogLinkEdition</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

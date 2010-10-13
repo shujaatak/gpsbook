@@ -56,6 +56,7 @@ namespace PluginDisplayGraphic2D {
         GPSData* tracklist;
         Curve *d_selectedCurve;
         int d_selectedPoint;
+        int accelerate;
 
         Plot *plot() { return (Plot *)parent(); }
         const Plot *plot() const { return (Plot *)parent(); }
