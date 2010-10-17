@@ -215,6 +215,7 @@ namespace PluginDisplayGraphic2D {
     {
         qDebug() << __FILE__ << __FUNCTION__ ;
         setCanvasBackground(Qt::white);
+        rescale = true;
 
         QwtPlotGrid *grid = new QwtPlotGrid;
         grid->setMajPen(QPen(Qt::gray, 0, Qt::DotLine));
@@ -424,7 +425,13 @@ namespace PluginDisplayGraphic2D {
             }
         }
         foreach(Curve* curve, curveList){
-            curve->setBaseline(minYValue);
+            if ( ( Y_Axis == Plot::axis_y_speed ) ||
+                 ( Y_Axis == Plot::axis_y_acceleration ) ) {
+                curve->setBaseline(0);
+            }
+            else {
+                curve->setBaseline(minYValue);
+            }
         }
         gpsdata->unlockGPSData();
         switch (X_Axis)
@@ -491,11 +498,14 @@ namespace PluginDisplayGraphic2D {
             }
         }
 
-        setAxisScale(QwtPlot::xBottom, minXValue, maxXValue);
-        setAxisScale(QwtPlot::yLeft, minYValue, maxYValue);
-        setAxisAutoScale(QwtPlot::yLeft);
-        setAxisAutoScale(QwtPlot::xBottom);
-        plotLayout()->setAlignCanvasToScales(true);
+        if ( rescale ) {
+            setAxisScale(QwtPlot::xBottom, minXValue, maxXValue);
+            setAxisScale(QwtPlot::yLeft, minYValue, maxYValue);
+            setAxisAutoScale(QwtPlot::yLeft);
+            setAxisAutoScale(QwtPlot::xBottom);
+            plotLayout()->setAlignCanvasToScales(true);
+        }
+        rescale = true;
 
         replot();
 

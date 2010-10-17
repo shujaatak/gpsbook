@@ -368,6 +368,18 @@
     <string>Split segment</string>
    </property>
   </action>
+  <action name="actionDelete_selected_point">
+   <property name="icon">
+    <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
+     <normaloff>:/icons/gtk/object-cancel.png</normaloff>:/icons/gtk/object-cancel.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete selected point</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../../GPSBook/icons/gtk/gtk_icons.qrc"/>

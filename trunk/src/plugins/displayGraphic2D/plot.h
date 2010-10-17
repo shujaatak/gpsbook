@@ -129,7 +129,7 @@ namespace PluginDisplayGraphic2D {
         void init(GPSData* gpsdata);
         QPointF position;
         bool fillcurve;
-
+        bool rescale;
 
     public slots:
         void updateTracklistCurve(GPSData* gpsdata, XAxis X_Axis = axis_x_longitude, YAxis Y_Axis = axis_y_latitude);

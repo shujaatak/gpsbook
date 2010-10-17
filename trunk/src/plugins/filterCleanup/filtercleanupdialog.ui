@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>463</width>
-    <height>289</height>
+    <width>581</width>
+    <height>339</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -43,138 +43,152 @@
         <property name="currentIndex">
          <number>0</number>
         </property>
-        <widget class="QWidget" name="tabWidgetPage1" native="true">
+        <widget class="QWidget" name="tabWidgetPage1">
          <attribute name="title">
           <string>Remove Waypoints</string>
          </attribute>
-         <widget class="QLabel" name="label">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>291</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Remove waypoint with speed higher than</string>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="doubleSpinBox">
-          <property name="geometry">
-           <rect>
-            <x>320</x>
-            <y>0</y>
-            <width>70</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <property name="maximum">
-           <double>9999999.000000000000000</double>
-          </property>
-         </widget>
-         <widget class="QToolButton" name="toolButtonRemoveHighSpeed">
-          <property name="geometry">
-           <rect>
-            <x>390</x>
-            <y>0</y>
-            <width>30</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <property name="icon">
-           <iconset resource="../../GPSBook/icons.qrc">
-            <normaloff>:/icons/resources/media-playback-start.png</normaloff>:/icons/resources/media-playback-start.png</iconset>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_3">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>30</y>
-            <width>321</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Remove waypoint with Acceleration higher than</string>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="doubleSpinBoxAcceleration">
-          <property name="geometry">
-           <rect>
-            <x>320</x>
-            <y>30</y>
-            <width>70</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <property name="maximum">
-           <double>9999999.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>9.810000000000000</double>
-          </property>
-         </widget>
-         <widget class="QToolButton" name="toolButtonRemoveHighSpeedRemoveHighAcceleration">
-          <property name="geometry">
-           <rect>
-            <x>390</x>
-            <y>30</y>
-            <width>30</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <property name="icon">
-           <iconset resource="../../GPSBook/icons.qrc">
-            <normaloff>:/icons/resources/media-playback-start.png</normaloff>:/icons/resources/media-playback-start.png</iconset>
-          </property>
-         </widget>
-         <widget class="QLabel" name="label_4">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>60</y>
-            <width>321</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Remove waypoint which are too close (in m)</string>
-          </property>
-         </widget>
-         <widget class="QDoubleSpinBox" name="doubleSpinBoxRadius">
-          <property name="geometry">
-           <rect>
-            <x>320</x>
-            <y>60</y>
-            <width>70</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <property name="maximum">
-           <double>9999999.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>2.000000000000000</double>
-          </property>
-         </widget>
-         <widget class="QToolButton" name="toolButtonRemoveHighSpeedRemoveRadius">
-          <property name="geometry">
-           <rect>
-            <x>390</x>
-            <y>60</y>
-            <width>30</width>
-            <height>30</height>
-           </rect>
-          </property>
-          <property name="icon">
-           <iconset resource="../../GPSBook/icons.qrc">
-            <normaloff>:/icons/resources/media-playback-start.png</normaloff>:/icons/resources/media-playback-start.png</iconset>
-          </property>
-         </widget>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="4" column="3">
+           <widget class="QToolButton" name="toolButtonRemoveNegativeSpeed">
+            <property name="icon">
+             <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+              <normaloff>:/icons/silk/tick.png</normaloff>:/icons/silk/tick.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Remove waypoint with speed higher than</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QDoubleSpinBox" name="doubleSpinBox">
+            <property name="maximum">
+             <double>9999999.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QToolButton" name="toolButtonRemoveHighSpeed">
+            <property name="icon">
+             <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+              <normaloff>:/icons/silk/tick.png</normaloff>:/icons/silk/tick.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Remove waypoint with Acceleration higher than</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QDoubleSpinBox" name="doubleSpinBoxAcceleration">
+            <property name="maximum">
+             <double>9999999.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>9.810000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QToolButton" name="toolButtonRemoveHighAcceleration">
+            <property name="icon">
+             <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+              <normaloff>:/icons/silk/tick.png</normaloff>:/icons/silk/tick.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Remove waypoint which are too close (in m)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QDoubleSpinBox" name="doubleSpinBoxRadius">
+            <property name="maximum">
+             <double>9999999.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>2.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QToolButton" name="toolButtonRemoveRadius">
+            <property name="icon">
+             <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+              <normaloff>:/icons/silk/tick.png</normaloff>:/icons/silk/tick.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="2">
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="4" column="0" colspan="3">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>Remove waypoint which have negative speed</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Remove waypoint with altitude (in m)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QDoubleSpinBox" name="doubleSpinBoxAltitude">
+            <property name="maximum">
+             <double>9999999.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>2.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
+           <widget class="QToolButton" name="toolButtonRemoveLowerHigherAltitude">
+            <property name="icon">
+             <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+              <normaloff>:/icons/silk/tick.png</normaloff>:/icons/silk/tick.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QToolButton" name="toolButtonHigherOrLowerAltitude">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string notr="true">&lt;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
-        <widget class="QWidget" name="tabWidgetPage2" native="true">
+        <widget class="QWidget" name="tabWidgetPage2">
          <attribute name="title">
           <string>Cleanup Waypoints</string>
          </attribute>
@@ -188,7 +202,7 @@
            </rect>
           </property>
           <property name="icon">
-           <iconset resource="../../GPSBook/icons.qrc">
+           <iconset>
             <normaloff>:/icons/resources/media-playback-start.png</normaloff>:/icons/resources/media-playback-start.png</iconset>
           </property>
          </widget>
@@ -231,7 +245,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../GPSBook/icons.qrc"/>
+  <include location="../../GPSBook/icons/silk/silk_icons.qrc"/>
  </resources>
  <connections>
   <connection>
