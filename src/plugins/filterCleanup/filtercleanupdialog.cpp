@@ -118,7 +118,7 @@ namespace PluginFilterCleanup {
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void FilterCleanupDialog::on_toolButtonRemoveHighSpeedRemoveHighAcceleration_clicked()
+    void FilterCleanupDialog::on_toolButtonRemoveHighAcceleration_clicked()
     {
         //mGPSData->lockGPSDataForWrite();
         setEnabled(false);
@@ -144,7 +144,7 @@ namespace PluginFilterCleanup {
         mGPSData->unlockGPSData();
         setEnabled(true);
         mGPSData->setModified(true);
-    } //FilterCleanupDialog::on_toolButtonRemoveHighSpeedRemoveHighAcceleration_clicked
+    } //FilterCleanupDialog::on_toolButtonRemoveHighAcceleration_clicked
 
     /*!
       \brief Calculate distance between 2 GPS lat/lon locations
@@ -181,7 +181,7 @@ namespace PluginFilterCleanup {
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void FilterCleanupDialog::on_toolButtonRemoveHighSpeedRemoveRadius_clicked()
+    void FilterCleanupDialog::on_toolButtonRemoveRadius_clicked()
     {
         WayPoint* waypointOrigin = 0;
         setEnabled(false);
@@ -218,5 +218,80 @@ namespace PluginFilterCleanup {
         mGPSData->unlockGPSData();
         setEnabled(true);
         mGPSData->setModified(true);
-    } //FilterCleanupDialog::on_toolButtonRemoveHighSpeedRemoveRadius_clicked
+    } //FilterCleanupDialog::on_toolButtonRemoveRadius_clicked
+}
+
+void PluginFilterCleanup::FilterCleanupDialog::on_toolButtonRemoveNegativeSpeed_clicked()
+{
+    //mGPSData->lockGPSDataForWrite();
+    setEnabled(false);
+    foreach (Track* track,mGPSData->trackList)
+    {
+        foreach (TrackSeg* trackSeg, track->trackSegList)
+        {
+            int iloop = 0;
+            m_ui->progressBar->setRange(0,trackSeg->wayPointList.count());
+            foreach (WayPoint* waypoint, trackSeg->wayPointList)
+            {
+                m_ui->progressBar->setValue(iloop++);
+                qApp->processEvents();
+
+                if (mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","speed").toDouble() < 0)
+                {
+                    trackSeg->wayPointList.removeAt(trackSeg->wayPointList.indexOf(waypoint,0));
+                }
+            }
+        }
+    }
+    m_ui->progressBar->setValue(0);
+    mGPSData->unlockGPSData();
+    setEnabled(true);
+    mGPSData->setModified(true);
+}
+
+void PluginFilterCleanup::FilterCleanupDialog::on_toolButtonHigherOrLowerAltitude_clicked()
+{
+    if (m_ui->toolButtonHigherOrLowerAltitude->text() == "<") {
+        m_ui->toolButtonHigherOrLowerAltitude->setText(">");
+    }
+    else{
+        m_ui->toolButtonHigherOrLowerAltitude->setText("<");
+    }
+}
+
+void PluginFilterCleanup::FilterCleanupDialog::on_toolButtonRemoveLowerHigherAltitude_clicked()
+{
+    //mGPSData->lockGPSDataForWrite();
+    setEnabled(false);
+    foreach (Track* track,mGPSData->trackList)
+    {
+        foreach (TrackSeg* trackSeg, track->trackSegList)
+        {
+            int iloop = 0;
+            m_ui->progressBar->setRange(0,trackSeg->wayPointList.count());
+            foreach (WayPoint* waypoint, trackSeg->wayPointList)
+            {
+                m_ui->progressBar->setValue(iloop++);
+                qApp->processEvents();
+
+                if (m_ui->toolButtonHigherOrLowerAltitude->text() == "<") {
+                    if (waypoint->ele <  m_ui->doubleSpinBoxAltitude->value())
+                    {
+                        trackSeg->wayPointList.removeAt(trackSeg->wayPointList.indexOf(waypoint,0));
+                    }
+                }
+                else
+                {
+                    if (waypoint->ele > m_ui->doubleSpinBoxAltitude->value())
+                    {
+                        trackSeg->wayPointList.removeAt(trackSeg->wayPointList.indexOf(waypoint,0));
+                    }
+                }
+            }
+        }
+    }
+    m_ui->progressBar->setValue(0);
+    mGPSData->unlockGPSData();
+    setEnabled(true);
+    mGPSData->setModified(true);
 }

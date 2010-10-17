@@ -51,8 +51,11 @@ namespace PluginFilterCleanup {
 
 
     private slots:
-        void on_toolButtonRemoveHighSpeedRemoveRadius_clicked();
-        void on_toolButtonRemoveHighSpeedRemoveHighAcceleration_clicked();
+        void on_toolButtonHigherOrLowerAltitude_clicked();
+        void on_toolButtonRemoveLowerHigherAltitude_clicked();
+        void on_toolButtonRemoveNegativeSpeed_clicked();
+        void on_toolButtonRemoveRadius_clicked();
+        void on_toolButtonRemoveHighAcceleration_clicked();
         void on_toolButtonRemoveHighSpeed_clicked();
         void on_toolButtonRemoveDesc_clicked();
     };

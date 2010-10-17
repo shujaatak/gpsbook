@@ -68,6 +68,7 @@ namespace PluginDisplayGraphic2D {
         QSettings* settings;
 
     private slots:
+        void on_actionDelete_selected_point_triggered();
         void on_toolButtonFullfil_clicked();
         void on_actionSplitSegment_triggered();
         void on_toolButtonGeoPlot_toggled(bool checked);

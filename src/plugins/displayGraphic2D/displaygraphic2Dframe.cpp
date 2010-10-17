@@ -111,6 +111,7 @@ namespace PluginDisplayGraphic2D {
 
         menuEdition = new QMenu();
         menuEdition->addAction(m_ui->actionSplitSegment);
+        menuEdition->addAction(m_ui->actionDelete_selected_point);
         m_ui->toolButtonEdit->setMenu(menuEdition);
 
 
@@ -383,6 +384,8 @@ namespace PluginDisplayGraphic2D {
             trackSeg->wayPointList.removeAt(trackList->selectedWaypointIndex);
         }
 
+        plot->rescale = false;
+        geoPlot->rescale = false;
         trackList->setModified(true);
         trackList->unlockGPSData();
     } //DisplayGraphic2DFrame::on_actionSplitSegment_triggered
@@ -396,4 +399,12 @@ namespace PluginDisplayGraphic2D {
         plot->fillcurve = m_ui->toolButtonFullfil->isChecked();
         plot->updateTracklistCurve(trackList,xAxis,yAxis);
     } // DisplayGraphic2DFrame::on_toolButtonFullfil_clicked
+}
+
+void PluginDisplayGraphic2D::DisplayGraphic2DFrame::on_actionDelete_selected_point_triggered()
+{
+    trackList->trackList[trackList->selectedTrackIndex]->trackSegList[trackList->selectedSegmentIndex]->wayPointList.removeAt(trackList->selectedWaypointIndex);
+    plot->rescale = false;
+    geoPlot->rescale = false;
+    trackList->setModified(true);
 }

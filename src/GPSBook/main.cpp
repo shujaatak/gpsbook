@@ -29,6 +29,7 @@
 #include <QPlastiqueStyle>
 #include <QSqlError>
 #include <QDebug>
+#include <iostream>
 #include "mainwindow.h"
 #include "dialogfirststart.h"
 #include "database.h"
@@ -41,24 +42,12 @@ int main(int argc, char *argv[])
 {
     GPSBookApplication application(argc, argv);
 
-    //Prepare splash screen
-    QPixmap pixmap(":/icons/gpsbook/splash.gif");
-    QSplashScreen splash(pixmap);
-    qApp->setActiveWindow(&splash);
-    splash.show();
-    qApp->processEvents();
-
     //Define application name and version
     QCoreApplication::setApplicationName("GPSBook");
     QCoreApplication::setApplicationVersion(QString(BUILD_VERSION) + "-" + QString(SVN_VERSION));
-    splash.showMessage(qApp->applicationName()+ " " + qApp->applicationVersion());
-    qApp->processEvents();
 
-    //Open settings and customisation of user
+    //Open settings
     QSettings settings("GPSBook","GPSBook");
-
-    //Load translation choosed by user
-    application.loadTranslations(QDir("../translations"));
     QString lang=settings.value("Translation","").toString();
 
     //Parse command line
@@ -69,12 +58,24 @@ int main(int argc, char *argv[])
             settings.setValue("FirstStart",true);
         } else if ( s.startsWith( "--lang" ) ) {
             lang=args[i++];
+        } else if (s.startsWith("--version")){
+            std::cout << "gpsbook version " << qApp->applicationVersion().toStdString() << endl;
+            std::cout << "copyright (c) 2009-2010, gpsbook-team" << endl;
+            return 0;
         }
     }
 
-    //Apply translation
-    GPSBookApplication::setLanguage(lang);
+    //Prepare splash screen
+    QPixmap pixmap(":/icons/gpsbook/splash.gif");
+    QSplashScreen splash(pixmap);
+    qApp->setActiveWindow(&splash);
+    splash.show();
+    splash.showMessage(qApp->applicationName()+ " " + qApp->applicationVersion());
+    qApp->processEvents();
 
+    //Apply translation
+    application.loadTranslations(QDir("../translations"));
+    GPSBookApplication::setLanguage(lang);
 
     //First start of application: initialize the application
     if (settings.value("FirstStart",true).toBool())
