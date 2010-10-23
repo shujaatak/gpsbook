@@ -7,8 +7,8 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{D213F2FB-7B4E-4686-B5E2-456DD963AFC8}
 AppName=GPSBook
-AppVersion=0.1-Alpha3
-AppVerName=GPSBook 0.1-Alpha3
+AppVersion=0.1-Alpha6
+AppVerName=GPSBook 0.1-Alpha6
 AppPublisher=gpsbook-team
 AppPublisherURL=http://gpsbook.free.fr/
 AppSupportURL=http://gpsbook.free.fr/
@@ -18,7 +18,7 @@ DefaultGroupName=GPSBook
 AllowNoIcons=no
 LicenseFile=C:\Developpement\GPSBook\delivery\package\gpl-2.0.txt
 OutputDir=C:\Developpement\GPSBook\delivery\package\windows
-OutputBaseFilename=gpsbook_setup_alpha3
+OutputBaseFilename=gpsbook_setup_alpha6
 Compression=lzma
 SolidCompression=yes
 
@@ -67,6 +67,9 @@ Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\GPSBook"; Filename
 
 [Run]
 Filename: "{app}\bin\gpsbook.exe"; Description: "{cm:LaunchProgram,GPSBook}"; Flags: nowait postinstall skipifsilent
+
+
+
 
 
 

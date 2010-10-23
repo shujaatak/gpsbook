@@ -25,9 +25,10 @@ CONFIG   += ordered
 
 SUBDIRS = GPSBook \
           #plugins/displayBlogging \
+          #plugins/displayEditTrack \
           #plugins/displayGeoPortail \
           plugins/displayGoogleMap \
-          plugins/displayGPSBabel \
+          #plugins/displayGPSBabel \
           #plugins/displayGPSBabel/Gebabbel-0.4/Gebabbel.pro \
           plugins/displayGpxViewDotCom \
           plugins/displayGraphic2D \
@@ -35,7 +36,10 @@ SUBDIRS = GPSBook \
           #plugins/displayGraphic3D/libQGLViewer/QGLViewer \
           plugins/displayInformation \
           #plugins/displayMailTo \
+		  #plugins/displayPathTags \
+          #plugins/displayPoI \
           #plugins/displayPictSync \
+          #plugins/displayRawEditor \
           #plugins/displayReport \
           #plugins/displayRoadBook \
           plugins/displayStatistic \

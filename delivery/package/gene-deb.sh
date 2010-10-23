@@ -10,7 +10,7 @@ cd $SRC_DIR
 #Define the global variable needed to build the packet
 TARGET=$(uname -m)
 #VERSION=$(grep DBUILD_VERSION GPSBookConfig.pro | cut -d\" -f2 | sed "s/\\\//g")-$(date +"%Y%m%d%H%M%S")
-VERSION=$(grep DBUILD_VERSION GPSBookConfig.pro | cut -d\" -f2 | sed "s/\\\//g")-$(svnversion . | cut -f '2' -d ':')
+VERSION=$(grep DBUILD_VERSION GPSBookConfig.pro | cut -d\" -f2 | sed "s/\\\//g")-$(svnversion ../.. | cut -f '2' -d ':')
 DATETIME=$(date -R)
 DATE=$(date +"%F")
 
