@@ -19,31 +19,31 @@
 ** Copyright (c) 2010, gpsbook-team
 **
 ****************************************************************************/
-#include "displaygpxviewdotcomhelp.h"
-#include "ui_displaygpxviewdotcomhelp.h"
+#include "displayinternetbrowserhelp.h"
+#include "ui_displayinternetbrowserhelp.h"
 
 /*------------------------------------------------------------------------------*
 
  *------------------------------------------------------------------------------*/
-DisplayGpxViewDotComHelp::DisplayGpxViewDotComHelp(QWidget *parent) :
+DisplayInternetBrowserHelp::DisplayInternetBrowserHelp(QWidget *parent) :
     QTextBrowser(parent),
-    ui(new Ui::DisplayGpxViewDotComHelp)
+    ui(new Ui::DisplayInternetBrowserHelp)
 {
     ui->setupUi(this);
-} //DisplayGpxViewDotComHelp::DisplayGpxViewDotComHelp
+} //DisplayInternetBrowserHelp::DisplayInternetBrowserHelp
 
 /*------------------------------------------------------------------------------*
 
  *------------------------------------------------------------------------------*/
-DisplayGpxViewDotComHelp::~DisplayGpxViewDotComHelp()
+DisplayInternetBrowserHelp::~DisplayInternetBrowserHelp()
 {
     delete ui;
-} //DisplayGpxViewDotComHelp::~DisplayGpxViewDotComHelp
+} //DisplayInternetBrowserHelp::~DisplayInternetBrowserHelp
 
 /*------------------------------------------------------------------------------*
 
  *------------------------------------------------------------------------------*/
-void DisplayGpxViewDotComHelp::changeEvent(QEvent *e)
+void DisplayInternetBrowserHelp::changeEvent(QEvent *e)
 {
     QFrame::changeEvent(e);
     switch (e->type()) {
@@ -53,4 +53,4 @@ void DisplayGpxViewDotComHelp::changeEvent(QEvent *e)
     default:
         break;
     }
-} //DisplayGpxViewDotComHelp::changeEvent
+} //DisplayInternetBrowserHelp::changeEvent

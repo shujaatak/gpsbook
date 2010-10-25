@@ -28,18 +28,18 @@ SUBDIRS = GPSBook \
           #plugins/displayEditTrack \
           #plugins/displayGeoPortail \
           plugins/displayGoogleMap \
-          #plugins/displayGPSBabel \
+          plugins/displayGPSBabel \
           #plugins/displayGPSBabel/Gebabbel-0.4/Gebabbel.pro \
-          plugins/displayGpxViewDotCom \
           plugins/displayGraphic2D \
           plugins/displayGraphic3D \
           #plugins/displayGraphic3D/libQGLViewer/QGLViewer \
           plugins/displayInformation \
+          plugins/displayInternetBrowser \
           #plugins/displayMailTo \
-		  #plugins/displayPathTags \
+          #plugins/displayPathTags \
           #plugins/displayPoI \
           #plugins/displayPictSync \
-          #plugins/displayRawEditor \
+          plugins/displayRawEditor \
           #plugins/displayReport \
           #plugins/displayRoadBook \
           plugins/displayStatistic \

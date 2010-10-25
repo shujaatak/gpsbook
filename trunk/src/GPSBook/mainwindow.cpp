@@ -148,9 +148,10 @@ namespace GPSBook {
         loadPlugins();
 
         //------------------- Catalog -------------------
-        //Init calendar and  treeveiw
+        //Init calendar and  treeview
         Database::initCalendarWidget(ui->calendarWidget);
-        Database::updateTreeWidget(ui->treeWidgetCatalog, QDate::currentDate());
+        Database::updateTreeWidget(ui->treeWidgetTracksOfTheDay, QDate::currentDate());
+        Database::updateTreeWidget(ui->treeWidgetUndateTracks, QDate(0,0,0));
         updateNavigationButtons();
 
         //------------------- Preferences -------------------
@@ -498,7 +499,8 @@ namespace GPSBook {
                         //Add the file into the database
                         Database::addFileInDatabase(storagePath +"/data/"+info.fileName());
                         //Update gpx list
-                        Database::updateTreeWidget(ui->treeWidgetCatalog, ui->calendarWidget->selectedDate());
+                        Database::updateTreeWidget(ui->treeWidgetUndateTracks, QDate(0,0,0));
+
                     }
                 }
                 else
@@ -834,7 +836,7 @@ namespace GPSBook {
      *------------------------------------------------------------------------------*/
     void MainWindow::treeWidgetContextMenuClicked()
     {
-        QTreeWidgetItem *index = ui->treeWidgetCatalog->currentItem();
+        QTreeWidgetItem *index = ui->treeWidgetTracksOfTheDay->currentItem();
         DialogTrackProperty *trackProperty = new DialogTrackProperty();
         trackProperty->setFileName(index->data(0,Qt::UserRole).toString());
         trackProperty->setDisplayName(index->data(0,Qt::UserRole + 1).toString());
@@ -844,21 +846,35 @@ namespace GPSBook {
             ui->labelTrackName->setText( trackProperty->displayName() );
         }
         Database::updateTrackProperties(trackProperty->fileName(), trackProperty->displayName(), trackProperty->description());
-        Database::updateTreeWidget(ui->treeWidgetCatalog, ui->calendarWidget->selectedDate());
+        Database::updateTreeWidget(ui->treeWidgetTracksOfTheDay, ui->calendarWidget->selectedDate());
+        Database::updateTreeWidget(ui->treeWidgetUndateTracks, QDate(0,0,0));
         delete trackProperty;
     } //MainWindow::treeWidgetContextMenuClicked
+
+
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void MainWindow::on_treeWidgetCatalog_doubleClicked(QModelIndex index)
+    void MainWindow::on_treeWidgetUndateTracks_doubleClicked(QModelIndex index){
+        if ( index.data(Qt::UserRole).toString() != mGPSData->filename)
+        {
+            loadFile(index.data(Qt::UserRole).toString(),true);
+        }
+        ui->labelTrackName->setText(ui->treeWidgetUndateTracks->currentItem()->text(0));
+    } //MainWindow::on_treeWidgetUndateTracks_doubleClicked
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void MainWindow::on_treeWidgetTracksOfTheDay_doubleClicked(QModelIndex index)
     {
         if ( index.data(Qt::UserRole).toString() != mGPSData->filename)
         {
             loadFile(index.data(Qt::UserRole).toString(),true);
         }
-        ui->labelTrackName->setText(ui->treeWidgetCatalog->currentItem()->text(0));
-    } //MainWindow::on_treeWidgetCatalog_doubleClicked
+        ui->labelTrackName->setText(ui->treeWidgetTracksOfTheDay->currentItem()->text(0));
+    } //MainWindow::on_treeWidgetTracksOfTheDay_doubleClicked
 
     /*------------------------------------------------------------------------------*
 
@@ -874,7 +890,7 @@ namespace GPSBook {
     void MainWindow::on_calendarWidget_selectionChanged()
     {
         qDebug() << __FILE__ << __FUNCTION__;
-        Database::updateTreeWidget(ui->treeWidgetCatalog, ui->calendarWidget->selectedDate());
+        Database::updateTreeWidget(ui->treeWidgetTracksOfTheDay, ui->calendarWidget->selectedDate());
         updateNavigationButtons();
     } //MainWindow::on_calendarWidget_selectionChanged
 
@@ -906,25 +922,33 @@ namespace GPSBook {
         ui->calendarWidget->setSelectedDate(nextDate);
     } //MainWindow::on_toolButtonNext_clicked
 
+
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void MainWindow::on_treeWidgetCatalog_customContextMenuRequested(QPoint pos)
+    void MainWindow::on_treeWidgetUndateTracks_customContextMenuRequested(QPoint pos) {
+        on_treeWidgetTracksOfTheDay_customContextMenuRequested(pos);
+    } //MainWindow::on_treeWidgetUndateTracks_customContextMenuRequested
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void MainWindow::on_treeWidgetTracksOfTheDay_customContextMenuRequested(QPoint pos)
     {
-        QMenu menu(ui->treeWidgetCatalog);
-        QAction *action = new QAction(tr("Properties..."),ui->treeWidgetCatalog);
+        QMenu menu(ui->treeWidgetTracksOfTheDay);
+        QAction *action = new QAction(tr("Properties..."),ui->treeWidgetTracksOfTheDay);
         menu.addAction(action);
         QObject::connect(action, SIGNAL(triggered()), this, SLOT(treeWidgetContextMenuClicked()));
-        menu.exec(ui->treeWidgetCatalog->mapToGlobal(pos));
-    } //MainWindow::on_treeWidgetCatalog_customContextMenuRequested
+        menu.exec(ui->treeWidgetTracksOfTheDay->mapToGlobal(pos));
+    } //MainWindow::on_treeWidgetTracksOfTheDay_customContextMenuRequested
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void MainWindow::on_treeWidgetCatalog_itemSelectionChanged()
+    void MainWindow::on_treeWidgetTracksOfTheDay_itemSelectionChanged()
     {
-        ui->toolButtonDelete->setEnabled(ui->treeWidgetCatalog->selectedItems().count() == 1);
-    } //MainWindow::on_treeWidgetCatalog_itemSelectionChanged
+        ui->toolButtonDelete->setEnabled(ui->treeWidgetTracksOfTheDay->selectedItems().count() == 1);
+    } //MainWindow::on_treeWidgetTracksOfTheDay_itemSelectionChanged
 
     /*------------------------------------------------------------------------------*
 
@@ -933,13 +957,13 @@ namespace GPSBook {
     {
         if ( QMessageBox::question(NULL,qApp->applicationName(),tr("Are you sure you want to delete this track?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes )
         {
-            QTreeWidgetItem *index = ui->treeWidgetCatalog->currentItem();
+            QTreeWidgetItem *index = ui->treeWidgetTracksOfTheDay->currentItem();
             Database::deleteTrack(index->data(0,Qt::UserRole).toString());
             if ( index->data(0,Qt::UserRole).toString() == mGPSData->filename )
             {
                 on_actionClose_current_trace_triggered();
             }
-            Database::updateTreeWidget(ui->treeWidgetCatalog, ui->calendarWidget->selectedDate());
+            Database::updateTreeWidget(ui->treeWidgetTracksOfTheDay, ui->calendarWidget->selectedDate());
             Database::initCalendarWidget(ui->calendarWidget);
             updateNavigationButtons();
         }
@@ -967,7 +991,8 @@ namespace GPSBook {
         if ( mGPSData->isFromCatalog )
         {
             Database::updateDate(mGPSData->filename, mGPSData->metadata->time.date());
-            Database::updateTreeWidget(ui->treeWidgetCatalog, ui->calendarWidget->selectedDate());
+            Database::updateTreeWidget(ui->treeWidgetTracksOfTheDay, ui->calendarWidget->selectedDate());
+            Database::updateTreeWidget(ui->treeWidgetUndateTracks, QDate(0,0,0));
             Database::initCalendarWidget(ui->calendarWidget);
             updateNavigationButtons();
 
@@ -1017,7 +1042,8 @@ namespace GPSBook {
         Database::addTrackInDatabase(mGPSData);
         Database::initCalendarWidget(ui->calendarWidget);
         ui->calendarWidget->setSelectedDate(mGPSData->metadata->time.date());
-        Database::updateTreeWidget(ui->treeWidgetCatalog, ui->calendarWidget->selectedDate());
+        Database::updateTreeWidget(ui->treeWidgetTracksOfTheDay, ui->calendarWidget->selectedDate());
+        Database::updateTreeWidget(ui->treeWidgetUndateTracks, QDate(0,0,0));
         updateNavigationButtons();
         ui->toolButtonInCatalog->setChecked(true);
         ui->toolButtonAddToCatalog->setChecked(true);

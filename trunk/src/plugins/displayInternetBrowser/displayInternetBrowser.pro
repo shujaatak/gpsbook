@@ -3,36 +3,37 @@
 # -------------------------------------------------
 include ( ../../GPSBook/GPSBookConfig.pro)
 
-DEFINES  += QT_NO_WARNING_OUTPUT
-DEFINES  += QT_NO_DEBUG_OUTPUT
+#DEFINES  += QT_NO_WARNING_OUTPUT
+#DEFINES  += QT_NO_DEBUG_OUTPUT
 
 QT += webkit
 QT += network
-TARGET = displayGpxViewDotCom
+TARGET = displayInternetBrowser
 DESTDIR = ../../../delivery/plugins
 TEMPLATE = lib
-DEFINES += DISPLAYGPXVIEWDOTCOM_LIBRARY
+DEFINES += DISPLAYINTERNETBROWSER_LIBRARY
 INCLUDEPATH += ../../GPSBook
-SOURCES += displaygpxviewdotcom.cpp \
-    displaygpxviewdotcomframe.cpp \
-    displaygpxviewdotcomhelp.cpp \
-    displaygpxviewdotcomoptionsframe.cpp \
+SOURCES += displayinternetbrowser.cpp \
+    displayinternetbrowserframe.cpp \
+    displayinternetbrowserhelp.cpp \
+    displayinternetbrowseroptionsframe.cpp \
     ../../GPSBook/gpsdata.cpp \
     ../../GPSBook/QProgressIndicator.cpp
-HEADERS += displaygpxviewdotcom.h \
+HEADERS += displayinternetbrowser.h \
     ../../GPSBook/gpsdata.h \
     pixmap.h \
     ../../GPSBook/interface.h \
-    displaygpxviewdotcomhelp.h \
-    displaygpxviewdotcomoptionsframe.h \
-    displaygpxviewdotcomframe.h \
+    displayinternetbrowserhelp.h \
+    displayinternetbrowseroptionsframe.h \
+    displayinternetbrowserframe.h \
     ../../GPSBook/QProgressIndicator.h
-TRANSLATIONS = displayGpxViewDotCom_fr_fr.ts \
-               displayGpxViewDotCom_en_us.ts
-OTHER_FILES +=
-FORMS += displaygpxviewdotcomhelp.ui \
-    displaygpxviewdotcomoptionsframe.ui \
-    displaygpxviewdotcomframe.ui
+TRANSLATIONS = displayInternetBrowser_fr_fr.ts \
+               displayInternetBrowser_en_us.ts
+OTHER_FILES += \
+    welcome.html
+FORMS += displayinternetbrowserhelp.ui \
+    displayinternetbrowseroptionsframe.ui \
+    displayinternetbrowserframe.ui
 
 # -------------------------------------------------
 # http://www.gpx-view.com/ owner
@@ -43,3 +44,6 @@ FORMS += displaygpxviewdotcomhelp.ui \
 #   FR
 #   +33534520969
 # -------------------------------------------------
+
+RESOURCES += \
+    displayInternetBrowser.qrc

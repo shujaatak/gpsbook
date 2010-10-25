@@ -106,14 +106,16 @@ namespace GPSBook {
         void on_actionAbout_triggered();
         void on_actionSave_triggered();
         void on_toolButtonDelete_clicked();
-        void on_treeWidgetCatalog_itemSelectionChanged();
-        void on_treeWidgetCatalog_customContextMenuRequested(QPoint pos);
+        void on_treeWidgetUndateTracks_customContextMenuRequested(QPoint pos);
+        void on_treeWidgetUndateTracks_doubleClicked(QModelIndex index);
+        void on_treeWidgetTracksOfTheDay_itemSelectionChanged();
+        void on_treeWidgetTracksOfTheDay_customContextMenuRequested(QPoint pos);
+        void on_treeWidgetTracksOfTheDay_doubleClicked(QModelIndex index);
         void on_toolButtonNext_clicked();
         void on_toolButtonPrev_clicked();
         void on_calendarWidget_selectionChanged();
         void on_toolButtonHome_clicked();
         void treeWidgetContextMenuClicked();
-        void on_treeWidgetCatalog_doubleClicked(QModelIndex index);
         void on_toolButtonAdd_clicked();
         void on_actionAboutQt_triggered();
 

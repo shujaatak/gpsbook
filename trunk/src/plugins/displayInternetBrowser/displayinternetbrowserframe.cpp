@@ -26,31 +26,40 @@
 #include <QDir>
 #include <QDebug>
 #include <QMenu>
+#include <QToolBar>
+#include "displayinternetbrowserframe.h"
+#include "ui_displayinternetbrowserframe.h"
 #include "interface.h"
-#include "displaygpxviewdotcom.h"
-#include "displaygpxviewdotcomframe.h"
-#include "ui_displaygpxviewdotcomframe.h"
+#include "displayinternetbrowser.h"
 
 using namespace GPSBook;
 
-namespace PluginDisplayGpxViewDotCom {
+namespace PluginDisplayInternetBrowser {
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    DisplayGpxViewDotComFrame::DisplayGpxViewDotComFrame(QWidget *parent) :
-    QFrame(parent), m_ui(new Ui::DisplayGpxViewDotComFrame)
+    DisplayInternetBrowserFrame::DisplayInternetBrowserFrame(QWidget *parent) :
+    QFrame(parent), m_ui(new Ui::DisplayInternetBrowserFrame)
     {
         m_ui->setupUi(this);
 
+        QToolBar* toolbar = new QToolBar();
+        m_ui->horizontalLayout->insertWidget(0,toolbar);
+
         progressIndicator = new QProgressIndicator();
         m_ui->horizontalLayout->addWidget(progressIndicator);
+
+        toolbar->addAction(m_ui->webView->pageAction(QWebPage::Back));
+        toolbar->addAction(m_ui->webView->pageAction(QWebPage::Forward));
+        toolbar->addAction(m_ui->webView->pageAction(QWebPage::Reload));
+        toolbar->addAction(m_ui->webView->pageAction(QWebPage::Stop));
         connect(m_ui->webView, SIGNAL(loadStarted()),progressIndicator,SLOT(startAnimation()));
         connect(m_ui->webView, SIGNAL(loadFinished(bool)),progressIndicator,SLOT(stopAnimation()));
 
         tmpFile = new QTemporaryFile (QDir::tempPath() + QDir::separator() + QCoreApplication::applicationName() + "_gpx-view.gpx");
 
-        activeSite = "http://www.gpx-view.com/gpxMap.php";
+        activeSite = "qrc:///welcome.html";
 
         proxy.setType(QNetworkProxy::HttpProxy);
         proxy.setHostName("127.0.0.1");
@@ -62,23 +71,23 @@ namespace PluginDisplayGpxViewDotCom {
         m_ui->webView->page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
 
 
-    } //DisplayGpxViewDotComFrame::DisplayGpxViewDotComFrame
+    } //DisplayInternetBrowserFrame::DisplayInternetBrowserFrame
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    DisplayGpxViewDotComFrame::~DisplayGpxViewDotComFrame()
+    DisplayInternetBrowserFrame::~DisplayInternetBrowserFrame()
     {
         if (tmpFile->exists()) {
             tmpFile->remove();
         }
         delete m_ui;
-    } //DisplayGpxViewDotComFrame::~DisplayGpxViewDotComFrame
+    } //DisplayInternetBrowserFrame::~DisplayInternetBrowserFrame
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotComFrame::changeEvent(QEvent *e)
+    void DisplayInternetBrowserFrame::changeEvent(QEvent *e)
     {
         switch (e->type()) {
         case QEvent::LanguageChange:
@@ -87,73 +96,95 @@ namespace PluginDisplayGpxViewDotCom {
         default:
             break;
         }
-    }//DisplayGpxViewDotComFrame::changeEvent
+    }//DisplayInternetBrowserFrame::changeEvent
 
     /*------------------------------------------------------------------------------*
       Action to perform when file is about to be downloaded
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotComFrame::unsupportedContent ( QNetworkReply * reply )
+    void DisplayInternetBrowserFrame::unsupportedContent ( QNetworkReply * reply )
     {
         QString content = reply->rawHeader("Content-Disposition");
         if ( content.contains("gpx"))
         {
-            //Ask confirmation of download
-            if (QMessageBox::information(this,
-                                         tr("Downloading Track"),
-                                         qApp->applicationName()+" "+tr("is about to load the trace.") ,
-                                         QMessageBox::Ok|QMessageBox::Cancel) == QMessageBox::Ok)
-            {
+            int ret = QMessageBox::Cancel;
+            if (mGPSData->trackList.isEmpty() &&
+                mGPSData->routeList.isEmpty() &&
+                mGPSData->wayPointList.isEmpty() ) {
+
+                ret = QMessageBox::information(this,
+                                             tr("Downloading Track"),
+                                             qApp->applicationName()+" "+tr("is about to load the trace.") ,
+                                             QMessageBox::Ok|QMessageBox::Cancel);
+            }
+            else {
+                ret = QMessageBox::information(this,
+                                               tr("Downloading Track and append to the current track"),
+                                               tr("Do you want to append the loaded data to the current track ?") ,
+                                               QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel);
+            }
+            if (ret != QMessageBox::Cancel) {
                 //Download file
                 QByteArray data(reply->readAll());
-
                 if (tmpFile->open()) {
                     //Store data into a temporary file
-                    QString fileName = tmpFile->fileName();
                     tmpFile->write(data);
                     tmpFile->close();
-                    //qDebug() <<  "DisplayGpxViewDotComFrame" << "::" << __FUNCTION__ << "-> File saved:" << fileName;
-
-                    // Check if type is supported
-
-                    // Send signal to main application to load file
-                    pluginOwner->loadFile(fileName);
-                    //QString filename = reply->rawHeader("Content-Disposition");
-                    //filename = filename.right(filename.length()-filename.indexOf("=")-1);
-                    mGPSData->filename=fileName;
-
+                    //qDebug() <<  "DisplayInternetBrowserFrame" << "::" << __FUNCTION__ << "-> File saved:" << fileName;
+                }
+                else {
+                    //ERROR
+                    QMessageBox::critical(this,
+                                          tr("Downloading error"),
+                                          qApp->applicationName()+" "+tr("was enabled to load the trace.") ,
+                                          QMessageBox::Ok);
                 }
             }
+
+            switch (ret)
+            {
+                case QMessageBox::Yes :
+                    //TODO: if a file is already loaded, ask if info dowloaded should be appended to the current trace
+                break;
+                case QMessageBox::Ok :
+                case QMessageBox::No :
+                        // Send signal to main application to load file
+                        pluginOwner->loadFile(tmpFile->fileName());
+                        //QString filename = reply->rawHeader("Content-Disposition");
+                        //filename = filename.right(filename.length()-filename.indexOf("=")-1);
+                        mGPSData->filename=tmpFile->fileName();
+                break;
+            }
         }
-    } //DisplayGpxViewDotComFrame::unsupportedContent
+    } //DisplayInternetBrowserFrame::unsupportedContent
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotComFrame::init(GPSData* gpsdata)
+    void DisplayInternetBrowserFrame::init(GPSData* gpsdata)
     {
         mGPSData = gpsdata;
-    } //DisplayGpxViewDotComFrame::init
+    } //DisplayInternetBrowserFrame::init
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotComFrame::on_buttonRefresh_clicked(bool )
+    void DisplayInternetBrowserFrame::refreshPage()
     {
         m_ui->webView->setUrl(QUrl(activeSite));
-    } //DisplayGpxViewDotComFrame::on_commandLinkButton_clicked
+    } //DisplayInternetBrowserFrame::on_commandLinkButton_clicked
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotComFrame::downloadFinished()
+    void DisplayInternetBrowserFrame::downloadFinished()
     {
         unsupportedContent(reply);
-    } //DisplayGpxViewDotComFrame::downloadFinished
+    } //DisplayInternetBrowserFrame::downloadFinished
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotComFrame::on_webView_linkClicked(QUrl url)
+    void DisplayInternetBrowserFrame::on_webView_linkClicked(QUrl url)
     {
         if ( url.toString().contains("gpx2gpx.php")  || // gpx-view.com
              url.toString().contains("download.php")    // visugpx.com
@@ -169,27 +200,36 @@ namespace PluginDisplayGpxViewDotCom {
             qDebug() << __FILE__ << __FUNCTION__ << "followlink(" << url << ")";
             m_ui->webView->setUrl(url);
         }
-    } //DisplayGpxViewDotComFrame::on_webView_linkClicked
+    } //DisplayInternetBrowserFrame::on_webView_linkClicked
 
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotComFrame::on_buttonGpxView_toggled(bool)
+    void DisplayInternetBrowserFrame::on_buttonGpxView_toggled(bool)
     {
         activeSite = "http://www.gpx-view.com/gpxMap.php";
         m_ui->webView->setUrl(QUrl(activeSite));
-    } //DisplayGpxViewDotComFrame::on_buttonGpxView_toggled
+    } //DisplayInternetBrowserFrame::on_buttonGpxView_toggled
 
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotComFrame::on_buttonVisuGpx_toggled(bool)
+    void DisplayInternetBrowserFrame::on_buttonVisuGpx_toggled(bool)
     {
         activeSite = "http://www.visugpx.com/recherche.php5";
         m_ui->webView->setUrl(QUrl(activeSite));
-    } //DisplayGpxViewDotComFrame::on_buttonVisuGpx_toggled
+    } //DisplayInternetBrowserFrame::on_buttonVisuGpx_toggled
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInternetBrowserFrame::on_buttonGeoCaching_toggled(bool)
+    {
+        activeSite = "http://www.geocaching.com/";
+        m_ui->webView->setUrl(QUrl(activeSite));
+    } //DisplayInternetBrowserFrame::on_buttonVisuGpx_toggled
 
 }
 

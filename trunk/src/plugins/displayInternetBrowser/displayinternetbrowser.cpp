@@ -24,118 +24,118 @@
 #include <QMessageBox>
 #include <QDebug>
 #include "pixmap.h"
-#include "displaygpxviewdotcom.h"
+#include "displayinternetbrowser.h"
 
 using namespace GPSBook;
 
-namespace PluginDisplayGpxViewDotCom {
+namespace PluginDisplayInternetBrowser {
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    DisplayGpxViewDotCom::DisplayGpxViewDotCom()
+    DisplayInternetBrowser::DisplayInternetBrowser()
     {
-        //qDebug() << "DisplayGpxViewDotCom::DisplayGpxViewDotCom()";
-        mOptions = new DisplayGpxViewDotComOptionsFrame();
-        mHelp    = new DisplayGpxViewDotComHelp();
-        mView    = new DisplayGpxViewDotComFrame();
+        //qDebug() << "DisplayInternetBrowser::DisplayInternetBrowser()";
+        mOptions = new DisplayInternetBrowserOptionsFrame();
+        mHelp    = new DisplayInternetBrowserHelp();
+        mView    = new DisplayInternetBrowserFrame();
         mView->pluginOwner = this;
         firstDisplay = true;
-    } //DisplayGpxViewDotCom::DisplayGpxViewDotCom
+    } //DisplayInternetBrowser::DisplayInternetBrowser
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotCom::on_gpsdataChanged()
+    void DisplayInternetBrowser::on_gpsdataChanged()
     {
         update();
-    } //DisplayGpxViewDotCom::on_gpsdataChanged
+    } //DisplayInternetBrowser::on_gpsdataChanged
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    QString DisplayGpxViewDotCom::getName()
+    QString DisplayInternetBrowser::getName()
     {
-        return tr("GPX-View.com");
-    } //DisplayGpxViewDotCom::getName
+        return tr("Internet Browser");
+    } //DisplayInternetBrowser::getName
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    QWidget* DisplayGpxViewDotCom::getHelp()
+    QWidget* DisplayInternetBrowser::getHelp()
     {
         return mHelp;
-    } //DisplayGpxViewDotCom::getHelp
+    } //DisplayInternetBrowser::getHelp
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    QWidget* DisplayGpxViewDotCom::getOptions()
+    QWidget* DisplayInternetBrowser::getOptions()
     {
         return mOptions;
-    } //DisplayGpxViewDotCom::getOptions
+    } //DisplayInternetBrowser::getOptions
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotCom::init( QWidget* , GPSData* gpsdata )
+    void DisplayInternetBrowser::init( QWidget* , GPSData* gpsdata )
     {
         qDebug( )  << __FILE__ << __FUNCTION__;
         connect((QObject*)gpsdata, SIGNAL(signalGPSDataUpdated()),
                 (QObject*)this,    SLOT  (on_gpsdataChanged   ()));
         mView->init(gpsdata);
-    } //DisplayGpxViewDotCom::init
+    } //DisplayInternetBrowser::init
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    QWidget* DisplayGpxViewDotCom::getWidget()
+    QWidget* DisplayInternetBrowser::getWidget()
     {
-        //qDebug() << "DisplayGpxViewDotCom::getWidget()";
+        //qDebug() << "DisplayInternetBrowser::getWidget()";
         return mView;
-    } //DisplayGpxViewDotCom::getWidget
+    } //DisplayInternetBrowser::getWidget
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    QIcon DisplayGpxViewDotCom::getIcon()
+    QIcon DisplayInternetBrowser::getIcon()
     {
         return QIcon(gpsview_xpm);
-    } //DisplayGpxViewDotCom::getIcon
+    } //DisplayInternetBrowser::getIcon
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotCom::loadFile(QString filename)
+    void DisplayInternetBrowser::loadFile(QString filename)
     {
         emit signalLoadFile(filename,false);
-    } //DisplayGpxViewDotCom::loadFile
+    } //DisplayInternetBrowser::loadFile
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotCom::on_showPlugin()
+    void DisplayInternetBrowser::on_showPlugin()
     {
         if (firstDisplay)
         {
-            mView->on_buttonRefresh_clicked(true);
+            mView->refreshPage();
             firstDisplay = false;
         }
         emit signalSetTrackSelection(false,false,false,false,false);
-    } //DisplayGpxViewDotCom::on_showPlugin
+    } //DisplayInternetBrowser::on_showPlugin
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotCom::on_fileLoaded()
+    void DisplayInternetBrowser::on_fileLoaded()
     {
         emit signalSetTrackSelection(false,false,false,false,false);
-    } //DisplayGpxViewDotCom::on_fileLoaded
+    } //DisplayInternetBrowser::on_fileLoaded
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGpxViewDotCom::on_about()
+    void DisplayInternetBrowser::on_about()
     {
         QWidget* tmp = new QWidget();
         tmp->setWindowIcon(getIcon());
@@ -162,7 +162,7 @@ namespace PluginDisplayGpxViewDotCom {
                         "</body>"
                     "</html>"
                     );
-    } //DisplayGpxViewDotCom::about
+    } //DisplayInternetBrowser::about
 
-    Q_EXPORT_PLUGIN2(DisplayGpxViewDotCom, DisplayGpxViewDotCom)
+    Q_EXPORT_PLUGIN2(DisplayInternetBrowser, DisplayInternetBrowser)
 }

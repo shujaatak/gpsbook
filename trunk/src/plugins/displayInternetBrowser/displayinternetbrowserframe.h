@@ -19,8 +19,8 @@
 ** Copyright (c) 2009, gpsbook-team
 **
 ****************************************************************************/
-#ifndef DISPLAYGPXVIEWDOTCOMFRAME_H
-#define DISPLAYGPXVIEWDOTCOMFRAME_H
+#ifndef DISPLAYINTERNETBROWSERFRAME_H
+#define DISPLAYINTERNETBROWSERFRAME_H
 
 #include <QtGui/QFrame>
 #include <QUrl>
@@ -37,33 +37,33 @@
 #include "QProgressIndicator.h"
 
 namespace Ui {
-    class DisplayGpxViewDotComFrame;
+    class DisplayInternetBrowserFrame;
 }
 
 using namespace GPSBook;
 using namespace ProgressIndicator;
 
-namespace PluginDisplayGpxViewDotCom {
+namespace PluginDisplayInternetBrowser {
 
-    class DisplayGpxViewDotCom;
+    class DisplayInternetBrowser;
 
-    class DisplayGpxViewDotComFrame : public QFrame{ //, public QThread {
+    class DisplayInternetBrowserFrame : public QFrame{ //, public QThread {
         Q_OBJECT
-        Q_DISABLE_COPY(DisplayGpxViewDotComFrame)
+        Q_DISABLE_COPY(DisplayInternetBrowserFrame)
 
     public:
-        explicit DisplayGpxViewDotComFrame(QWidget *parent = 0);
-        virtual ~DisplayGpxViewDotComFrame();
+        explicit DisplayInternetBrowserFrame(QWidget *parent = 0);
+        virtual ~DisplayInternetBrowserFrame();
         void on_gpsdataChanged();
         void init(GPSData* gpsdata);
         void run() {}
-        DisplayGpxViewDotCom* pluginOwner;
+        DisplayInternetBrowser* pluginOwner;
 
     protected:
         virtual void changeEvent(QEvent *e);
 
     private:
-        Ui::DisplayGpxViewDotComFrame *m_ui;
+        Ui::DisplayInternetBrowserFrame *m_ui;
         GPSData* mGPSData;
         QString activeSite;
         QMenu* menu;
@@ -75,15 +75,16 @@ namespace PluginDisplayGpxViewDotCom {
 
     public slots:
         void unsupportedContent ( QNetworkReply* reply );
-        void on_buttonRefresh_clicked( bool );
+        void refreshPage();
 
     private slots:
         void downloadFinished();
         void on_webView_linkClicked( QUrl url );
         void on_buttonGpxView_toggled(bool);
         void on_buttonVisuGpx_toggled(bool);
+        void on_buttonGeoCaching_toggled(bool);
 
   };
 }
 
-#endif // DISPLAYGPXVIEWDOTCOMFRAME_H
+#endif // DISPLAYINTERNETBROWSERFRAME_H

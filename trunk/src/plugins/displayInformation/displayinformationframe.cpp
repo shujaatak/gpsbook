@@ -152,7 +152,14 @@ namespace PluginDisplayInformation {
                 //Metadata
                 m_ui->lineEditMetaDataName->setText(mGPSData->metadata->name);
                 m_ui->lineEditMetaDataDescription->setText(mGPSData->metadata->desc);
-                m_ui->dateTimeEditMetaDataDate->setDateTime(mGPSData->metadata->time);
+                m_ui->checkBoxUseDate->setChecked(mGPSData->metadata->time.isValid());
+                if (m_ui->checkBoxUseDate->isChecked()) {
+                    m_ui->dateTimeEditMetaDataDate->setDateTime(mGPSData->metadata->time);
+                }
+                else {
+                    m_ui->dateTimeEditMetaDataDate->setDateTime(QDateTime::currentDateTime());
+                }
+
                 m_ui->lineEditMetaDataKeywords->setText(mGPSData->metadata->keywords);
                 //-----------------
                 if (autoFillDefault &&  (mGPSData->metadata->author->name == ""))
@@ -802,4 +809,15 @@ namespace PluginDisplayInformation {
             m_ui->toolButtonWaypointSymbol->setIcon(QIcon(":/icons/icons/cluster4.png"));
         }
     }// DisplayInformationFrame::updateToolButtonWaypointSymbol()
+}
+
+void PluginDisplayInformation::DisplayInformationFrame::on_checkBoxUseDate_toggled(bool checked)
+{
+    if (checked) {
+        mGPSData->metadata->time = m_ui->dateTimeEditMetaDataDate->dateTime();
+    }
+    else {
+        mGPSData->metadata->time = QDateTime(QDate(0,0,0));
+    }
+    mGPSData->setModified(true);
 }

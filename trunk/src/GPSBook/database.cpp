@@ -105,7 +105,11 @@ namespace GPSBook {
         treeWidget->clear();
         QSqlDatabase db = QSqlDatabase::database();;
         //Look into DB to find if file is not already in catalog
-        QString sql = "SELECT track_filename, track_displayname, track_description FROM gpsbook_track WHERE (track_date like \""+date.toString(Qt::ISODate)+"%\")";
+        QString datestr;
+        if (date.isValid()){
+            datestr = date.toString(Qt::ISODate)+"%";
+        }
+        QString sql = "SELECT track_filename, track_displayname, track_description FROM gpsbook_track WHERE (track_date like \""+datestr+"\")";
         QSqlQuery queryGpsData(sql, db);
         while (queryGpsData.next())
         {
@@ -220,7 +224,7 @@ namespace GPSBook {
             sql = "INSERT INTO gpsbook_track (track_filename, track_md5sum, track_date) "
                                 "VALUES(\""+QFile(filename).fileName()+"\", "
                                        "\""+Database::getMd5sumSignature(filename)+"\","
-                                       "\""+QDate::currentDate().toString(Qt::ISODate)+"\")";
+                                       "\"\")";
             query.first();
             query.exec(sql);
         }
