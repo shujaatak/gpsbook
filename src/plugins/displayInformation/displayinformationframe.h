@@ -62,6 +62,7 @@ namespace PluginDisplayInformation {
 
     private slots:
 
+        void on_checkBoxUseDate_toggled(bool checked);
         void on_toolButtonWaypointSymbol_clicked();
         void on_listWidgetWaypointLinks_itemSelectionChanged();
         void on_toolButtonWaypointDeleteLink_clicked();

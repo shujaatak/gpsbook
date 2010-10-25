@@ -7,7 +7,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>839</width>
+    <width>754</width>
     <height>604</height>
    </rect>
   </property>
@@ -74,7 +74,7 @@
           <enum>QFrame::Plain</enum>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="pageHelp">
           <layout class="QHBoxLayout" name="horizontalLayout">
@@ -667,7 +667,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>839</width>
+     <width>754</width>
      <height>26</height>
     </rect>
    </property>
@@ -782,8 +782,8 @@ p, li { white-space: pre-wrap; }
    </property>
    <property name="minimumSize">
     <size>
-     <width>270</width>
-     <height>344</height>
+     <width>260</width>
+     <height>422</height>
     </size>
    </property>
    <property name="windowTitle">
@@ -1024,7 +1024,7 @@ p, li { white-space: pre-wrap; }
           </widget>
          </item>
          <item row="3" column="0" colspan="4">
-          <widget class="QTreeWidget" name="treeWidgetCatalog">
+          <widget class="QTreeWidget" name="treeWidgetTracksOfTheDay">
            <property name="contextMenuPolicy">
             <enum>Qt::CustomContextMenu</enum>
            </property>
@@ -1037,15 +1037,9 @@ p, li { white-space: pre-wrap; }
            <property name="rootIsDecorated">
             <bool>false</bool>
            </property>
-           <property name="headerHidden">
-            <bool>true</bool>
-           </property>
-           <attribute name="headerVisible">
-            <bool>false</bool>
-           </attribute>
            <column>
             <property name="text">
-             <string>GPX File</string>
+             <string>Track of selected day</string>
             </property>
            </column>
           </widget>
@@ -1081,6 +1075,18 @@ p, li { white-space: pre-wrap; }
             </size>
            </property>
           </spacer>
+         </item>
+         <item row="4" column="0" colspan="4">
+          <widget class="QTreeWidget" name="treeWidgetUndateTracks">
+           <property name="rootIsDecorated">
+            <bool>false</bool>
+           </property>
+           <column>
+            <property name="text">
+             <string>Tracks without Date</string>
+            </property>
+           </column>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -1424,7 +1430,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>toolButtonAddToCatalog</tabstop>
   <tabstop>toolButtonAdd</tabstop>
   <tabstop>toolButtonDelete</tabstop>
-  <tabstop>treeWidgetCatalog</tabstop>
+  <tabstop>treeWidgetTracksOfTheDay</tabstop>
   <tabstop>stackedWidgetOptions</tabstop>
   <tabstop>scrollArea</tabstop>
   <tabstop>comboBoxLanguageSelection</tabstop>

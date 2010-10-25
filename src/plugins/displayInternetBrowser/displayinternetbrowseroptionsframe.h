@@ -19,28 +19,28 @@
 ** Copyright (c) 2010, gpsbook-team
 **
 ****************************************************************************/
-#ifndef DISPLAYGPXVIEWDOTCOMOPTIONSFRAME_H
-#define DISPLAYGPXVIEWDOTCOMOPTIONSFRAME_H
+#ifndef DISPLAYINTERNETBROWSEROPTIONSFRAME_H
+#define DISPLAYINTERNETBROWSEROPTIONSFRAME_H
 
 #include <QFrame>
 
 namespace Ui {
-    class DisplayGpxViewDotComOptionsFrame;
+    class DisplayInternetBrowserOptionsFrame;
 }
 
-class DisplayGpxViewDotComOptionsFrame : public QFrame
+class DisplayInternetBrowserOptionsFrame : public QFrame
 {
     Q_OBJECT
 
 public:
-    explicit DisplayGpxViewDotComOptionsFrame(QWidget *parent = 0);
-    ~DisplayGpxViewDotComOptionsFrame();
+    explicit DisplayInternetBrowserOptionsFrame(QWidget *parent = 0);
+    ~DisplayInternetBrowserOptionsFrame();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
-    Ui::DisplayGpxViewDotComOptionsFrame *ui;
+    Ui::DisplayInternetBrowserOptionsFrame *ui;
 };
 
-#endif // DISPLAYGPXVIEWDOTCOMOPTIONSFRAME_H
+#endif // DISPLAYINTERNETBROWSEROPTIONSFRAME_H

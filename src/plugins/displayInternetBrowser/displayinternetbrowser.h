@@ -19,29 +19,29 @@
 ** Copyright (C) 2009, gpsbook-team
 **
 ****************************************************************************/
-#ifndef DISPLAYGPXVIEWDOTCOM_H
-#define DISPLAYGPXVIEWDOTCOM_H
+#ifndef DISPLAYINTERNETBROWSER_H
+#define DISPLAYINTERNETBROWSER_H
 
 #include "interface.h"
-#include "displaygpxviewdotcomoptionsframe.h"
-#include "displaygpxviewdotcomframe.h"
-#include "displaygpxviewdotcomhelp.h"
+#include "displayinternetbrowseroptionsframe.h"
+#include "displayinternetbrowserframe.h"
+#include "displayinternetbrowserhelp.h"
 
-namespace PluginDisplayGpxViewDotCom {
+namespace PluginDisplayInternetBrowser {
 
-    class DisplayGpxViewDotCom: public DisplayPluginInterface
+    class DisplayInternetBrowser: public DisplayPluginInterface
     {
             Q_OBJECT
             Q_INTERFACES(DisplayPluginInterface)
 
         private:
             bool firstDisplay;
-            DisplayGpxViewDotComOptionsFrame* mOptions;
-            DisplayGpxViewDotComFrame* mView;
-            DisplayGpxViewDotComHelp* mHelp;
+            DisplayInternetBrowserOptionsFrame* mOptions;
+            DisplayInternetBrowserFrame* mView;
+            DisplayInternetBrowserHelp* mHelp;
 
         public:
-            DisplayGpxViewDotCom();
+            DisplayInternetBrowser();
 
             QString getName();
             QIcon getIcon();
@@ -66,8 +66,7 @@ namespace PluginDisplayGpxViewDotCom {
             void on_hidePlugin() {}
             void on_all_plugins_loaded(){}
 
-
-};
+    };
 }
 
-#endif // DISPLAYGPXVIEWDOTCOM_H
+#endif // DISPLAYINTERNETBROWSER_H

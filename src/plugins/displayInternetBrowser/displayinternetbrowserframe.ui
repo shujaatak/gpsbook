@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DisplayGpxViewDotComFrame</class>
- <widget class="QFrame" name="DisplayGpxViewDotComFrame">
+ <class>DisplayInternetBrowserFrame</class>
+ <widget class="QFrame" name="DisplayInternetBrowserFrame">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>571</width>
-    <height>102</height>
+    <width>720</width>
+    <height>248</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -44,28 +44,23 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QCommandLinkButton" name="buttonRefresh">
-       <property name="contextMenuPolicy">
-        <enum>Qt::CustomContextMenu</enum>
-       </property>
-       <property name="text">
-        <string>Refresh</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../GPSBook/icons/gtk/gtk_icons.qrc">
-         <normaloff>:/icons/gtk/go-refresh.png</normaloff>:/icons/gtk/go-refresh.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QCommandLinkButton" name="buttonGpxView">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="text">
         <string>gpx-view.com</string>
        </property>
        <property name="checkable">
-        <bool>true</bool>
-       </property>
-       <property name="checked">
         <bool>true</bool>
        </property>
        <property name="autoExclusive">
@@ -75,6 +70,18 @@
      </item>
      <item>
       <widget class="QCommandLinkButton" name="buttonVisuGpx">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
        <property name="toolTip">
         <string/>
        </property>
@@ -83,6 +90,34 @@
        </property>
        <property name="checkable">
         <bool>true</bool>
+       </property>
+       <property name="autoExclusive">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCommandLinkButton" name="buttonGeoCaching">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>geocaching.com</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
        </property>
        <property name="autoExclusive">
         <bool>true</bool>
@@ -114,7 +149,7 @@
      </property>
      <property name="url" stdset="0">
       <url>
-       <string>about:blank</string>
+       <string>http://gpsbook.free.fr/welcome.php</string>
       </url>
      </property>
      <property name="zoomFactor" stdset="0">
@@ -131,8 +166,6 @@
    <header>QtWebKit/QWebView</header>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../../GPSBook/icons/gtk/gtk_icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

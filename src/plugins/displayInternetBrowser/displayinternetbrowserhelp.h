@@ -19,28 +19,28 @@
 ** Copyright (c) 2010, gpsbook-team
 **
 ****************************************************************************/
-#ifndef DISPLAYGPXVIEWDOTCOMHELP_H
-#define DISPLAYGPXVIEWDOTCOMHELP_H
+#ifndef DISPLAYINTERNETBROWSERHELP_H
+#define DISPLAYINTERNETBROWSERHELP_H
 
 #include <QTextBrowser>
 
 namespace Ui {
-    class DisplayGpxViewDotComHelp;
+    class DisplayInternetBrowserHelp;
 }
 
-class DisplayGpxViewDotComHelp : public QTextBrowser
+class DisplayInternetBrowserHelp : public QTextBrowser
 {
     Q_OBJECT
 
 public:
-    explicit DisplayGpxViewDotComHelp(QWidget *parent = 0);
-    ~DisplayGpxViewDotComHelp();
+    explicit DisplayInternetBrowserHelp(QWidget *parent = 0);
+    ~DisplayInternetBrowserHelp();
 
 protected:
     void changeEvent(QEvent *e);
 
 private:
-    Ui::DisplayGpxViewDotComHelp *ui;
+    Ui::DisplayInternetBrowserHelp *ui;
 };
 
-#endif // DISPLAYGPXVIEWDOTCOMHELP_H
+#endif // DISPLAYINTERNETBROWSERHELP_H

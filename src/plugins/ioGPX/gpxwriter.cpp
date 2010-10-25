@@ -227,11 +227,13 @@ namespace PluginIOGPX {
     {
         //qDebug()  << "writeCopyright";
         writeStartElement("copyright");
-            if (copyright->author != "")
+            if (copyright->author != "") {
                 writeAttribute( "author", copyright->author);
+            }
             writeTextElement("year",QString::number(copyright->year));
-            if (copyright->license != "")
+            if (copyright->license != "") {
                 writeTextElement("license",copyright->license);
+            }
         writeEndElement();
     } //GpxWriter::writeCopyright
 
@@ -242,10 +244,11 @@ namespace PluginIOGPX {
     {
         //qDebug()  << "writePerson";
          writeStartElement("author");
-            if (person->name != "")
+             if (person->name != "") {
                 writeTextElement("name",person->name);
-            writeEMail(person->email);
-            writeLink(person->link);
+             }
+             writeEMail(person->email);
+             writeLink(person->link);
          writeEndElement();
     } //GpxWriter::writePerson
 
@@ -256,18 +259,26 @@ namespace PluginIOGPX {
     {
         //qDebug()  << "writeMetaData";
         writeStartElement("metadata");
-            if (metadata->name != "")
+            if (metadata->name != "") {
                 writeTextElement("name",metadata->name);
-            if (metadata->desc != "")
+            }
+            if (metadata->desc != "") {
                 writeTextElement("desc",metadata->desc);
+            }
             writePerson(metadata->author);
             writeCopyright(metadata->copyright);
-            foreach (Link* link, metadata->linkList)
+            foreach (Link* link, metadata->linkList) {
                 writeLink(link);
-            if (metadata->time.isValid())
+            }
+            if (metadata->time.isValid()) {
                 writeTextElement("time", metadata->time.toString(Qt::ISODate));
-            if (metadata->keywords != "")
+            }
+            else {
+                writeTextElement("time", "");
+            }
+            if (metadata->keywords != "") {
                 writeTextElement("keywords",metadata->keywords);
+            }
             writeBounds(metadata->bounds);
             writeStartElement("extension");
                 writeExtensions(metadata->extensions);

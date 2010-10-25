@@ -3,5 +3,6 @@
         <file>accueil.xpm</file>
         <file>boussole.gif</file>
         <file>splash.gif</file>
+        <file>avatar.png</file>
     </qresource>
 </RCC>

@@ -458,7 +458,13 @@ namespace PluginIOGPX {
             }
             if (name() == "time")
             {
-                metadata->time = QDateTime::fromString(readElementText(),Qt::ISODate);
+                QString dateTimeStr = readElementText();
+                if (dateTimeStr == "") {
+                    metadata->time = QDateTime(QDate(0,0,0));
+                }
+                else {
+                    metadata->time = QDateTime::fromString(dateTimeStr,Qt::ISODate);
+                }
             }
             if (name() == "bounds")
             {

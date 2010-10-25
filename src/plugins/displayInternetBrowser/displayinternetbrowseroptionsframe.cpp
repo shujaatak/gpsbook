@@ -19,22 +19,22 @@
 ** Copyright (c) 2010, gpsbook-team
 **
 ****************************************************************************/
-#include "displaygpxviewdotcomoptionsframe.h"
-#include "ui_displaygpxviewdotcomoptionsframe.h"
+#include "displayinternetbrowseroptionsframe.h"
+#include "ui_displayinternetbrowseroptionsframe.h"
 
-DisplayGpxViewDotComOptionsFrame::DisplayGpxViewDotComOptionsFrame(QWidget *parent) :
+DisplayInternetBrowserOptionsFrame::DisplayInternetBrowserOptionsFrame(QWidget *parent) :
     QFrame(parent),
-    ui(new Ui::DisplayGpxViewDotComOptionsFrame)
+    ui(new Ui::DisplayInternetBrowserOptionsFrame)
 {
     ui->setupUi(this);
 }
 
-DisplayGpxViewDotComOptionsFrame::~DisplayGpxViewDotComOptionsFrame()
+DisplayInternetBrowserOptionsFrame::~DisplayInternetBrowserOptionsFrame()
 {
     delete ui;
 }
 
-void DisplayGpxViewDotComOptionsFrame::changeEvent(QEvent *e)
+void DisplayInternetBrowserOptionsFrame::changeEvent(QEvent *e)
 {
     QFrame::changeEvent(e);
     switch (e->type()) {
