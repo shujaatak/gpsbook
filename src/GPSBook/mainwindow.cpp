@@ -530,8 +530,12 @@ namespace GPSBook {
         on_actionClose_current_trace_triggered();
 
         //Load the new trace (gpsDataLoc managed by the plugin)
-        gpxPlugin->open(filename, mGPSData);
-
+        foreach (InputOutputPluginInterface* inputPlugin, inputOutputPluginList) {
+            //TODO: Fix the potential conflict on the bellow line
+            if (inputPlugin->getOpenFilter().contains(QFileInfo(filename).suffix())) {
+                inputPlugin->open(filename, mGPSData);
+            }
+        }
         //Update mainwindows state
         ui->actionClose_current_trace->setEnabled(true);
         ui->toolButtonInCatalog->setChecked(isFromCatalog);

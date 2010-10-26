@@ -170,7 +170,7 @@ namespace GPSBook {
             if (!linkList.isEmpty())
                 delete linkList.takeFirst();
         }
-        time = QDateTime::currentDateTime();
+        time = QDateTime(QDate(0,0,0));
         keywords = "";
         bounds->clearData();
     }
