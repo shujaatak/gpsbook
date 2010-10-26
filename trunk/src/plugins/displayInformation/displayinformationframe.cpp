@@ -100,7 +100,9 @@ namespace PluginDisplayInformation {
         autoFillDefault = settings->value("displayInformationDefaultFilling",false).toBool();
 
         mGPSData->lockGPSDataForRead();
-        if (mGPSData->trackList.isEmpty()) {
+        if (mGPSData->wayPointList.isEmpty() &&
+            mGPSData->routeList.isEmpty() &&
+            mGPSData->trackList.isEmpty()) {
              m_ui->stackedWidget->setCurrentIndex(0);
          }
         else
