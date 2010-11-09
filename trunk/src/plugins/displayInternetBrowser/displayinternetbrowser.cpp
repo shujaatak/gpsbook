@@ -116,6 +116,7 @@ namespace PluginDisplayInternetBrowser {
      *------------------------------------------------------------------------------*/
     void DisplayInternetBrowser::on_showPlugin()
     {
+        qDebug() << __FILE__ << __FUNCTION__;
         if (firstDisplay)
         {
             mView->refreshPage();
@@ -151,7 +152,7 @@ namespace PluginDisplayInternetBrowser {
                             " v" + QString(BUILD_VERSION) + "." + QString(SVN_VERSION) + "  <sub>(" + QString(BUILD_DATE) + ")<sub>" +
                         "</p>"
                         "<p style=\" font-family:'Sans'; font-size:10pt; font-weight:400; font-style:vold; \">"
-                            + getName() + tr(" is a plugin allowing to use <a href=\"http://gpx-view.com/\">gpx-view</a> service.") + "<br><br>" +
+                            + getName() + tr(" is a plugin allowing to use on line services.") + "<br><br>" +
                             tr("License:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             "GNU GPL <a href=\"http://www.gnu.org/licenses/gpl.txt\">http://www.gnu.org/licenses/gpl.txt</a>" + "<br><br>" +
                             tr("Authors:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +

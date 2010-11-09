@@ -41,6 +41,9 @@ namespace PluginIOGPX {
             GpxWriter* gpxwriter;
             IoGPXHelp* help;
             IoGPXOptionsFrame* mOptions;
+
+            ServiceInterface* saveGPX;
+            ServiceInterface* loadGPX;
         public:
             ioGPX();
             QString getName();
@@ -53,11 +56,18 @@ namespace PluginIOGPX {
             void save(QString filename, GPSData* gpsdata);
             void init( QWidget* , GPSData* );
             void update() {}
-            QStringList* getServiceList(){ return NULL; }
-            ServiceInterface* getService(const char * serviceName,
-                                         const char * serviceId) { return NULL; }
-            QStringList* getServicePropertyList(const char * serviceName,
-                                               const char * serviceId){ return NULL; }
+            QStringList getServiceList(){
+                return mServicesList;
+            }
+            QStringList getServicePropertyList(const char * serviceName ){
+                return mServicesPropertiesList[serviceName];
+            }
+            ServiceInterface* getService(const char * serviceName ) {
+                //To remove warning at compilation
+                serviceName = serviceName;
+                return NULL;
+            }
+
         public slots:
             void on_about();
             void on_all_plugins_loaded(){}

@@ -42,6 +42,12 @@ namespace PluginDisplayInternetBrowser {
     DisplayInternetBrowserFrame::DisplayInternetBrowserFrame(QWidget *parent) :
     QFrame(parent), m_ui(new Ui::DisplayInternetBrowserFrame)
     {
+        QWebSettings::globalSettings()->setAttribute(QWebSettings::PluginsEnabled, true);
+        QWebSettings::globalSettings()->setAttribute(QWebSettings::JavascriptEnabled, true);
+        QWebSettings::globalSettings()->setAttribute(QWebSettings::AutoLoadImages, true);
+        //TODO: Create directory for cookies
+        //QWebSettings::setOfflineWebApplicationCachePath ( const QString & path );
+
         m_ui->setupUi(this);
 
         QToolBar* toolbar = new QToolBar();
@@ -103,6 +109,7 @@ namespace PluginDisplayInternetBrowser {
      *------------------------------------------------------------------------------*/
     void DisplayInternetBrowserFrame::unsupportedContent ( QNetworkReply * reply )
     {
+        qDebug() << __FILE__ << __FUNCTION__;
         QString content = reply->rawHeader("Content-Disposition");
         if ( content.contains("gpx"))
         {
@@ -116,20 +123,21 @@ namespace PluginDisplayInternetBrowser {
                                              qApp->applicationName()+" "+tr("is about to load the trace.") ,
                                              QMessageBox::Ok|QMessageBox::Cancel);
             }
-            else {
+            /*else {
                 ret = QMessageBox::information(this,
                                                tr("Downloading Track and append to the current track"),
                                                tr("Do you want to append the loaded data to the current track ?") ,
                                                QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel);
-            }
+            }*/
             if (ret != QMessageBox::Cancel) {
+                qDebug() << __FILE__ << __FUNCTION__ << "Download file.";
                 //Download file
                 QByteArray data(reply->readAll());
                 if (tmpFile->open()) {
                     //Store data into a temporary file
                     tmpFile->write(data);
                     tmpFile->close();
-                    //qDebug() <<  "DisplayInternetBrowserFrame" << "::" << __FUNCTION__ << "-> File saved:" << fileName;
+                    qDebug() <<  __FILE__ << __FUNCTION__ << "-> File saved:" << tmpFile->fileName();
                 }
                 else {
                     //ERROR
@@ -170,8 +178,9 @@ namespace PluginDisplayInternetBrowser {
      *------------------------------------------------------------------------------*/
     void DisplayInternetBrowserFrame::refreshPage()
     {
+        qDebug() << __FILE__ << __FUNCTION__ << "(" << activeSite << ")";
         m_ui->webView->setUrl(QUrl(activeSite));
-    } //DisplayInternetBrowserFrame::on_commandLinkButton_clicked
+    } //DisplayInternetBrowserFrame::refreshPage
 
     /*------------------------------------------------------------------------------*
 
@@ -182,12 +191,14 @@ namespace PluginDisplayInternetBrowser {
     } //DisplayInternetBrowserFrame::downloadFinished
 
     /*------------------------------------------------------------------------------*
-
+      http://www.gpx-view.com/gpx2gpx.php?f=Footing_28_12_2008.gpx
      *------------------------------------------------------------------------------*/
     void DisplayInternetBrowserFrame::on_webView_linkClicked(QUrl url)
     {
+        qDebug() << __FILE__ << __FUNCTION__ << url.toString();
         if ( url.toString().contains("gpx2gpx.php")  || // gpx-view.com
-             url.toString().contains("download.php")    // visugpx.com
+             url.toString().contains("download.php") || // visugpx.com
+             url.toString().contains("download")        // gpsvisualizer.com
             )
         {
             qDebug() << __FILE__ << __FUNCTION__ << "download(" << url << ")";
@@ -231,6 +242,17 @@ namespace PluginDisplayInternetBrowser {
         m_ui->webView->setUrl(QUrl(activeSite));
     } //DisplayInternetBrowserFrame::on_buttonVisuGpx_toggled
 
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayInternetBrowserFrame::on_buttonGPSVizualizer_toggled(bool)
+    {
+        activeSite = "http://www.gpsvisualizer.com//";
+        m_ui->webView->setUrl(QUrl(activeSite));
+    } //DisplayInternetBrowserFrame::on_buttonGPSVizualizer_toggled
+
 }
+
 
 

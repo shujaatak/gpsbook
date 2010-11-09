@@ -21,6 +21,7 @@
 ****************************************************************************/
 #include <QWidget>
 #include <QTextStream>
+#include <QMessageBox>
 #include "displaygooglemapframe.h"
 #include "ui_displaygooglemapframe.h"
 
@@ -104,6 +105,13 @@ namespace PluginDisplayGoogleMap {
                     if (line.contains("{{GPXFILE}}"))
                     {
                         QString filename = trackList->filename;
+                        if ( !QFile(filename).exists() ) {
+                            //TODO: Save in temp file
+                            //Get the service "Save as GPX" provided by ioGPX
+                            //Use it to save the file
+                            QMessageBox::information(this,"displayGoogleMapPlugin",tr("Work in progress: Action not supported for the moment."),QMessageBox::Ok);
+                        }
+
 #if defined(Q_OS_WIN)
                         //qDebug() << filename;
                         filename = filename.replace("\\","/");

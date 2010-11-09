@@ -54,11 +54,16 @@ namespace PluginFilterCleanup {
         void init( QWidget* , GPSData* gpsdata );
         void update(){}
         GPSData* mGPSData;
-        QStringList*getServiceList(){ return NULL; }
-        ServiceInterface* getService(const char * serviceName,
-                                     const char * serviceId) { return NULL; }
-        QStringList* getServicePropertyList(const char * serviceName,
-                                           const char * serviceId){ return NULL; }
+        QStringList getServiceList(){
+            return mServicesList;
+        }
+        QStringList getServicePropertyList(const char * serviceName ){
+            return mServicesPropertiesList[serviceName];
+        }
+        ServiceInterface* getService(const char * serviceName ) {
+            return NULL;
+        }
+
     public slots:
         void on_showPlugin();
         void on_about();

@@ -185,12 +185,13 @@ namespace GPSBook {
 
         //------------------- Mainwindow -------------------
         // Display the favorite plugin
+        qDebug() << __FILE__ << __FUNCTION__ << "Display favorite plugin";
         int preferedPluginId = settings->value("PreferedPluginId",0).toInt();
         ui->stackedWidget->setCurrentIndex(preferedPluginId);
         ui->comboBoxPreferedPlugin->setCurrentIndex(preferedPluginId);
         actionGroup->actions().at(preferedPluginId)->setChecked(true);
         ui->dockWidgetTraceManagement->setVisible(actionGroup->actions().at(preferedPluginId)->data().toInt() > 1);
-        if ( ( preferedPluginId-3 ) >0 )
+        if ( (( preferedPluginId-3 ) >0) && ( (preferedPluginId-3) < displayPluginList.count()) )
         {
             visiblePlugin=displayPluginList[preferedPluginId-3];
         }
@@ -199,7 +200,9 @@ namespace GPSBook {
         connect(this, SIGNAL(signalFileLoaded()),visiblePlugin,SLOT(on_fileLoaded()));
         connect(this, SIGNAL(signalSelectionChanged()),visiblePlugin,SLOT(on_selectionChanged()));
 
+        qDebug() << __FILE__ << __FUNCTION__ << "Display favorite plugin 0";
         visiblePlugin->on_showPlugin();
+        qDebug() << __FILE__ << __FUNCTION__ << "Display favorite plugin 1";
 
         //Start full screen
         qDebug() << __FILE__ << __FUNCTION__ << "Fullscreen";
@@ -535,6 +538,11 @@ namespace GPSBook {
             if (inputPlugin->getOpenFilter().contains(QFileInfo(filename).suffix())) {
                 inputPlugin->open(filename, mGPSData);
             }
+            else
+            {
+                //Try gpx... just in case (needed to load tmp file from internet)
+                gpxPlugin->open(filename, mGPSData);
+            }
         }
         //Update mainwindows state
         ui->actionClose_current_trace->setEnabled(true);
@@ -682,8 +690,13 @@ namespace GPSBook {
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void MainWindow::on_treeWidgetCurrentGPX_itemClicked(QTreeWidgetItem* item, int)
+    void MainWindow::on_treeWidgetCurrentGPX_itemSelectionChanged()
     {
+        qDebug( )  << __FILE__ << __FUNCTION__ ;
+        QTreeWidgetItem* item = ui->treeWidgetCurrentGPX->currentItem();
+        if (item == NULL)
+            return;
+
         if (!item->isDisabled())
         {
             qDebug() << __FILE__ << __FUNCTION__;
@@ -1126,6 +1139,8 @@ namespace GPSBook {
             case QDialogButtonBox::Reset:
                 settings->clear();
             break;
+            default:
+            break;
         }
     } //MainWindow::on_buttonBoxApply_clicked
 
@@ -1227,3 +1242,4 @@ void GPSBook::MainWindow::on_treeWidgetHelp_itemClicked(QTreeWidgetItem* item, i
         ui->treeWidgetHelp->setCurrentItem(item,0);
     }
 }
+

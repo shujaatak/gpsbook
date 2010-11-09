@@ -47,33 +47,41 @@ class ServiceInterface;
 class ServiceProvider
 {
     private:
-      static ServiceProvider* mInstance;
-      ServiceProvider() {}
+        QStringList mServiceList;
+        QHash<QString,QStringList> mServicePropertyList;
+        static ServiceProvider* mInstance;
+        ServiceProvider() {}
 
     public:
-      ~ServiceProvider(){
+        ~ServiceProvider(){
           delete mInstance;
           mInstance = 0;
-      }
+        }
 
-      static ServiceProvider* getServiceProvider(){
-          if (mInstance == 0)
-              mInstance = new ServiceProvider();
-          return (mInstance);
-      }
+        static ServiceProvider* getServiceProvider(){
+            if (mInstance == 0)
+                mInstance = new ServiceProvider();
+            return (mInstance);
+        }
 
-      QStringList* getServiceList() { return NULL; }
+        QStringList getServiceList(){
+            return mServiceList;
+        }
+        QStringList getServicesPropertiList( const char * serviceName ){
+            return mServicePropertyList[serviceName];
+        }
 
-      ServiceInterface* getService(const char * serviceName,
-                                   const char * serviceId){}
-      QStringList* getServicePropertyList(const char * serviceName,
-                                          const char * serviceId) { return NULL; }
-      QStringList* getServicePropertydescription(const char * serviceName,
-                                                 const char * serviceId,
-                                                 const char * property ){ return NULL; }
+        ServiceInterface* getService(const char * serviceName ){
+            //To remove warning at compilation
+            serviceName = serviceName;
+            return NULL;
+        }
+        //QStringList* getServicePropertydescription(const char * serviceName,
+        //                                         const char * serviceId,
+        //                                         const char * property ){ return NULL; }
 
-      ServiceProvider(const ServiceProvider &);             // hide copy constructor
-      ServiceProvider& operator=(const ServiceProvider &);  // hide assign operator
+        ServiceProvider(const ServiceProvider &);             // hide copy constructor
+        ServiceProvider& operator=(const ServiceProvider &);  // hide assign operator
                                                             // we leave just the declarations, so the compiler will warn us
                                                             // if we try to use those two functions by accident
 
@@ -97,10 +105,10 @@ class ServiceInterface : public QObject
 {
     Q_OBJECT
     public:
-      virtual void         run()                           = 0;
-      virtual QWidget*     getWidget()                     = 0;
-      virtual QStringList* getServicePropertyList()        = 0;
-      virtual QStringList* getServicePropertyDescription() = 0;
+      virtual void        run()                           = 0;
+      virtual QWidget*    getWidget()                     = 0;
+      virtual QStringList getServicePropertyList()        = 0;
+      virtual QStringList getServicePropertyDescription() = 0;
 };
 
 
@@ -115,6 +123,9 @@ class ServiceInterface : public QObject
 class PluginInterface : public QObject
 {
     Q_OBJECT
+    protected:
+        QStringList mServicesList;
+        QHash<QString,QStringList> mServicesPropertiesList;
     public:
         virtual QString  getName()    = 0;
         virtual QIcon    getIcon()    = 0;
@@ -123,11 +134,10 @@ class PluginInterface : public QObject
         virtual void     init(QWidget* parent, GPSData* gpsdata) = 0;
         virtual void     update() = 0;
 
-        virtual QStringList* getServiceList() = 0;
-        virtual ServiceInterface* getService(const char * serviceName,
-                                             const char * serviceId) = 0;
-        virtual QStringList* getServicePropertyList(const char * serviceName,
-                                                   const char * serviceId) = 0;
+        virtual ServiceInterface* getService(const char * serviceName ) = 0;
+        virtual QStringList getServiceList() = 0;
+        virtual QStringList getServicePropertyList(const char * serviceName ) = 0;
+
 
      public slots:
         virtual void on_about() = 0;
