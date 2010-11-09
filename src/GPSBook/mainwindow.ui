@@ -342,7 +342,7 @@ p, li { white-space: pre-wrap; }
                      <property name="geometry">
                       <rect>
                        <x>0</x>
-                       <y>-12</y>
+                       <y>0</y>
                        <width>504</width>
                        <height>510</height>
                       </rect>
@@ -815,7 +815,7 @@ p, li { white-space: pre-wrap; }
         </size>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tabWidgetCatalog">
         <property name="sizePolicy">

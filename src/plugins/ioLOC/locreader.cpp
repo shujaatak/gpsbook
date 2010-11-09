@@ -51,7 +51,7 @@ namespace PluginIOLOC {
 
         mGPSData->clearData();
 
-        mGPSData->filename = fileName;
+        mGPSData->filename = fileName+".gpx";
 
         QFile file(fileName);
 
@@ -93,6 +93,7 @@ namespace PluginIOLOC {
                             {
                                 waypoint->lat = attributes().value("lat").toString().toDouble();
                                 waypoint->lon = attributes().value("lon").toString().toDouble();
+                                waypoint->sym = "geocaching";
                             }
                             readNext();
                             if ((name().toString() == flagName) and (isEndElement()))
@@ -112,7 +113,7 @@ namespace PluginIOLOC {
                             {
                                 Link* link = new Link();
                                 waypoint->linkList << link;
-                                link->text =  attributes().value("id").toString();
+                                link->text = attributes().value("text").toString();
                                 link->href = readElementText();
                             }
                         }

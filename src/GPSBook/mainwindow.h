@@ -90,7 +90,8 @@ namespace GPSBook {
     private slots:
         void on_treeWidgetHelp_itemClicked(QTreeWidgetItem* item, int);
         void on_treeWidgetOptions_itemClicked(QTreeWidgetItem* item, int);
-        void on_treeWidgetCurrentGPX_itemClicked(QTreeWidgetItem* item, int);
+        void on_treeWidgetCurrentGPX_itemSelectionChanged();
+        //void on_treeWidgetCurrentGPX_itemClicked(QTreeWidgetItem* item, int);
         void on_checkBoxToolbarVisibility_toggled(bool checked);
         void on_checkBoxMenuVisibility_toggled(bool checked);
         void on_comboBoxPreferedPlugin_currentIndexChanged(int);

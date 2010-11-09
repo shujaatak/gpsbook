@@ -34,6 +34,7 @@ namespace PluginIOGPX {
     {
         help = new IoGPXHelp();
         mOptions = new IoGPXOptionsFrame();
+        mServicesList << "saveGPX" << "loadGPX";
     } //ioGPX::ioGPX
 
     /*------------------------------------------------------------------------------*

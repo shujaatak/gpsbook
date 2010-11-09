@@ -51,11 +51,16 @@ namespace PluginIOLOC {
             void save(QString, GPSData*) {}
             void init( QWidget* , GPSData* );
             void update() {}
-            QStringList* getServiceList(){ return NULL; }
-            ServiceInterface* getService(const char * serviceName,
-                                         const char * serviceId) { return NULL; }
-            QStringList* getServicePropertyList(const char * serviceName,
-                                               const char * serviceId){ return NULL; }
+            QStringList getServiceList(){
+                return mServicesList;
+            }
+            QStringList getServicePropertyList(const char * serviceName ){
+                return mServicesPropertiesList[serviceName];
+            }
+            ServiceInterface* getService(const char * serviceName ) {
+                return NULL;
+            }
+
         public slots:
             void on_about();
             void on_all_plugins_loaded(){}

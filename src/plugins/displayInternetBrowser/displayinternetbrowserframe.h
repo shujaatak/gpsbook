@@ -78,6 +78,7 @@ namespace PluginDisplayInternetBrowser {
         void refreshPage();
 
     private slots:
+        void on_buttonGPSVizualizer_toggled(bool);
         void downloadFinished();
         void on_webView_linkClicked( QUrl url );
         void on_buttonGpxView_toggled(bool);

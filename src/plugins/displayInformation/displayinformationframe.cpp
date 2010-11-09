@@ -806,6 +806,9 @@ namespace PluginDisplayInformation {
         else if (QFileInfo( ":/icons/numeric/" +  m_ui->lineEditWaypointSymbol->text() + ".png" ).exists()) {
             m_ui->toolButtonWaypointSymbol->setIcon(QIcon(":/icons/numeric/" +  m_ui->lineEditWaypointSymbol->text() + ".png"));
         }
+        else if (QFileInfo( ":/icons/geocaching/" +  m_ui->lineEditWaypointSymbol->text() + ".png" ).exists()) {
+            m_ui->toolButtonWaypointSymbol->setIcon(QIcon(":/icons/geocaching/" +  m_ui->lineEditWaypointSymbol->text() + ".png"));
+        }
         else
         {
             m_ui->toolButtonWaypointSymbol->setIcon(QIcon(":/icons/icons/cluster4.png"));

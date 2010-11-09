@@ -113,7 +113,8 @@ namespace GPSBook {
 
 #ifdef Q_OS_LINUX
         //Remove advert to speedup development ;-)
-        if (url.toString().contains("googlesyndication")) {
+        if (url.toString().contains("googlesyndication") ||
+            url.toString().contains("yieldmanager.com")) {
             socket->disconnectFromHost();
             return;
         }

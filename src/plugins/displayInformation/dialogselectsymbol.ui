@@ -26,6 +26,11 @@
      </item>
      <item>
       <property name="text">
+       <string>geocaching</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>google-marker</string>
       </property>
      </item>

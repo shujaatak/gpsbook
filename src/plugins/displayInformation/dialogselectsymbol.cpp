@@ -30,6 +30,9 @@ void  DialogSelectSymbol::setSelectedIcon(QString name){
     else if (QFileInfo( ":/icons/numeric/" +  name + ".png" ).exists()) {
         source = "numeric";
     }
+    else if (QFileInfo( ":/icons/geocaching/" +  name + ".png" ).exists()) {
+        source = "geocaching";
+    }
     else
     {
         source = "icons";
