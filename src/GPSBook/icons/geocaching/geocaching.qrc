@@ -1,0 +1,37 @@
+<RCC>
+    <qresource prefix="/icons/geocaching">
+        <file>geoannounce.png</file>
+        <file>geoarhived.png</file>
+        <file>geoattende.png</file>
+        <file>geocachefound.png</file>
+        <file>geocacheintrashout.png</file>
+        <file>geocachepublished.png</file>
+        <file>geocacheretracted.png</file>
+        <file>geocaching.png</file>
+        <file>geocoordinateupdated.png</file>
+        <file>geodisabled.png</file>
+        <file>geodnf.png</file>
+        <file>geoearthcache.png</file>
+        <file>geoenabled.png</file>
+        <file>geoeventcache.png</file>
+        <file>geofoundit.png</file>
+        <file>geoletterboxcache.png</file>
+        <file>geolostandfound.png</file>
+        <file>geomaintened.png</file>
+        <file>geomegaeventcache.png</file>
+        <file>geomisterycache.png</file>
+        <file>geomulticache.png</file>
+        <file>geomycache.png</file>
+        <file>geoneedmaintenance.png</file>
+        <file>geoneedtobearchived.png</file>
+        <file>geonoteposted.png</file>
+        <file>georeviewernote.png</file>
+        <file>geotraditionalcache.png</file>
+        <file>geounarhived.png</file>
+        <file>geovirtualcache.png</file>
+        <file>geowebcamcache.png</file>
+        <file>geowebcamphototaken.png</file>
+        <file>geowhereigocache.png</file>
+        <file>geowillattend.png</file>
+    </qresource>
+</RCC>
