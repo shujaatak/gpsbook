@@ -35,6 +35,7 @@
 #include "interface.h"
 #include "gpsdata.h"
 #include "QProgressIndicator.h"
+#include "cookiejar.h"
 
 namespace Ui {
     class DisplayInternetBrowserFrame;
@@ -65,6 +66,7 @@ namespace PluginDisplayInternetBrowser {
     private:
         Ui::DisplayInternetBrowserFrame *m_ui;
         GPSData* mGPSData;
+        CookieJar* cookieJar;
         QString activeSite;
         QMenu* menu;
         QNetworkRequest request;

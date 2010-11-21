@@ -3,7 +3,7 @@ Version:  {{VERSION}}
 Section: base
 Priority: optional
 Architecture: all
-Depends: libc6 (>= 2.4), libgcc1 (>= 1:4.1.1), libqt4-network (>= 4:4.6.0), libqtcore4 (>= 4:4.6.1), libqtgui4 (>= 4:4.6.0), libstdc++6 (>= 4.1.1), libqt4-help, libqt4-sql-sqlite
+Depends: libc6 (>= 2.4), libgcc1 (>= 1:4.1.1), libqt4-network (>= 4:4.7.0), libqtcore4 (>= 4:4.7.0), libqtgui4 (>= 4:4.7.0), libstdc++6 (>= 4.1.1), libqt4-help, libqt4-sql-sqlite, libcurl3, libzzip-0-13
 Maintainer: gpsbook-team <gpsbook@free.fr>
 Description: GPSBook
  This software is designed to manage, manipulate and view track captured by GPS devices.

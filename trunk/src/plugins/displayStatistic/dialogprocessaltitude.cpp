@@ -22,6 +22,8 @@
 #include "dialogprocessaltitude.h"
 #include "ui_dialogprocessaltitude.h"
 #include <QDebug>
+#include <QSettings>
+
 
 namespace PluginDisplayStatistic {
 
@@ -33,6 +35,12 @@ namespace PluginDisplayStatistic {
         ui(new Ui::DialogProcessAltitude)
     {
         ui->setupUi(this);
+        QSettings settings("GPSBook","GPSBook");
+        QString storagePath = settings.value("StorageLocation","").toString();
+        srtmDownloader = new SrtmDownloader("http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/",
+                                            storagePath+"srtm");
+
+
     } //DialogProcessAltitude::DialogProcessAltitude
 
     /*------------------------------------------------------------------------------*
@@ -94,7 +102,8 @@ namespace PluginDisplayStatistic {
                     waypointBegin = waypointEnd;
                     waypointEnd = waypoint;
 
-                    double elevation = waypointEnd->ele - waypointBegin->ele;
+                    waypoint->ele = srtmDownloader->getAltitudeFromLatLon(waypoint->lat,waypoint->lon);
+                    /*double elevation = waypointEnd->ele - waypointBegin->ele;
                     if( elevation < 0 )
                     {
                        elevationDrop += -elevation;
@@ -104,7 +113,7 @@ namespace PluginDisplayStatistic {
                        elevationGain += elevation;
                     }
                     //qDebug() << "elevation=" << elevation << " -- elevationDrop=" << elevationDrop << " -- elevationGain=" << elevationGain;
-                    waypointEnd->extensions = mGPSData->setExtensionData(waypointEnd->extensions,"GPSBookWayPointExtension","elevation",elevation);
+                    waypointEnd->extensions = mGPSData->setExtensionData(waypointEnd->extensions,"GPSBookWayPointExtension","elevation",elevation);*/
                 }
                 trackSeg->extensions = mGPSData->setExtensionData(trackSeg->extensions,"GPSBookSegmentExtension","elevationGain",elevationGain);
                 trackSeg->extensions = mGPSData->setExtensionData(trackSeg->extensions,"GPSBookSegmentExtension","elevationDrop",elevationDrop);

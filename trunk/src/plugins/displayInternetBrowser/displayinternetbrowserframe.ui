@@ -98,9 +98,6 @@
      </item>
      <item>
       <widget class="QCommandLinkButton" name="buttonGeoCaching">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -129,9 +126,6 @@
      </item>
      <item>
       <widget class="QCommandLinkButton" name="buttonGPSVizualizer">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
        <property name="minimumSize">
         <size>
          <width>0</width>

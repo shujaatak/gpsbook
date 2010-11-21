@@ -18,7 +18,8 @@ SOURCES += displayinternetbrowser.cpp \
     displayinternetbrowserhelp.cpp \
     displayinternetbrowseroptionsframe.cpp \
     ../../GPSBook/gpsdata.cpp \
-    ../../GPSBook/QProgressIndicator.cpp
+    ../../GPSBook/QProgressIndicator.cpp \
+    cookiejar.cpp
 HEADERS += displayinternetbrowser.h \
     ../../GPSBook/gpsdata.h \
     pixmap.h \
@@ -26,7 +27,8 @@ HEADERS += displayinternetbrowser.h \
     displayinternetbrowserhelp.h \
     displayinternetbrowseroptionsframe.h \
     displayinternetbrowserframe.h \
-    ../../GPSBook/QProgressIndicator.h
+    ../../GPSBook/QProgressIndicator.h \
+    cookiejar.h
 TRANSLATIONS = displayInternetBrowser_fr_fr.ts \
                displayInternetBrowser_en_us.ts
 OTHER_FILES += \

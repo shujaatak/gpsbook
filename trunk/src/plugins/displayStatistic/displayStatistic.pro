@@ -3,8 +3,8 @@
 # -------------------------------------------------
 include ( ../../GPSBook/GPSBookConfig.pro)
 
-#DEFINES  += QT_NO_WARNING_OUTPUT
-#DEFINES  += QT_NO_DEBUG_OUTPUT
+DEFINES  += QT_NO_WARNING_OUTPUT
+DEFINES  += QT_NO_DEBUG_OUTPUT
 
 TARGET = displayStatistic
 DESTDIR = ../../../delivery/plugins
@@ -39,7 +39,8 @@ HEADERS += displaystatistic.h \
     dialogprocessacceleration.h \
     serviceprocesswaypointspeed.h \
     serviceprocesswaypointdistance.h \
-    serviceprocesswaypointacceleration.h
+    serviceprocesswaypointacceleration.h \
+    ../displaySRTM/srtm.h
 INCLUDEPATH += ../../GPSBook
 FORMS += displaystatisticframe.ui \
     displaystatisticoptionsframe.ui \
@@ -50,3 +51,5 @@ FORMS += displaystatisticframe.ui \
     dialogprocessacceleration.ui
 TRANSLATIONS = displayStatistic_fr_fr.ts \
                displayStatistic_en_us.ts
+
+LIBS += -L../../../delivery/plugins -ldisplaySRTM

@@ -16,45 +16,31 @@
 ** Boston, MA  02110-1301, USA.
 **
 ** ---
-** Copyright (C) 2010, gpsbook-team
+** Copyright (c) 2010, gpsbook-team
 **
 ****************************************************************************/
-#ifndef DIALOGPROCESSALTITUDE_H
-#define DIALOGPROCESSALTITUDE_H
+#ifndef DISPLAYSRTMFRAME_H
+#define DISPLAYSRTMFRAME_H
 
-#include <QDialog>
-#include <gpsdata.h>
-#include "../displaySRTM/srtm.h"
-
-using namespace GPSBook;
+#include <QFrame>
 
 namespace Ui {
-    class DialogProcessAltitude;
+    class DisplaySRTMFrame;
 }
 
-namespace PluginDisplayStatistic {
+class DisplaySRTMFrame : public QFrame
+{
+    Q_OBJECT
 
-    class DialogProcessAltitude : public QDialog {
-        Q_OBJECT
-    public:
-        DialogProcessAltitude(QWidget *parent = 0);
-        ~DialogProcessAltitude();
-        void init(GPSData* gpsdata);
+public:
+    explicit DisplaySRTMFrame(QWidget *parent = 0);
+    ~DisplaySRTMFrame();
 
+protected:
+    void changeEvent(QEvent *e);
 
-    protected:
-        void changeEvent(QEvent *e);
-        void updateAltitude();
+private:
+    Ui::DisplaySRTMFrame *ui;
+};
 
-    private:
-        Ui::DialogProcessAltitude *ui;
-        GPSData* mGPSData;
-        SrtmDownloader* srtmDownloader;
-
-    private slots:
-        void on_buttonBox_rejected();
-        void on_buttonBox_accepted();
-    };
-}
-
-#endif // DIALOGPROCESSALTITUDE_H
+#endif // DISPLAYSRTMFRAME_H

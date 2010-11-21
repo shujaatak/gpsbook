@@ -147,13 +147,22 @@ namespace PluginDisplayGraphic3D {
         if ((viewer->maxlon-viewer->minlon) > (viewer->maxlat-viewer->minlat))
         {
             viewer->latcenter=((viewer->maxlon-viewer->minlon)-(viewer->maxlat-viewer->minlat))/2;
-            viewer->maxlat=viewer->minlat + (viewer->maxlon-viewer->minlon) ;
+            viewer->maxlat=viewer->minlat + (viewer->maxlon-viewer->minlon) ;            
         }
         else
         {
             viewer->loncenter=((viewer->maxlat-viewer->minlat)-(viewer->maxlon-viewer->minlon))/2;
             viewer->maxlon=viewer->minlon + (viewer->maxlat-viewer->minlat);
         }
+        //Define max elevation base on scale defined for lon and lat
+            //TODO: use the service instead of this (duplicated) code
+            long r = 6378; //meters
+            const double PI = 3.14159265358979323846264338328;
+            double rad_lon1 = 0 * ( PI / 180 );
+            double rad_lat1 = viewer->latcenter * ( PI / 180 );
+            double rad_lon2 = 0 * ( PI / 180 );
+            double rad_lat2 = viewer->maxlat * ( PI / 180 );
+            viewer->maxele=viewer->minele+acos(cos(rad_lat1)*cos(rad_lon1)*cos(rad_lat2)*cos(rad_lon2) + cos(rad_lat1)*sin(rad_lon1)*cos(rad_lat2)*sin(rad_lon2) + sin(rad_lat1)*sin(rad_lat2)) * r;
         //qDebug() << viewer->minlat << viewer->minlon << viewer->minele << viewer->maxlat << viewer->maxlon << viewer->maxele;
         viewer->gpsdata->unlockGPSData();
 
@@ -198,11 +207,29 @@ namespace PluginDisplayGraphic3D {
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
+    void DisplayGraphic3DFrame::on_toolButton_terrain_toggled(bool checked)
+    {
+        viewer->drawFloor = checked;
+        viewer->showEntireScene();
+    }
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayGraphic3DFrame::on_toolButton_light_toggled(bool checked)
+    {
+        viewer->light=checked;
+        viewer->showEntireScene();
+    }
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
     void DisplayGraphic3DFrame::on_toolButton_Plus_clicked()
     {
         viewer->setLineSize( viewer->lineSize() + 1);
         ui->toolButton_Moins->setEnabled(viewer->lineSize()>1);
-        ui->toolButton_Plus->setEnabled(viewer->lineSize()<10);
+        ui->toolButton_Plus->setEnabled(viewer->lineSize()<20);
     } //DisplayGraphic3DFrame::on_toolButton_Plus_clicked
 
     /*------------------------------------------------------------------------------*
@@ -215,5 +242,26 @@ namespace PluginDisplayGraphic3D {
         ui->toolButton_Plus->setEnabled(viewer->lineSize()<20);
     } //DisplayGraphic3DFrame::on_toolButton_Moins_clicked
 
+
+    void DisplayGraphic3DFrame::on_toolButton_AltitudeScalePlus_clicked()
+    {
+        viewer->setAltutudeScaleRatio( viewer->altitudeScaleRatio() + 0.1);
+        ui->toolButton_AltitudeScaleMoins->setEnabled(viewer->altitudeScaleRatio()>0.1);
+        ui->toolButton_AltitudeScalePlus->setEnabled(viewer->altitudeScaleRatio()<5);
+    }
+
+    void DisplayGraphic3DFrame::on_toolButton_AltitudeScaleMoins_clicked()
+    {
+        viewer->setAltutudeScaleRatio( viewer->altitudeScaleRatio() - 0.1);
+        ui->toolButton_AltitudeScaleMoins->setEnabled(viewer->altitudeScaleRatio()>0.1);
+        ui->toolButton_AltitudeScalePlus->setEnabled(viewer->altitudeScaleRatio()<5);
+    }
 }
 
+void PluginDisplayGraphic3D::DisplayGraphic3DFrame::on_toolButton_AltitudeScaleMean_clicked()
+{
+    viewer->setAltutudeScaleRatio( 1) ;
+    ui->toolButton_AltitudeScaleMoins->setEnabled(true);
+    ui->toolButton_AltitudeScalePlus->setEnabled(true);
+
+}
