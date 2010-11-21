@@ -29,7 +29,7 @@ SUBDIRS = GPSBook \
           #plugins/displayGeoPortail \
           plugins/displayGoogleMap \
           #plugins/displayGPSBabel \
-          #plugins/displayGPSBabel/Gebabbel-0.4/Gebabbel.pro \
+          #plugins/displayGPSBabel/Gebabbel/Gebabbel.pro \
           plugins/displayGraphic2D \
           plugins/displayGraphic3D \
           #plugins/displayGraphic3D/libQGLViewer/QGLViewer \
@@ -42,6 +42,7 @@ SUBDIRS = GPSBook \
           #plugins/displayRawEditor \
           #plugins/displayReport \
           #plugins/displayRoadBook \
+          plugins/displaySRTM \
           plugins/displayStatistic \
           plugins/filterCleanup \
           #plugins/filterKalman \
@@ -49,6 +50,6 @@ SUBDIRS = GPSBook \
           #plugins/ioCSV \
           #plugins/ioGPSBabel \
           plugins/ioGPX \
-          plugins/ioLOC \
+          plugins/ioLOC
           #plugins/ioNMEA \
           #plugins/displayTemplate

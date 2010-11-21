@@ -322,45 +322,44 @@ namespace GPSBook {
                     if (displayPlugin)
                     {
                         //qDebug( )  << __FILE__ << __FUNCTION__ << "This is a vusual plugin " << fileName;
-
-                        //Create Action
-                        QAction *action = new QAction(displayPlugin->getName(), plugin);
-
-                        //Add icon and tooltip to action
-                        action->setIcon(displayPlugin->getIcon());
-                        action->setToolTip(displayPlugin->getName());
-                        action->setCheckable(true);
-                        actionGroup->addAction(action);
-
-                        //Connect action signal to slot
-                        connect(action, SIGNAL(triggered()), this, SLOT(displayPluginShow()));
-                        connect(action, SIGNAL(triggered()), displayPlugin, SLOT(on_showPlugin()));
-                        //connect(displayPlugin, SIGNAL(signalSetTrackSelection(bool,bool,bool,bool,bool)),this,SLOT(trackSelectionEnable(bool,bool,bool,bool,bool)));
-                        //connect(displayPlugin, SIGNAL(signalLoadFile(QString,bool)),this,SLOT(loadFile(QString,bool)));
-                        //connect(this, SIGNAL(signalFileLoaded()),displayPlugin,SLOT(on_fileLoaded()));
-                        //connect(this, SIGNAL(signalSelectionChanged()),displayPlugin,SLOT(on_selectionChanged()));
-
-                        //Add action to toolbar
-                        ui->mainToolBar->insertAction(ui->actionFilters,action);
-                        ui->menu_View->insertAction(ui->actionFilters,action);
-
-                        //Add action to stack widget
-                        int idx = ui->stackedWidget->addWidget(displayPlugin->getWidget());
-                        qDebug( )  << __FILE__ << __FUNCTION__ << "Init Plugin " << fileName;
-                        m_plugin->init(ui->stackedWidget->widget(idx) , mGPSData);
-                        action->setData(idx);
-
-                        //define first plugin a visible plugin (could be overwrited later by the preference selection)
-                        if (firstDisplayPlugin)
+                        QWidget* widget = displayPlugin->getWidget();
+                        if ( widget != NULL )
                         {
-                            visiblePlugin = displayPlugin;
-                            firstDisplayPlugin = false;
+                            //Create Action
+                            QAction *action = new QAction(displayPlugin->getName(), plugin);
+
+                            //Add icon and tooltip to action
+                            action->setIcon(displayPlugin->getIcon());
+                            action->setToolTip(displayPlugin->getName());
+                            action->setCheckable(true);
+                            actionGroup->addAction(action);
+
+                            //Connect action signal to slot
+                            connect(action, SIGNAL(triggered()), this, SLOT(displayPluginShow()));
+                            connect(action, SIGNAL(triggered()), displayPlugin, SLOT(on_showPlugin()));
+
+                            //Add action to toolbar
+                            ui->mainToolBar->insertAction(ui->actionFilters,action);
+                            ui->menu_View->insertAction(ui->actionFilters,action);
+
+                            //Add action to stack widget
+                            int idx = ui->stackedWidget->addWidget(widget);
+                            qDebug( )  << __FILE__ << __FUNCTION__ << "Init Plugin " << fileName;
+                            m_plugin->init(ui->stackedWidget->widget(idx) , mGPSData);
+                            action->setData(idx);
+
+                            //define first plugin a visible plugin (could be overwrited later by the preference selection)
+                            if (firstDisplayPlugin)
+                            {
+                                visiblePlugin = displayPlugin;
+                                firstDisplayPlugin = false;
+                            }
+                            displayPluginList.append(displayPlugin);
                         }
-                        displayPluginList.append(displayPlugin);
 
                         //Add help page of plugin
                         //ui->tabWidgetVisualPluginHelp->addTab(displayPlugin->getHelp(),displayPlugin->getIcon(),displayPlugin->getName());
-                        idx = ui->stackedWidgetHelp->addWidget(displayPlugin->getHelp());
+                        int idx = ui->stackedWidgetHelp->addWidget(displayPlugin->getHelp());
                         QTreeWidgetItem* optionHelp = new QTreeWidgetItem();
                         optionHelp->setText(0,displayPlugin->getName());
                         optionHelp->setIcon(0,displayPlugin->getIcon());
@@ -424,7 +423,8 @@ namespace GPSBook {
             }
             else
             {
-                qWarning( )  << __FILE__ << __FUNCTION__ << "ERROR: " << loader.errorString();
+                qCritical() << __FILE__ << __FUNCTION__ << "Cannot load " << fileName;
+                qCritical() << __FILE__ << __FUNCTION__ << "ERROR: " << loader.errorString();
             }
         }
 
@@ -517,7 +517,7 @@ namespace GPSBook {
     } //MainWindow::on_actionOpen_triggered
 
     /*------------------------------------------------------------------------------*
-
+        TODO: manage override or append.
      *------------------------------------------------------------------------------*/
     void MainWindow::loadFile(QString filename, bool isFromCatalog) {
         qDebug( )  << __FILE__ << __FUNCTION__ <<  filename;
@@ -529,19 +529,39 @@ namespace GPSBook {
         qApp->processEvents();
         qApp->setOverrideCursor(QCursor(Qt::WaitCursor));
 
-        //Clean current trace
-        on_actionClose_current_trace_triggered();
+
 
         //Load the new trace (gpsDataLoc managed by the plugin)
         foreach (InputOutputPluginInterface* inputPlugin, inputOutputPluginList) {
-            //TODO: Fix the potential conflict on the bellow line
             if (inputPlugin->getOpenFilter().contains(QFileInfo(filename).suffix())) {
-                inputPlugin->open(filename, mGPSData);
-            }
-            else
-            {
-                //Try gpx... just in case (needed to load tmp file from internet)
-                gpxPlugin->open(filename, mGPSData);
+                if ( mGPSData->wayPointList.isEmpty() &&
+                     mGPSData->routeList.isEmpty() &&
+                     mGPSData->trackList.isEmpty() )
+                {
+                    on_actionClose_current_trace_triggered();
+                    inputPlugin->open(filename, mGPSData);
+                }
+                else
+                {
+                    switch ( QMessageBox::warning(this,
+                                              tr("File already loaded"),
+                                              tr("Do you want append the new file to existing loaded file?"),
+                                              QMessageBox::No|QMessageBox::Cancel) )
+                    {
+                    case QMessageBox::Yes :
+                        //Append file to existing
+                    break;
+                    case QMessageBox::No :
+                        //Load new file
+                        on_actionClose_current_trace_triggered();
+                        inputPlugin->open(filename, mGPSData);
+                    break;
+                    default:
+                        //Operation cancelled
+                    break;
+                    }
+
+                }
             }
         }
         //Update mainwindows state

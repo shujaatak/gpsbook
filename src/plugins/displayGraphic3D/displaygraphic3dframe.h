@@ -54,6 +54,11 @@ namespace PluginDisplayGraphic3D {
 
 
         private slots:
+            void on_toolButton_AltitudeScaleMean_clicked();
+            void on_toolButton_AltitudeScaleMoins_clicked();
+            void on_toolButton_AltitudeScalePlus_clicked();
+            void on_toolButton_light_toggled(bool checked);
+            void on_toolButton_terrain_toggled(bool checked);
             void on_toolButton_Moins_clicked();
             void on_toolButton_Plus_clicked();
             void on_toolButton_5_toggled(bool checked);

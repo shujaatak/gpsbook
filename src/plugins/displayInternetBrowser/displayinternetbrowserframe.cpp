@@ -27,6 +27,8 @@
 #include <QDebug>
 #include <QMenu>
 #include <QToolBar>
+#include <QSettings>
+#include <QDir>
 #include "displayinternetbrowserframe.h"
 #include "ui_displayinternetbrowserframe.h"
 #include "interface.h"
@@ -45,8 +47,15 @@ namespace PluginDisplayInternetBrowser {
         QWebSettings::globalSettings()->setAttribute(QWebSettings::PluginsEnabled, true);
         QWebSettings::globalSettings()->setAttribute(QWebSettings::JavascriptEnabled, true);
         QWebSettings::globalSettings()->setAttribute(QWebSettings::AutoLoadImages, true);
-        //TODO: Create directory for cookies
-        //QWebSettings::setOfflineWebApplicationCachePath ( const QString & path );
+
+        QSettings settings("GPSBook","GPSBook");
+        QString storagePath = settings.value("StorageLocation","").toString();
+        QDir *dir = new QDir();
+        if ( !dir->mkpath(storagePath+"webcache") )
+        {
+            QMessageBox::warning(0, qApp->applicationName(),qApp->tr("Cannot create webcache dir."));
+        }
+        cookieJar = new CookieJar(storagePath+"webcache/cookies.txt");
 
         m_ui->setupUi(this);
 
@@ -56,6 +65,7 @@ namespace PluginDisplayInternetBrowser {
         progressIndicator = new QProgressIndicator();
         m_ui->horizontalLayout->addWidget(progressIndicator);
 
+        m_ui->webView->page()->networkAccessManager()->setCookieJar(cookieJar);
         toolbar->addAction(m_ui->webView->pageAction(QWebPage::Back));
         toolbar->addAction(m_ui->webView->pageAction(QWebPage::Forward));
         toolbar->addAction(m_ui->webView->pageAction(QWebPage::Reload));
@@ -63,7 +73,7 @@ namespace PluginDisplayInternetBrowser {
         connect(m_ui->webView, SIGNAL(loadStarted()),progressIndicator,SLOT(startAnimation()));
         connect(m_ui->webView, SIGNAL(loadFinished(bool)),progressIndicator,SLOT(stopAnimation()));
 
-        tmpFile = new QTemporaryFile (QDir::tempPath() + QDir::separator() + QCoreApplication::applicationName() + "_gpx-view.gpx");
+        tmpFile = new QTemporaryFile ();
 
         activeSite = "qrc:///welcome.html";
 
@@ -110,57 +120,34 @@ namespace PluginDisplayInternetBrowser {
     void DisplayInternetBrowserFrame::unsupportedContent ( QNetworkReply * reply )
     {
         qDebug() << __FILE__ << __FUNCTION__;
+
         QString content = reply->rawHeader("Content-Disposition");
-        if ( content.contains("gpx"))
+        QString filename = content.right(content.length()-content.indexOf("=")-1);
+
+        if (QMessageBox::information(this,
+                                     tr("Downloading Track"),
+                                     qApp->applicationName()+" "+tr("is about to load the trace.") ,
+                                     QMessageBox::Ok|QMessageBox::Cancel) != QMessageBox::Cancel)
         {
-            int ret = QMessageBox::Cancel;
-            if (mGPSData->trackList.isEmpty() &&
-                mGPSData->routeList.isEmpty() &&
-                mGPSData->wayPointList.isEmpty() ) {
-
-                ret = QMessageBox::information(this,
-                                             tr("Downloading Track"),
-                                             qApp->applicationName()+" "+tr("is about to load the trace.") ,
-                                             QMessageBox::Ok|QMessageBox::Cancel);
+            qDebug() << __FILE__ << __FUNCTION__ << "Download file.";
+            //Download file
+            QByteArray data(reply->readAll());
+            if (tmpFile->open()) {
+                //Store data into a temporary file
+                tmpFile->write(data);
+                tmpFile->close();
+                qDebug() <<  __FILE__ << __FUNCTION__ << "-> File saved:" << tmpFile->fileName();
+                tmpFile->rename(QDir::tempPath() + QDir::separator() + "ibtmp_"+filename);
+                // Send signal to main application to load file
+                pluginOwner->loadFile(tmpFile->fileName());
+                mGPSData->filename=tmpFile->fileName();
             }
-            /*else {
-                ret = QMessageBox::information(this,
-                                               tr("Downloading Track and append to the current track"),
-                                               tr("Do you want to append the loaded data to the current track ?") ,
-                                               QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel);
-            }*/
-            if (ret != QMessageBox::Cancel) {
-                qDebug() << __FILE__ << __FUNCTION__ << "Download file.";
-                //Download file
-                QByteArray data(reply->readAll());
-                if (tmpFile->open()) {
-                    //Store data into a temporary file
-                    tmpFile->write(data);
-                    tmpFile->close();
-                    qDebug() <<  __FILE__ << __FUNCTION__ << "-> File saved:" << tmpFile->fileName();
-                }
-                else {
-                    //ERROR
-                    QMessageBox::critical(this,
-                                          tr("Downloading error"),
-                                          qApp->applicationName()+" "+tr("was enabled to load the trace.") ,
-                                          QMessageBox::Ok);
-                }
-            }
-
-            switch (ret)
-            {
-                case QMessageBox::Yes :
-                    //TODO: if a file is already loaded, ask if info dowloaded should be appended to the current trace
-                break;
-                case QMessageBox::Ok :
-                case QMessageBox::No :
-                        // Send signal to main application to load file
-                        pluginOwner->loadFile(tmpFile->fileName());
-                        //QString filename = reply->rawHeader("Content-Disposition");
-                        //filename = filename.right(filename.length()-filename.indexOf("=")-1);
-                        mGPSData->filename=tmpFile->fileName();
-                break;
+            else {
+                //ERROR
+                QMessageBox::critical(this,
+                                      tr("Downloading error"),
+                                      qApp->applicationName()+" "+tr("was enabled to load the trace.") ,
+                                      QMessageBox::Ok);
             }
         }
     } //DisplayInternetBrowserFrame::unsupportedContent
@@ -239,6 +226,7 @@ namespace PluginDisplayInternetBrowser {
     void DisplayInternetBrowserFrame::on_buttonGeoCaching_toggled(bool)
     {
         activeSite = "http://www.geocaching.com/";
+        activeSite = "http://www.geocaching.com/seek/cache_details.aspx?guid=d10abb4d-55bd-4005-b630-bbc1958a80ed";
         m_ui->webView->setUrl(QUrl(activeSite));
     } //DisplayInternetBrowserFrame::on_buttonVisuGpx_toggled
 

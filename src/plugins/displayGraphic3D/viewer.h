@@ -24,6 +24,7 @@
 
 #include "qglviewer.h"
 #include "gpsdata.h"
+#include "../displaySRTM/srtm.h"
 
 using namespace GPSBook;
 
@@ -32,6 +33,13 @@ namespace PluginDisplayGraphic3D {
     {
         private:
             int mLineSize;
+            double mAltitudeScaleRatio;
+            void drawTerrain();
+            double altitude(double x, double y);
+            double convertAlt(double altitude);
+            SrtmDownloader* srtmDownloader;
+
+
         public :
             double minlat, maxlat;
             double minlon, maxlon;
@@ -39,10 +47,14 @@ namespace PluginDisplayGraphic3D {
             double latcenter, loncenter;
             bool drawWall;
             bool drawBox;
+            bool drawFloor;
+            bool light;
             GPSData* gpsdata;
             Viewer(QWidget* parent);
             int lineSize();
             void setLineSize(int value);
+            double altitudeScaleRatio();
+            void setAltutudeScaleRatio(double value);
             void updateData();
 
         protected :

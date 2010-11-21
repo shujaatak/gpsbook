@@ -36,6 +36,75 @@
        <number>0</number>
       </property>
       <item>
+       <widget class="QToolButton" name="toolButton_terrain">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="icons/3D/3D.qrc">
+          <normaloff>:/icons/3D/floordata.png</normaloff>:/icons/3D/floordata.png</iconset>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_AltitudeScalePlus">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+          <normaloff>:/icons/silk/magnifier_zoom_in.png</normaloff>:/icons/silk/magnifier_zoom_in.png</iconset>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_AltitudeScaleMean">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+          <normaloff>:/icons/silk/magnifier.png</normaloff>:/icons/silk/magnifier.png</iconset>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_AltitudeScaleMoins">
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+          <normaloff>:/icons/silk/magifier_zoom_out.png</normaloff>:/icons/silk/magifier_zoom_out.png</iconset>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QToolButton" name="toolButton">
         <property name="text">
          <string>...</string>
@@ -96,25 +165,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="toolButton_3">
-        <property name="text">
-         <string>...</string>
-        </property>
-        <property name="icon">
-         <iconset resource="icons/3D/3D.qrc">
-          <normaloff>:/icons/3D/hiddenline.png</normaloff>:/icons/3D/hiddenline.png</iconset>
-        </property>
-        <property name="checkable">
-         <bool>true</bool>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-        <property name="autoExclusive">
-         <bool>true</bool>
-        </property>
-        <property name="autoRaise">
-         <bool>true</bool>
+       <widget class="Line" name="line_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
@@ -185,6 +238,7 @@
   </layout>
  </widget>
  <resources>
+  <include location="../../GPSBook/icons/silk/silk_icons.qrc"/>
   <include location="icons/3D/3D.qrc"/>
  </resources>
  <connections/>

@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>154</height>
+    <width>591</width>
+    <height>182</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,12 +18,12 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>This tool recalculate the elevation gain and loss and can regenerate the altidude based on GDAL database.</string>
+    <widget class="QLabel" name="label_2">
+     <property name="enabled">
+      <bool>false</bool>
      </property>
-     <property name="wordWrap">
-      <bool>true</bool>
+     <property name="text">
+      <string>Recalculate elevation gain and loss.</string>
      </property>
     </widget>
    </item>
@@ -33,7 +33,10 @@
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>Regenerate altidude data base on GDAL database.</string>
+      <string>Regenerate altitude data based on SRTM database.</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

@@ -3,8 +3,8 @@
 # -------------------------------------------------
 include ( ../../GPSBook/GPSBookConfig.pro)
 
-#DEFINES  += QT_NO_WARNING_OUTPUT
-#DEFINES  += QT_NO_DEBUG_OUTPUT
+DEFINES  += QT_NO_WARNING_OUTPUT
+DEFINES  += QT_NO_DEBUG_OUTPUT
 
 TARGET = displayGraphic3D
 QT *= xml opengl
@@ -27,13 +27,16 @@ HEADERS += displaygraphic3d.h \
     viewer.h \
     displaygraphic3dframe.h \
     displaygraphic3doptionsframe.h \
-    displaygraphic3dhelp.h
+    displaygraphic3dhelp.h \
+    ../displaySRTM/srtm.h
 TRANSLATIONS = displayGraphic3D_fr_fr.ts \
                displayGraphic3D_en_us.ts
 
 linux-g++ {
     # libQGLViewer libraries
     LIBS += -L../../../delivery/lib -lQGLViewer
+    # libdisplaySRTM library
+    LIBS += -L../../../delivery/plugins -ldisplaySRTM
 }
 mac {
     # libQGLViewer libraries

@@ -21,6 +21,7 @@
 ****************************************************************************/
 #include "viewer.h"
 #include <QDebug>
+#include <QSettings>
 
 namespace PluginDisplayGraphic3D {
 
@@ -34,7 +35,14 @@ namespace PluginDisplayGraphic3D {
         setGridIsDrawn(true);
         drawWall = false;
         drawBox = true;
-        mLineSize = 2;
+        drawFloor = true;
+        light=true;
+        mLineSize = 1;
+        mAltitudeScaleRatio = 1.5;
+        QSettings settings("GPSBook","GPSBook");
+        QString storagePath = settings.value("StorageLocation","").toString();
+        srtmDownloader = new SrtmDownloader("http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/",
+                                            storagePath+"srtm");
     } //Viewer::Viewer
 
     /*------------------------------------------------------------------------------*
@@ -43,8 +51,12 @@ namespace PluginDisplayGraphic3D {
     void Viewer::draw()
     {
         qDebug() << __FILE__ << __FUNCTION__ ;
-        glDisable(GL_LIGHTING);
-        if (drawBox){
+        if (light)
+        {
+            glDisable(GL_LIGHTING);
+        }
+        if (drawBox)
+        {
             glColor3f(1, 1, 1);
             glLineWidth(1.0);
             glBegin(GL_LINE_STRIP);
@@ -58,8 +70,12 @@ namespace PluginDisplayGraphic3D {
               glVertex3i(1,-1,0);glVertex3i(1,-1,1);
             glEnd();
         }
-        //qDebug() << __FUNCTION__;
-        if (gpsdata)
+        if (drawFloor)
+        {
+            drawTerrain();
+        }
+        if ( !gpsdata->routeList.isEmpty() ||
+             !gpsdata->trackList.isEmpty() )
         {
             glLineWidth(mLineSize);
             gpsdata->lockGPSDataForRead();
@@ -86,7 +102,7 @@ namespace PluginDisplayGraphic3D {
                             double lon=(2/(maxlon-minlon))*(waypoint->lon+loncenter)+(-1-((2*minlon)/(maxlon-minlon)));
                             double lat=(2/(maxlat-minlat))*(waypoint->lat+latcenter)+(-1-((2*minlat)/(maxlat-minlat)));
                             //double ele=(2/(maxele-minele))*waypoint->ele+(-1-((2*minele)/(maxele-minele)));
-                            double ele=(1/(maxele-minele))*waypoint->ele+(-((1*minele)/(maxele-minele)));
+                            double ele=convertAlt(waypoint->ele);
 
                             glColor3f(1.0-(0.5*ele), 0.2f , ele);
                             if (drawWall)
@@ -123,26 +139,26 @@ namespace PluginDisplayGraphic3D {
                             glBegin(GL_QUAD_STRIP);
                         else
                             glBegin(GL_LINE_STRIP);
-                            foreach (WayPoint* waypoint, gpsdata->trackList[trackId]->trackSegList[trackSegId]->wayPointList)
-                            {
-                                if (!firstWaypoint)
+                                foreach (WayPoint* waypoint, gpsdata->trackList[trackId]->trackSegList[trackSegId]->wayPointList)
                                 {
-                                    //qDebug() << waypoint->lon << ","  << waypoint->lat << ","  <<  waypoint->ele;
-                                    firstWaypoint = waypoint;
-                                }
-                                //Recalculate position
-                                double lon=(2/(maxlon-minlon))*(waypoint->lon+loncenter)+(-1-((2*minlon)/(maxlon-minlon)));
-                                double lat=(2/(maxlat-minlat))*(waypoint->lat+latcenter)+(-1-((2*minlat)/(maxlat-minlat)));
-                                //double ele=(2/(maxele-minele))*waypoint->ele+(-1-((2*minele)/(maxele-minele)));
-                                double ele=(1/(maxele-minele))*waypoint->ele+(-((1*minele)/(maxele-minele)));
+                                    if (!firstWaypoint)
+                                    {
+                                        //qDebug() << waypoint->lon << ","  << waypoint->lat << ","  <<  waypoint->ele;
+                                        firstWaypoint = waypoint;
+                                    }
+                                    //Recalculate position
+                                    double lon=(2/(maxlon-minlon))*(waypoint->lon+loncenter)+(-1-((2*minlon)/(maxlon-minlon)));
+                                    double lat=(2/(maxlat-minlat))*(waypoint->lat+latcenter)+(-1-((2*minlat)/(maxlat-minlat)));
+                                    //double ele=(2/(maxele-minele))*waypoint->ele+(-1-((2*minele)/(maxele-minele)));
+                                    double ele=convertAlt(waypoint->ele);
 
-                                glColor3f(1.0-(0.5*ele), 0.2f , ele);
-                                if (drawWall)
-                                    glVertex3f(lon, lat, 0);
-                                glVertex3f(lon, lat, ele);
-                                //qDebug() << waypoint->lon << ","  << waypoint->lat << ","  <<  waypoint->ele;
-                            }
-                        glEnd();
+                                    glColor3f(1.0-(0.5*ele), 0.2f , ele);
+                                    if (drawWall)
+                                        glVertex3f(lon, lat, 0);
+                                    glVertex3f(lon, lat, ele);
+                                    //qDebug() << waypoint->lon << ","  << waypoint->lat << ","  <<  waypoint->ele;
+                                }
+                            glEnd();
                     }
                 }
             }
@@ -175,6 +191,70 @@ namespace PluginDisplayGraphic3D {
     {
         mLineSize =  value;
         updateGL();
-    } //Viewer::updateData
+    } //Viewer::setLineSize
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    double Viewer::altitudeScaleRatio()
+    {
+        return mAltitudeScaleRatio;
+    } //Viewer::altitudeScaleRatio
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void Viewer::setAltutudeScaleRatio(double value)
+    {
+        mAltitudeScaleRatio =  value;
+        updateGL();
+    } //Viewer::setAltutudeScaleRatio
+
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void Viewer::drawTerrain(){
+        qDebug() << __FILE__ << __FUNCTION__ ;
+
+        int deltaMax = 2;
+        double Precision = 0.025;
+        double X_Buffer, Y_Buffer;
+        for (X_Buffer = -deltaMax/2 ; X_Buffer < deltaMax/2 ; X_Buffer = X_Buffer + Precision){
+            for (Y_Buffer = -deltaMax/2 ; Y_Buffer < deltaMax/2 ; Y_Buffer = Y_Buffer + Precision){
+                glBegin(GL_TRIANGLE_STRIP);
+                    // define first triangle
+                    glColor3f(sin(altitude( X_Buffer , Y_Buffer )), altitude( X_Buffer , Y_Buffer ), cos(altitude( X_Buffer , Y_Buffer )));
+                    glVertex3d(X_Buffer, Y_Buffer, altitude(X_Buffer, Y_Buffer));
+                    glVertex3d(X_Buffer + Precision, Y_Buffer, altitude(X_Buffer +Precision, Y_Buffer));
+                    glVertex3d(X_Buffer, Y_Buffer + Precision, altitude(X_Buffer, Y_Buffer + Precision) );
+
+                    // Define second triangle
+                    glColor3f(sin(altitude( X_Buffer , Y_Buffer )), cos(altitude( X_Buffer , Y_Buffer )), altitude( X_Buffer , Y_Buffer ));
+                    glVertex3d(X_Buffer + Precision, Y_Buffer + Precision, altitude( X_Buffer + Precision , Y_Buffer + Precision));
+                glEnd();
+            }
+        }
+    }
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    double Viewer::convertAlt(double altitude){
+        //mAltitudeScaleRatio
+        return (1/(maxele/mAltitudeScaleRatio-minele))*altitude+(-((1*minele)/(maxele/mAltitudeScaleRatio-minele)));
+
+    }
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    double Viewer::altitude(double x, double y){
+        //Convert x,y in lon,lat
+        double lat=(y-(-1-((2*minlat)/(maxlat-minlat))))/(2/(maxlat-minlat))-latcenter;
+        double lon=(x-(-1-((2*minlon)/(maxlon-minlon))))/(2/(maxlon-minlon))-loncenter;
+        return convertAlt(srtmDownloader->getAltitudeFromLatLon(lat,lon));
+    }
+
 
 }
