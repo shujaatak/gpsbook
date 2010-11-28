@@ -107,11 +107,11 @@ namespace GPSBook {
         void on_actionAbout_triggered();
         void on_actionSave_triggered();
         void on_toolButtonDelete_clicked();
-        void on_treeWidgetUndateTracks_customContextMenuRequested(QPoint pos);
-        void on_treeWidgetUndateTracks_doubleClicked(QModelIndex index);
-        void on_treeWidgetTracksOfTheDay_itemSelectionChanged();
-        void on_treeWidgetTracksOfTheDay_customContextMenuRequested(QPoint pos);
-        void on_treeWidgetTracksOfTheDay_doubleClicked(QModelIndex index);
+        void on_listWidgetNoDateTracks_customContextMenuRequested(QPoint pos);
+        void on_listWidgetNoDateTracks_doubleClicked(QModelIndex index);
+        void on_listWidgetTracksOfTheDay_itemSelectionChanged();
+        void on_listWidgetTracksOfTheDay_customContextMenuRequested(QPoint pos);
+        void on_listWidgetTracksOfTheDay_doubleClicked(QModelIndex index);
         void on_toolButtonNext_clicked();
         void on_toolButtonPrev_clicked();
         void on_calendarWidget_selectionChanged();

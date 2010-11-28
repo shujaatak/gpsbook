@@ -7,7 +7,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>754</width>
+    <width>596</width>
     <height>604</height>
    </rect>
   </property>
@@ -43,6 +43,12 @@
     </property>
     <item>
      <widget class="QFrame" name="frame_2">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
       </property>
@@ -85,75 +91,6 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QTreeWidget" name="treeWidgetHelp">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>200</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="editTriggers">
-              <set>QAbstractItemView::NoEditTriggers</set>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>16</width>
-               <height>16</height>
-              </size>
-             </property>
-             <property name="rootIsDecorated">
-              <bool>false</bool>
-             </property>
-             <column>
-              <property name="text">
-               <string>Help</string>
-              </property>
-             </column>
-             <item>
-              <property name="text">
-               <string>GPSBook</string>
-              </property>
-              <property name="icon">
-               <iconset resource="icons/gpsbook/gpsbook_icons.qrc">
-                <normaloff>:/icons/gpsbook/accueil.xpm</normaloff>:/icons/gpsbook/accueil.xpm</iconset>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Visual Plugins</string>
-              </property>
-              <property name="icon">
-               <iconset resource="icons/gtk/gtk_icons.qrc">
-                <normaloff>:/icons/gtk/mail-send.png</normaloff>:/icons/gtk/mail-send.png</iconset>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Filter Plugins</string>
-              </property>
-              <property name="icon">
-               <iconset resource="icons/gtk/gtk_icons.qrc">
-                <normaloff>:/icons/gtk/gnome-run.png</normaloff>:/icons/gtk/gnome-run.png</iconset>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>IO Plugins</string>
-              </property>
-              <property name="icon">
-               <iconset resource="icons/gtk/gtk_icons.qrc">
-                <normaloff>:/icons/gtk/mail-send-receive.png</normaloff>:/icons/gtk/mail-send-receive.png</iconset>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item>
             <widget class="QStackedWidget" name="stackedWidgetHelp">
              <widget class="QWidget" name="stackedWidgetPage1">
               <layout class="QGridLayout" name="gridLayout">
@@ -163,7 +100,7 @@
                <property name="spacing">
                 <number>0</number>
                </property>
-               <item row="0" column="0">
+               <item row="0" column="1">
                 <widget class="QTextEdit" name="textEdit">
                  <property name="html">
                   <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -223,6 +160,75 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans'; font-size:10pt;&quot;&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Sans'; font-size:10pt;&quot;&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
                  </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QTreeWidget" name="treeWidgetHelp">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>200</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="editTriggers">
+                  <set>QAbstractItemView::NoEditTriggers</set>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>16</width>
+                   <height>16</height>
+                  </size>
+                 </property>
+                 <property name="rootIsDecorated">
+                  <bool>false</bool>
+                 </property>
+                 <column>
+                  <property name="text">
+                   <string>Help</string>
+                  </property>
+                 </column>
+                 <item>
+                  <property name="text">
+                   <string>GPSBook</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="icons/gpsbook/gpsbook_icons.qrc">
+                    <normaloff>:/icons/gpsbook/accueil.xpm</normaloff>:/icons/gpsbook/accueil.xpm</iconset>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Visual Plugins</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="icons/gtk/gtk_icons.qrc">
+                    <normaloff>:/icons/gtk/mail-send.png</normaloff>:/icons/gtk/mail-send.png</iconset>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Filter Plugins</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="icons/gtk/gtk_icons.qrc">
+                    <normaloff>:/icons/gtk/gnome-run.png</normaloff>:/icons/gtk/gnome-run.png</iconset>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>IO Plugins</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="icons/gtk/gtk_icons.qrc">
+                    <normaloff>:/icons/gtk/mail-send-receive.png</normaloff>:/icons/gtk/mail-send-receive.png</iconset>
+                  </property>
+                 </item>
                 </widget>
                </item>
               </layout>
@@ -667,7 +673,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>754</width>
+     <width>596</width>
      <height>26</height>
     </rect>
    </property>
@@ -780,12 +786,6 @@ p, li { white-space: pre-wrap; }
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <property name="minimumSize">
-    <size>
-     <width>260</width>
-     <height>422</height>
-    </size>
-   </property>
    <property name="windowTitle">
     <string>Traces management</string>
    </property>
@@ -793,7 +793,7 @@ p, li { white-space: pre-wrap; }
     <number>1</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetTraceManagementContents">
-    <layout class="QVBoxLayout" name="verticalLayout_4">
+    <layout class="QVBoxLayout" name="verticalLayout">
      <property name="spacing">
       <number>0</number>
      </property>
@@ -808,6 +808,12 @@ p, li { white-space: pre-wrap; }
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="minimumSize">
+        <size>
+         <width>265</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -815,7 +821,7 @@ p, li { white-space: pre-wrap; }
         </size>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tabWidgetCatalog">
         <property name="sizePolicy">
@@ -838,29 +844,7 @@ p, li { white-space: pre-wrap; }
          <property name="spacing">
           <number>0</number>
          </property>
-         <item row="1" column="2">
-          <widget class="QCalendarWidget" name="calendarWidget">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="firstDayOfWeek">
-            <enum>Qt::Monday</enum>
-           </property>
-           <property name="gridVisible">
-            <bool>true</bool>
-           </property>
-           <property name="horizontalHeaderFormat">
-            <enum>QCalendarWidget::SingleLetterDayNames</enum>
-           </property>
-           <property name="verticalHeaderFormat">
-            <enum>QCalendarWidget::NoVerticalHeader</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0" colspan="4">
+         <item row="2" column="0" colspan="3">
           <widget class="QFrame" name="frame">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -1023,25 +1007,78 @@ p, li { white-space: pre-wrap; }
            </layout>
           </widget>
          </item>
-         <item row="3" column="0" colspan="4">
-          <widget class="QTreeWidget" name="treeWidgetTracksOfTheDay">
-           <property name="contextMenuPolicy">
-            <enum>Qt::CustomContextMenu</enum>
+         <item row="1" column="2">
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::MinimumExpanding</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="3" column="0" colspan="3">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Track of selected day</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0" colspan="3">
+          <widget class="QLabel" name="label_2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Tracks without Date</string>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="0" colspan="3">
+          <widget class="QTracksListWidget" name="listWidgetNoDateTracks">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="dragDropMode">
+            <enum>QAbstractItemView::DragDrop</enum>
+           </property>
+           <property name="defaultDropAction">
+            <enum>Qt::MoveAction</enum>
            </property>
            <property name="alternatingRowColors">
             <bool>true</bool>
            </property>
-           <property name="selectionMode">
-            <enum>QAbstractItemView::ExtendedSelection</enum>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QCalendarWidget" name="calendarWidget">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-           <property name="rootIsDecorated">
-            <bool>false</bool>
+           <property name="firstDayOfWeek">
+            <enum>Qt::Monday</enum>
            </property>
-           <column>
-            <property name="text">
-             <string>Track of selected day</string>
-            </property>
-           </column>
+           <property name="gridVisible">
+            <bool>true</bool>
+           </property>
+           <property name="horizontalHeaderFormat">
+            <enum>QCalendarWidget::SingleLetterDayNames</enum>
+           </property>
           </widget>
          </item>
          <item row="1" column="0">
@@ -1060,32 +1097,23 @@ p, li { white-space: pre-wrap; }
            </property>
           </spacer>
          </item>
-         <item row="1" column="3">
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeType">
-            <enum>QSizePolicy::MinimumExpanding</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>0</width>
-             <height>0</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
          <item row="4" column="0" colspan="4">
-          <widget class="QTreeWidget" name="treeWidgetUndateTracks">
-           <property name="rootIsDecorated">
-            <bool>false</bool>
+          <widget class="QTracksListWidget" name="listWidgetTracksOfTheDay">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-           <column>
-            <property name="text">
-             <string>Tracks without Date</string>
-            </property>
-           </column>
+           <property name="dragDropMode">
+            <enum>QAbstractItemView::DragDrop</enum>
+           </property>
+           <property name="defaultDropAction">
+            <enum>Qt::MoveAction</enum>
+           </property>
+           <property name="alternatingRowColors">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
@@ -1421,6 +1449,13 @@ p, li { white-space: pre-wrap; }
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QTracksListWidget</class>
+   <extends>QListWidget</extends>
+   <header>qtrackslistwidget.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>calendarWidget</tabstop>
   <tabstop>toolButtonPrev</tabstop>
@@ -1430,7 +1465,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>toolButtonAddToCatalog</tabstop>
   <tabstop>toolButtonAdd</tabstop>
   <tabstop>toolButtonDelete</tabstop>
-  <tabstop>treeWidgetTracksOfTheDay</tabstop>
   <tabstop>stackedWidgetOptions</tabstop>
   <tabstop>scrollArea</tabstop>
   <tabstop>comboBoxLanguageSelection</tabstop>

@@ -24,6 +24,7 @@ TEMPLATE = subdirs
 CONFIG   += ordered
 
 SUBDIRS = GPSBook \
+          plugins/displaySRTM \
           #plugins/displayBlogging \
           #plugins/displayEditTrack \
           #plugins/displayGeoPortail \
@@ -42,7 +43,6 @@ SUBDIRS = GPSBook \
           #plugins/displayRawEditor \
           #plugins/displayReport \
           #plugins/displayRoadBook \
-          plugins/displaySRTM \
           plugins/displayStatistic \
           plugins/filterCleanup \
           #plugins/filterKalman \
