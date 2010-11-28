@@ -26,9 +26,6 @@
 #include <QCryptographicHash>
 #include <QFile>
 #include <QVariant>
-#include <QTreeWidget>
-#include <QDate>
-#include <QCalendarWidget>
 #include <QTextCharFormat>
 #include <QBrush>
 #include <QFileInfo>
@@ -99,10 +96,10 @@ namespace GPSBook {
     /*------------------------------------------------------------------------------*
       Update the treview with the trace of the specified date
      *------------------------------------------------------------------------------*/
-    void Database::updateTreeWidget(QTreeWidget* treeWidget, QDate date)
+    void Database::updateListWidget(QListWidget* listWidget, QDate date)
     {
         qDebug( )  << __FILE__ << __FUNCTION__;
-        treeWidget->clear();
+        listWidget->clear();
         QSqlDatabase db = QSqlDatabase::database();;
         //Look into DB to find if file is not already in catalog
         QString datestr;
@@ -113,21 +110,21 @@ namespace GPSBook {
         QSqlQuery queryGpsData(sql, db);
         while (queryGpsData.next())
         {
-            QTreeWidgetItem* itemGpsData = new QTreeWidgetItem();
+            QListWidgetItem* itemGpsData = new QListWidgetItem();
             QString filename = queryGpsData.value(0).toString();
 
-            itemGpsData->setData(0,Qt::UserRole,    queryGpsData.value(0).toString()); //filename
+            itemGpsData->setData(Qt::UserRole,    queryGpsData.value(0).toString()); //filename
             QString displayName = queryGpsData.value(1).toString();
             if (displayName=="")
                 displayName = QFileInfo(queryGpsData.value(0).toString()).fileName();
-            itemGpsData->setData(0,Qt::UserRole + 1,displayName); //display name
-            itemGpsData->setData(0,Qt::UserRole + 2,queryGpsData.value(2).toString()); //description
+            itemGpsData->setData(Qt::UserRole + 1,displayName); //display name
+            itemGpsData->setData(Qt::UserRole + 2,queryGpsData.value(2).toString()); //description
 
             //itemGpsData->setText(0,queryGpsData.value(1).toString()!=  "" ? queryGpsData.value(1).toString() : queryGpsData.value(0).toString());
-            itemGpsData->setText(0,displayName);
-            treeWidget->addTopLevelItem(itemGpsData);
-            itemGpsData->setToolTip(0,queryGpsData.value(2).toString());
-            itemGpsData->setIcon(0,QIcon(":/icons/silk/script.png"));
+            itemGpsData->setText(displayName);
+            listWidget->addItem(itemGpsData);
+            itemGpsData->setToolTip(queryGpsData.value(2).toString());
+            itemGpsData->setIcon(QIcon(":/icons/silk/script.png"));
         }
     } //Database::updateTreeWidget
 

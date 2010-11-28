@@ -22,11 +22,10 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 #include <QObject>
+#include <QCalendarWidget>
+#include <QListWidget>
+#include <QDate>
 #include "gpsdata.h"
-
-class QDate;
-class QTreeWidget;
-class QCalendarWidget;
 
 namespace GPSBook {
 
@@ -39,7 +38,7 @@ namespace GPSBook {
         static void addTrackInDatabase(GPSData* gpsdata);
         static void addFileInDatabase(QString filename);
         static QString getMd5sumSignature(QString filename);
-        static void updateTreeWidget(QTreeWidget* treeWidget, QDate date);
+        static void updateListWidget(QListWidget* listWidget, QDate date);
         static QDate getPrevDate(QDate currentDate);
         static QDate getNextDate(QDate currentDate);
         static void initCalendarWidget(QCalendarWidget* calendarWidget);

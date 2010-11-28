@@ -19,7 +19,8 @@ SOURCES += main.cpp \
     database.cpp \
     dialogtrackproperty.cpp \
     QProgressIndicator.cpp \
-    webproxy.cpp
+    webproxy.cpp \
+    qtrackslistwidget.cpp
 HEADERS += mainwindow.h \
     interface.h \
     dialogfirststart.h \
@@ -28,7 +29,8 @@ HEADERS += mainwindow.h \
     database.h \
     dialogtrackproperty.h \
     QProgressIndicator.h \
-    webproxy.h
+    webproxy.h \
+    qtrackslistwidget.h
 FORMS += mainwindow.ui \
     dialogfirststart.ui \
     dialogtrackproperty.ui
