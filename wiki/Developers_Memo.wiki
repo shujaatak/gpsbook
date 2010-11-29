@@ -12,12 +12,16 @@ This page is a memo for developer who aims to compile GPSBook.
 
 == Plugins ==
 === displayGraphic2D ===
-  This plugin require the usage of qwt 6.0
+  This plugin requires the usage of qwt 6.0
   {{{
   svn co https://qwt.svn.sourceforge.net/svnroot/qwt/trunk/qwt
   }}}
 
 === displayGraphic3D ===
-  This plugin require the usage of libQGLViewer 2.3.6
+  This plugin requires the usage of libQGLViewer 2.3.6
 
   http://www.libqglviewer.com/
+
+=== displaySTRM ===
+  This plugin requires zziplib and libcurl.
+  Into ubuntu, I did install the dev package using apt-get then I create 2 symlink to the directories containing the include files of these libraries. 
