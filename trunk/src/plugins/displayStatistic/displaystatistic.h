@@ -61,7 +61,6 @@ class DisplayStatistic: public DisplayPluginInterface
         QWidget* getHelp();
         QWidget* getOptions();
         void init(QWidget* , GPSData* gpsdata);
-        void update();
         QStringList getServiceList(){
             return mServicesList;
         }
@@ -73,7 +72,10 @@ class DisplayStatistic: public DisplayPluginInterface
         }
 
     public slots:
-        void on_gpsdataChanged();
+        void on_gpsdataGPXChanged();
+        void on_gpsdataTracksChanged(){}
+        void on_gpsdataRoutesChanged(){}
+        void on_gpsdataWaypointsChanged(){}
         void on_selectionChanged();
         void on_fileLoaded();
         void on_about();

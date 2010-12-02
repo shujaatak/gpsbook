@@ -1,0 +1,162 @@
+<ui version="4.0" >
+ <author>Christoph Eckert</author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>PresetConfig</class>
+ <widget class="QDialog" name="PresetConfig" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>472</width>
+    <height>361</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Preset Configuration</string>
+  </property>
+  <property name="modal" >
+   <bool>true</bool>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>8</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item row="0" column="0" >
+    <layout class="QVBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QListView" name="PresetList" >
+       <property name="toolTip" >
+        <string>This list keeps the available presets</string>
+       </property>
+       <property name="statusTip" >
+        <string>This list keeps the available presets</string>
+       </property>
+       <property name="whatsThis" >
+        <string>This list keeps the available presets</string>
+       </property>
+       <property name="accessibleName" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="BtnConfigAdd" >
+         <property name="toolTip" >
+          <string>Add current settings as a new preset</string>
+         </property>
+         <property name="statusTip" >
+          <string>Add current settings as a new preset</string>
+         </property>
+         <property name="whatsThis" >
+          <string>Add current settings as a new preset</string>
+         </property>
+         <property name="text" >
+          <string>Add...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="BtnConfigEdit" >
+         <property name="toolTip" >
+          <string>Edit the selected preset</string>
+         </property>
+         <property name="statusTip" >
+          <string>Edit the selected preset</string>
+         </property>
+         <property name="whatsThis" >
+          <string>Edit the selected preset</string>
+         </property>
+         <property name="text" >
+          <string>Edit...</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="BtnConfigRemove" >
+         <property name="toolTip" >
+          <string>Remove the selected preset</string>
+         </property>
+         <property name="statusTip" >
+          <string>Remove the selected preset</string>
+         </property>
+         <property name="whatsThis" >
+          <string>Remove the selected preset</string>
+         </property>
+         <property name="text" >
+          <string>Remove</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0" >
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>131</width>
+         <height>31</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ButtonOk" >
+       <property name="text" >
+        <string>OK</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="ButtonCancel" >
+       <property name="text" >
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <tabstops>
+  <tabstop>PresetList</tabstop>
+  <tabstop>BtnConfigAdd</tabstop>
+  <tabstop>BtnConfigEdit</tabstop>
+  <tabstop>BtnConfigRemove</tabstop>
+  <tabstop>ButtonOk</tabstop>
+  <tabstop>ButtonCancel</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

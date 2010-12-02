@@ -55,7 +55,6 @@ namespace PluginIOGPX {
             void open(QString filename, GPSData* gpsdata);
             void save(QString filename, GPSData* gpsdata);
             void init( QWidget* , GPSData* );
-            void update() {}
             QStringList getServiceList(){
                 return mServicesList;
             }

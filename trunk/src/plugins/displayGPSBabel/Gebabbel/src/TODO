@@ -1,0 +1,15 @@
+ListItem.cpp:		// TODO: Even in filters, file existence should be checked, but it's difficult to determine files => postponed
+MyIOConfigWindow.cpp:				// TODO: Only show USB ports in the combo if one of the USB devices was selected
+MyIOConfigWindow.cpp:		// TODO: Set tooltips for the combo entries if possible?
+MyIOConfigWindow.cpp:		// TODO: Create human readable file filter popup entries which are i18n'ed
+MyIOConfigWindow.cpp:		// TODO: If the combobox is not empty, then try to use the path of the file it contains
+MyIOConfigWindow.cpp:		// TODO: Distinguish between filters and inputs/outputs
+MyIOConfigWindow.cpp:				// TODO: In case of input files, autoguess the type according to the input file extension
+MyIOConfigWindow.cpp:						// TODO: Append the correct file extension if it hasn't been appended by the user
+MyMainWindow.cpp:		// TODO: Check if it makes sense to use the preference path instead of a static string
+MyMainWindow.cpp:		// TODO: In case of USB inputs, don't disable the process button
+MyPreferencesConfig.cpp:		// TODO: Still buggy. If path only contains "gpsbabel", the selector jumps to the working directory...
+SettingsManager.cpp:												// TODO: contains() is not enough, as it will compose a very long text even in case of 'hdopandvdop'
+SettingsManager.cpp:		// TODO: QSettings treats those devices as config file groups
+SettingsManager.cpp:		// TODO: Recheck these formats and their file extensions
+SettingsManager.cpp:		// TODO: Create cool images for filter types and options

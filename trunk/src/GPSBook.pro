@@ -29,7 +29,7 @@ SUBDIRS = GPSBook \
           #plugins/displayEditTrack \
           #plugins/displayGeoPortail \
           plugins/displayGoogleMap \
-          #plugins/displayGPSBabel \
+          plugins/displayGPSBabel \
           #plugins/displayGPSBabel/Gebabbel/Gebabbel.pro \
           plugins/displayGraphic2D \
           plugins/displayGraphic3D \

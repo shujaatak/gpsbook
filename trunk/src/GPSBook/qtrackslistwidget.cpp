@@ -20,10 +20,6 @@ namespace GPSBook {
             QStandardItemModel itemModel;
             itemModel.dropMimeData(event->mimeData(), Qt::CopyAction, 0,0, QModelIndex());
             QStandardItem* item = itemModel.takeItem(0,0);
-            qDebug() << "a" << item->text();
-            qCritical() << "z" << item->data(Qt::UserRole).toString();
-            qCritical() << "e" << item->data(Qt::UserRole+1).toString();
-            qCritical() << "r" << event->source()->objectName();
             //If source is no date list, then add date to the track
             if (event->source()->objectName() == "listWidgetNoDateTracks")
             {

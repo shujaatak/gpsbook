@@ -72,8 +72,6 @@ namespace PluginDisplayGoogleMap {
     void DisplayGoogleMap::init(QWidget* , GPSData* gpsdata)
     {
         qDebug( )  << __FILE__ << __FUNCTION__;
-        connect((QObject*)gpsdata, SIGNAL(signalGPSDataUpdated()),
-                (QObject*)this,    SLOT  (on_gpsdataChanged   ()));
         mView->init(gpsdata);
     } //DisplayGoogleMap::init
 

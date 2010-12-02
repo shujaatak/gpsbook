@@ -110,6 +110,9 @@ namespace PluginDisplaySRTM {
     {
         QWidget* tmp = new QWidget();
         tmp->setWindowIcon(getIcon());
+        QString about = getName() + tr(" as been developped on top of the SRTM code writen by Hermann Kraus.") + "<br>" +
+                                    tr("Ref. SRTM_COPYING for the details of license related to this part of code.");
+
         QMessageBox::about(tmp,tr("About")+" "+getName(),
                     "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                     "<html>"
@@ -122,17 +125,18 @@ namespace PluginDisplaySRTM {
                             " v" + QString(BUILD_VERSION) + "." + QString(SVN_VERSION) + "  <sub>(" + QString(BUILD_DATE) + ")<sub>" +
                         "</p>"
                         "<p style=\" font-family:'Sans'; font-size:10pt; font-weight:400; font-style:vold; \">"
-                            + getName() + tr(" as been developped on top of the SRTM code writen by Hermann Kraus.\n Ref. SRTM_COPYING for the details of license related to this part of code.") + "<br><br>" +
+                            + about + "<br><br>" +
                             tr("License:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             "GNU GPL <a href=\"http://www.gnu.org/licenses/gpl.txt\">http://www.gnu.org/licenses/gpl.txt</a>" + "<br><br>" +
                             tr("Authors:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
-                            "gpsbook-team &copy;2009" + "<br><br>" +
+                            "gpsbook-team &copy;2009"+ "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             tr("Translation:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             tr("English by gpsbook-team") +
                         "</p>"
                         "</body>"
                     "</html>"
                     );
+
     } //DisplaySRTM::on_about
 
     Q_EXPORT_PLUGIN2(DisplaySRTM, DisplaySRTM)

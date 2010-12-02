@@ -42,7 +42,7 @@ namespace PluginDisplayGraphic3D {
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGraphic3D::on_gpsdataChanged()
+    void DisplayGraphic3D::on_gpsdataGPXChanged()
     {
         qDebug( )  << __FILE__ << __FUNCTION__;
         mView->update();
@@ -80,8 +80,6 @@ namespace PluginDisplayGraphic3D {
     {
         qDebug( )  << __FILE__ << __FUNCTION__;
         mGPSData= gpsdata;
-        connect((QObject*)mGPSData, SIGNAL(signalGPSDataUpdated()),
-                (QObject*)this,     SLOT  (on_gpsdataChanged   ()));
         mView->init(gpsdata);
     } //DisplayGraphic3D::init
 

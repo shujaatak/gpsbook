@@ -1,0 +1,9 @@
+#! /bin/bash
+
+echo "";
+echo "This application does *not* use the usual ./configure && make.";
+echo "Instead, read the file BUILDING.";
+echo "";
+echo "In short, run qmake and then make";
+echo "Ensure that you use qmake from an Qt 4.3 installation. Previous versions, especially Qt3, won't work.";
+echo "";
