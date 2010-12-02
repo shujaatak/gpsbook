@@ -519,7 +519,7 @@ namespace GPSBook {
     } //MainWindow::on_actionOpen_triggered
 
     /*------------------------------------------------------------------------------*
-        TODO: manage override or append.
+
      *------------------------------------------------------------------------------*/
     void MainWindow::loadFile(QString filename, bool isFromCatalog) {
         qDebug( )  << __FILE__ << __FUNCTION__ <<  filename;
@@ -536,33 +536,19 @@ namespace GPSBook {
         //Load the new trace (gpsDataLoc managed by the plugin)
         foreach (InputOutputPluginInterface* inputPlugin, inputOutputPluginList) {
             if (inputPlugin->getOpenFilter().contains(QFileInfo(filename).suffix())) {
-                if ( mGPSData->wayPointList.isEmpty() &&
-                     mGPSData->routeList.isEmpty() &&
-                     mGPSData->trackList.isEmpty() )
+                int response = QMessageBox::Yes;
+                if (mGPSData->isModified)
+                {
+                    response = QMessageBox::warning(this,
+                                                    tr("Loading new data"),
+                                                    tr("Modification done into current file will be lost. Continue anyway?"),
+                                                    QMessageBox::Yes|QMessageBox::No);
+                }
+
+                if ( response = QMessageBox::Yes )
                 {
                     on_actionClose_current_trace_triggered();
                     inputPlugin->open(filename, mGPSData);
-                }
-                else
-                {
-                    switch ( QMessageBox::warning(this,
-                                              tr("File already loaded"),
-                                              tr("Do you want append the new file to existing loaded file?"),
-                                              QMessageBox::No|QMessageBox::Cancel) )
-                    {
-                    case QMessageBox::Yes :
-                        //Append file to existing
-                    break;
-                    case QMessageBox::No :
-                        //Load new file
-                        on_actionClose_current_trace_triggered();
-                        inputPlugin->open(filename, mGPSData);
-                    break;
-                    default:
-                        //Operation cancelled
-                    break;
-                    }
-
                 }
             }
         }
@@ -594,6 +580,7 @@ namespace GPSBook {
      *------------------------------------------------------------------------------*/
     void MainWindow::initCurrentGPXTreeview(){
         qDebug( )  << __FILE__ << __FUNCTION__ ;
+        ui->labelTrackName->setText(QFileInfo(mGPSData->filename).fileName());
         ui->treeWidgetCurrentGPX->clear();
 
         QTreeWidgetItem* gpxItem = new QTreeWidgetItem();

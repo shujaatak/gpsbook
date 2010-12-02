@@ -49,7 +49,6 @@ namespace PluginDisplayGoogleMap {
         QWidget* getOptions();
         QWidget* getWidget();
         void init(QWidget* , GPSData* gpsdata);
-        void update(){}
         QStringList getServiceList(){
             return mServicesList;
         }
@@ -62,7 +61,10 @@ namespace PluginDisplayGoogleMap {
 
 
     public slots:
-        void on_gpsdataChanged(){}
+        void on_gpsdataGPXChanged(){}
+        void on_gpsdataTracksChanged(){}
+        void on_gpsdataRoutesChanged(){}
+        void on_gpsdataWaypointsChanged(){}
         void on_selectionChanged() {}
         void on_fileLoaded();
         void on_about();

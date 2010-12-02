@@ -51,7 +51,6 @@ namespace PluginDisplayInformation {
         QWidget* getHelp();
         QWidget* getOptions();
         void init(QWidget* , GPSData* gpsdata);
-        void update();
         QStringList getServiceList(){
             return mServicesList;
         }
@@ -63,7 +62,10 @@ namespace PluginDisplayInformation {
         }
 
     public slots:
-        void on_gpsdataChanged();
+        void on_gpsdataGPXChanged();
+        void on_gpsdataTracksChanged(){}
+        void on_gpsdataRoutesChanged(){}
+        void on_gpsdataWaypointsChanged(){}
         void on_selectionChanged();
         void on_fileLoaded();
         void on_about();

@@ -363,11 +363,11 @@ namespace GPSBook {
     {
         if ( ! extensions.contains( extensionName ) )
         {
-            return NULL;
+            return (QVariant)NULL;
         }
         else
         {
-           return extensions.value( extensionName ).toHash().value(key,NULL);
+           return extensions.value( extensionName ).toHash().value(key,(QVariant)NULL);
         }
     }
 

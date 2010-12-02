@@ -42,10 +42,14 @@ namespace PluginDisplayGraphic2D {
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayGraphic2D::on_gpsdataChanged()
+    void DisplayGraphic2D::on_gpsdataGPXChanged()
     {
         //qDebug() << "-> DisplayGraphic2D::on_gpsdataChanged()";
-        update();
+        qDebug( )  << __FILE__ << __FUNCTION__;
+        mView->on_update();
+        mView->getPlot()->replot();
+        mView->getGeoPlot()->replot();
+        mView->autoSetEnabled();
         //qDebug() << "<- DisplayGraphic2D::on_gpsdataChanged()";
     } //DisplayGraphic2D::on_gpsdataChanged
 
@@ -55,7 +59,7 @@ namespace PluginDisplayGraphic2D {
     void DisplayGraphic2D::on_selectionChanged()
     {
         qDebug() << __FILE__ << __FUNCTION__;
-        update();
+        on_gpsdataGPXChanged();
     } //DisplayGraphic2D::on_selectionChanged
 
     /*------------------------------------------------------------------------------*
@@ -65,19 +69,6 @@ namespace PluginDisplayGraphic2D {
     {
         on_showPlugin();
     } //DisplayGraphic2D::on_fileLoaded
-
-    /*------------------------------------------------------------------------------*
-
-     *------------------------------------------------------------------------------*/
-    void DisplayGraphic2D::update()
-    {
-        qDebug( )  << __FILE__ << __FUNCTION__;
-        mView->on_update();
-        mView->getPlot()->replot();
-        mView->getGeoPlot()->replot();
-        mView->autoSetEnabled();
-
-    } //DisplayGraphic2D::update
 
     /*------------------------------------------------------------------------------*
 
@@ -109,8 +100,6 @@ namespace PluginDisplayGraphic2D {
     void DisplayGraphic2D::init(QWidget* , GPSData* gpsdata)
     {
         qDebug( )  << __FILE__ << __FUNCTION__;
-        connect((QObject*)gpsdata, SIGNAL(signalGPSDataUpdated()),
-                (QObject*)this,    SLOT  (on_gpsdataChanged   ()));
         mGPSData = gpsdata;
         mView->init(gpsdata);
         mView->autoSetEnabled();
@@ -171,10 +160,11 @@ namespace PluginDisplayGraphic2D {
     void DisplayGraphic2D::on_showPlugin()
     {
         qDebug() << __FILE__ << __FUNCTION__ ;
-        update();
+        on_gpsdataGPXChanged();
         bool status= ( !mGPSData->trackList.isEmpty() || !mGPSData->routeList.isEmpty() );
         emit signalSetTrackSelection(status,!status,status,status,status);
     } //DisplayGraphic2D::on_showPlugin
 
     Q_EXPORT_PLUGIN2(DisplayGraphic2D, DisplayGraphic2D)
 }
+

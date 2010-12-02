@@ -386,7 +386,7 @@ namespace PluginDisplayGraphic2D {
 
         plot->rescale = false;
         geoPlot->rescale = false;
-        trackList->setModified(true);
+        trackList->setGPXModified(true);
         trackList->unlockGPSData();
     } //DisplayGraphic2DFrame::on_actionSplitSegment_triggered
 
@@ -399,12 +399,17 @@ namespace PluginDisplayGraphic2D {
         plot->fillcurve = m_ui->toolButtonFullfil->isChecked();
         plot->updateTracklistCurve(trackList,xAxis,yAxis);
     } // DisplayGraphic2DFrame::on_toolButtonFullfil_clicked
-}
 
-void PluginDisplayGraphic2D::DisplayGraphic2DFrame::on_actionDelete_selected_point_triggered()
-{
-    trackList->trackList[trackList->selectedTrackIndex]->trackSegList[trackList->selectedSegmentIndex]->wayPointList.removeAt(trackList->selectedWaypointIndex);
-    plot->rescale = false;
-    geoPlot->rescale = false;
-    trackList->setModified(true);
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayGraphic2DFrame::on_actionDelete_selected_point_triggered()
+    {
+        trackList->trackList[trackList->selectedTrackIndex]->trackSegList[trackList->selectedSegmentIndex]->wayPointList.removeAt(trackList->selectedWaypointIndex);
+        plot->rescale = false;
+        geoPlot->rescale = false;
+        trackList->setTracksModified(true);
+    }
+
 }

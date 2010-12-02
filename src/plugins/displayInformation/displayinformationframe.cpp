@@ -217,7 +217,7 @@ namespace PluginDisplayInformation {
         mGPSData->blockSignals(false);
         if (modified){
             //Send signal only if modified
-            mGPSData->setModified(modified);
+            mGPSData->setGPXModified(modified);
         }
     } //DisplayInformationFrame::updateDisplay
 
@@ -246,7 +246,7 @@ namespace PluginDisplayInformation {
             {
                 linkList->append(link);
             }
-            mGPSData->setModified(true);
+            mGPSData->setGPXModified(true);
         }
         delete linkEdition;
     }
@@ -261,7 +261,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->name = m_ui->lineEditMetaDataName->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } //DisplayInformationFrame::on_lineEditGPSDataName_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -271,7 +271,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->desc = m_ui->lineEditMetaDataDescription->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } //DisplayInformationFrame::on_lineEditDescription_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -281,7 +281,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->time = m_ui->dateTimeEditMetaDataDate->dateTime();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } //DisplayInformationFrame::on_dateTimeEdit_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -291,7 +291,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->keywords = m_ui->lineEditMetaDataKeywords->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } //DisplayInformationFrame::on_lineEditKeywords_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -301,7 +301,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->author->name = m_ui->lineEditMetaDataAuthorName->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } //DisplayInformationFrame::on_lineEditAuthorName_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -311,7 +311,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->author->email->id = m_ui->lineEditMetaDataEMailId->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } //DisplayInformationFrame::on_lineEditEMailId_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -321,7 +321,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->author->email->domain = m_ui->lineEditMetaDataEMailDomain->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } //DisplayInformationFrame::on_lineEditEMailDomain_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -331,7 +331,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->copyright->author = m_ui->lineEditMetaDataCopyrightOwner->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } //DisplayInformationFrame::on_lineEditCopyrightOwner_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -341,7 +341,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->copyright->year = m_ui->lineEditMetaDataLicenseYear->text().toInt();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } //DisplayInformationFrame::on_lineEditLicenseYear_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -351,7 +351,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->metadata->copyright->license = m_ui->lineEditMetaDataCopyrightLicense->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } //DisplayInformationFrame::on_lineEditCopyrightLicense_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -377,7 +377,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->trackList[mGPSData->displayedTrackIndex]->name = m_ui->lineEditTrackName->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } // DisplayInformationFrame::on_lineEditTrackName_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -387,7 +387,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->trackList[mGPSData->displayedTrackIndex]->desc = m_ui->lineEditTrackDescription->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } // DisplayInformationFrame::on_lineEditTrackDescription_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -397,7 +397,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->trackList[mGPSData->displayedTrackIndex]->src = m_ui->lineEditTrackSource->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } // DisplayInformationFrame::on_lineEditTrackSource_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -408,7 +408,7 @@ namespace PluginDisplayInformation {
         qDebug() << __FILE__ << __FUNCTION__;
         if (isVisible()) {
             mGPSData->trackList[mGPSData->displayedTrackIndex]->cmt = m_ui->textEditTrackComment->toPlainText();
-            mGPSData->setModified(true);
+            mGPSData->setGPXModified(true);
         }
 
     } // DisplayInformationFrame::on_textEditTrackComment_textChange
@@ -420,7 +420,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->trackList[mGPSData->displayedTrackIndex]->type = m_ui->lineEditTrackType->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } // DisplayInformationFrame::on_lineEditTrackType_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -446,7 +446,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->routeList[mGPSData->displayedRouteIndex]->name = m_ui->lineEditRouteName->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } // DisplayInformationFrame::on_lineEditRouteName_cursorPositionChanged
 
     /*------------------------------------------------------------------------------*
@@ -456,7 +456,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->routeList[mGPSData->displayedRouteIndex]->desc = m_ui->lineEditRouteDescription->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } // DisplayInformationFrame::on_lineEditRouteDescription_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -466,7 +466,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->routeList[mGPSData->displayedRouteIndex]->src = m_ui->lineEditRouteSource->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } // DisplayInformationFrame::on_lineEditRouteSource_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -477,7 +477,7 @@ namespace PluginDisplayInformation {
         qDebug() << __FILE__ << __FUNCTION__;
         if (isVisible()) {
             mGPSData->routeList[mGPSData->displayedRouteIndex]->cmt = m_ui->textEditRouteComment->toPlainText();
-            mGPSData->setModified(true);
+            mGPSData->setGPXModified(true);
         }
     } // DisplayInformationFrame::on_textEditRouteComment_textChanged
 
@@ -505,7 +505,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->name = m_ui->lineEditWaypointName->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } // DisplayInformationFrame::on_lineEditWaypointName_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -515,7 +515,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->desc = m_ui->lineEditWaypointDescription->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } // DisplayInformationFrame::on_lineEditWaypointDescription_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -525,7 +525,7 @@ namespace PluginDisplayInformation {
     {
         qDebug() << __FILE__ << __FUNCTION__;
         mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->src = m_ui->lineEditWaypointSource->text();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } // DisplayInformationFrame::on_lineEditWaypointSource_editingFinished
 
     /*------------------------------------------------------------------------------*
@@ -536,7 +536,7 @@ namespace PluginDisplayInformation {
         qDebug() << __FILE__ << __FUNCTION__;
         if (isVisible()) {
             mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->cmt = m_ui->textEditWaypointComment->toPlainText();
-            mGPSData->setModified(true);
+            mGPSData->setGPXModified(true);
         }
     } // DisplayInformationFrame::on_textEditWaypointComment_textChanged
 
@@ -550,7 +550,7 @@ namespace PluginDisplayInformation {
         if (isVisible()) {
             mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->sym = m_ui->lineEditWaypointSymbol->text();
             updateToolButtonWaypointSymbol();
-            mGPSData->setModified(true);
+            mGPSData->setGPXModified(true);
         }
     } // DisplayInformationFrame::on_textEditWaypointComment_textChanged
 
@@ -607,7 +607,7 @@ namespace PluginDisplayInformation {
                                       QMessageBox::Ok|QMessageBox::Cancel) == QMessageBox::Ok)
             {
                 mGPSData->trackList[mGPSData->displayedTrackIndex]->linkList.removeAt(m_ui->listWidgetTrackLinks->currentIndex().row());
-                mGPSData->setModified(true);
+                mGPSData->setGPXModified(true);
                 updateTracklinks();
             }
         }
@@ -660,7 +660,7 @@ namespace PluginDisplayInformation {
                                       QMessageBox::Ok|QMessageBox::Cancel) == QMessageBox::Ok)
             {
                 mGPSData->metadata->linkList.removeAt(m_ui->listWidgetMetaDataLinks->currentIndex().row());
-                mGPSData->setModified(true);
+                mGPSData->setGPXModified(true);
                 updateTracklinks();
             }
         }
@@ -711,7 +711,7 @@ namespace PluginDisplayInformation {
                                       QMessageBox::Ok|QMessageBox::Cancel) == QMessageBox::Ok)
             {
                 mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->linkList.removeAt(m_ui->listWidgetWaypointLinks->currentIndex().row());
-                mGPSData->setModified(true);
+                mGPSData->setGPXModified(true);
                 updateWaypointlinks();
             }
         }
@@ -762,7 +762,7 @@ namespace PluginDisplayInformation {
                                       QMessageBox::Ok|QMessageBox::Cancel) == QMessageBox::Ok)
             {
                 mGPSData->routeList[mGPSData->displayedRouteIndex]->linkList.removeAt(m_ui->listWidgetRouteLinks->currentIndex().row());
-                mGPSData->setModified(true);
+                mGPSData->setGPXModified(true);
                 updateRoutelinks();
             }
         }
@@ -824,5 +824,5 @@ void PluginDisplayInformation::DisplayInformationFrame::on_checkBoxUseDate_toggl
     else {
         mGPSData->metadata->time = QDateTime(QDate(0,0,0));
     }
-    mGPSData->setModified(true);
+    mGPSData->setGPXModified(true);
 }

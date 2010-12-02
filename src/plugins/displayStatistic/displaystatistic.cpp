@@ -48,7 +48,7 @@ namespace PluginDisplayStatistic {
     /*------------------------------------------------------------------------------*
       TODO a revoir
      *------------------------------------------------------------------------------*/
-    void DisplayStatistic::on_gpsdataChanged()
+    void DisplayStatistic::on_gpsdataGPXChanged()
     {
         qDebug( )  << __FILE__ << __FUNCTION__;
         if (!gpsdata->trackList.isEmpty())
@@ -67,7 +67,54 @@ namespace PluginDisplayStatistic {
     void DisplayStatistic::on_fileLoaded()
     {
         qDebug( )  << __FILE__ << __FUNCTION__;
-        update();
+        bool modified = false;
+        if (!gpsdata->trackList.isEmpty())
+        {
+            gpsdata->blockSignals(true);
+
+            QSettings settings("GPSBook","GPSBook");
+            if (gpsdata->isFromCatalog) {
+                if ( settings.value("PluginDisplayStatistic_CatalogUpdateDistance",false).toBool() ) {
+                    serviceProcessWaypointDistance->run();
+                    modified = true;
+                }
+
+                if ( settings.value("PluginDisplayStatistic_CatalogUpdateSpeed",true).toBool() ) {
+                    serviceProcessWaypointSpeed->run();
+                    modified = true;
+                }
+
+                if ( settings.value("PluginDisplayStatistic_CatalogUpdateAcceleration",false).toBool() ) {
+                    serviceProcessWaypointAcceleration->run();
+                    modified = true;
+                }
+
+            }
+            else
+            {
+                if ( settings.value("PluginDisplayStatistic_OtherUpdateDistances",true).toBool() ) {
+                    serviceProcessWaypointDistance->run();
+                    modified = true;
+                }
+
+                if ( settings.value("PluginDisplayStatistic_OtherUpdateSpeed",true).toBool() ) {
+                    serviceProcessWaypointSpeed->run();
+                    modified = true;
+                }
+
+                if ( settings.value("PluginDisplayStatistic_OtherUpdateAcceleration",true).toBool() ) {
+                    serviceProcessWaypointAcceleration->run();
+                    modified = true;
+                }
+
+            }
+
+            gpsdata->blockSignals(false);
+
+            if ( modified) {
+              gpsdata->setTracksModified(true);
+            }
+        }
         on_showPlugin();
 
     } //DisplayStatistic::on_fileLoaded
@@ -124,7 +171,6 @@ namespace PluginDisplayStatistic {
         serviceProcessWaypointDistance->init(gpsdata);
         serviceProcessWaypointSpeed->init(gpsdata);
         displayStatisticFrame->init(gpsdata);
-        connect((QObject*)gpsdata, SIGNAL(signalGPSDataUpdated()),(QObject*)this,    SLOT  (on_gpsdataChanged   ()));
         this->gpsdata = gpsdata;
         displayStatisticFrame->autoSetEnabled();
     } //DisplayStatistic::init
@@ -193,64 +239,6 @@ namespace PluginDisplayStatistic {
         serviceProcessMinMaxAltitude->run();
         serviceProcessMinMaxSpeed->run();
     } //DisplayStatistic::on_selectionChanged
-
-
-    /*------------------------------------------------------------------------------*
-
-     *------------------------------------------------------------------------------*/
-    void DisplayStatistic::update()
-    {
-        qDebug() << __FILE__ << __FUNCTION__;
-        bool modified = false;
-        if (!gpsdata->trackList.isEmpty())
-        {
-            gpsdata->blockSignals(true);
-
-            QSettings settings("GPSBook","GPSBook");
-            if (gpsdata->isFromCatalog) {
-                if ( settings.value("PluginDisplayStatistic_CatalogUpdateDistance",false).toBool() ) {
-                    serviceProcessWaypointDistance->run();
-                    modified = true;
-                }
-
-                if ( settings.value("PluginDisplayStatistic_CatalogUpdateSpeed",true).toBool() ) {
-                    serviceProcessWaypointSpeed->run();
-                    modified = true;
-                }
-
-                if ( settings.value("PluginDisplayStatistic_CatalogUpdateAcceleration",false).toBool() ) {
-                    serviceProcessWaypointAcceleration->run();
-                    modified = true;
-                }
-
-            }
-            else
-            {
-                if ( settings.value("PluginDisplayStatistic_OtherUpdateDistances",true).toBool() ) {
-                    serviceProcessWaypointDistance->run();
-                    modified = true;
-                }
-
-                if ( settings.value("PluginDisplayStatistic_OtherUpdateSpeed",true).toBool() ) {
-                    serviceProcessWaypointSpeed->run();
-                    modified = true;
-                }
-
-                if ( settings.value("PluginDisplayStatistic_OtherUpdateAcceleration",true).toBool() ) {
-                    serviceProcessWaypointAcceleration->run();
-                    modified = true;
-                }
-
-            }
-
-            gpsdata->blockSignals(false);
-
-            if ( modified) {
-              gpsdata->setModified(true);
-            }
-        }
-
-    } //DisplayStatistic::update
 
     Q_EXPORT_PLUGIN2(DisplayStatistic, DisplayStatistic)
 }

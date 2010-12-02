@@ -41,10 +41,11 @@ namespace PluginDisplayInformation {
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayInformation::on_gpsdataChanged()
+    void DisplayInformation::on_gpsdataGPXChanged()
     {
         qDebug() << __FILE__ << __FUNCTION__ ;
-        update();
+        mView->updateDisplay();
+        mView->autoSetEnabled();
     } //DisplayInformation::on_gpsdataChanged
 
     /*------------------------------------------------------------------------------*
@@ -55,16 +56,6 @@ namespace PluginDisplayInformation {
         qDebug() << __FILE__ << __FUNCTION__ ;
         on_showPlugin();
     } //DisplayInformation::on_fileLoaded
-
-    /*------------------------------------------------------------------------------*
-
-     *------------------------------------------------------------------------------*/
-    void DisplayInformation::update()
-    {
-        qDebug( )  << __FILE__ << __FUNCTION__;
-        mView->updateDisplay();
-        mView->autoSetEnabled();
-    } //DisplayInformation::update
 
     /*------------------------------------------------------------------------------*
 
@@ -104,8 +95,6 @@ namespace PluginDisplayInformation {
     void DisplayInformation::init(QWidget* , GPSData* gpsdata)
     {
         qDebug( )  << __FILE__ << __FUNCTION__;
-        connect((QObject*)gpsdata, SIGNAL(signalGPSDataUpdated()),
-                (QObject*)this,    SLOT  (on_gpsdataChanged   ()));
         mGPSData = gpsdata;
         mView->init(gpsdata);
     } //DisplayInformation::init
@@ -156,8 +145,7 @@ namespace PluginDisplayInformation {
     void DisplayInformation::on_showPlugin()
     {
         qDebug() << __FILE__ << __FUNCTION__ ;
-        disconnect(mGPSData,SIGNAL(signalGPSDataUpdated()),this,SLOT(on_gpsdataChanged()));
-        update();
+        on_gpsdataGPXChanged();
         emit signalSetTrackSelection(true,true,true,true,false);
     } //DisplayInformation::on_showPlugin
 
@@ -167,7 +155,6 @@ namespace PluginDisplayInformation {
     void DisplayInformation::on_hidePlugin()
     {
         qDebug() << __FILE__ << __FUNCTION__ ;
-        connect(mGPSData,SIGNAL(signalGPSDataUpdated()),this,SLOT(on_gpsdataChanged()));
     } //DisplayInformation::on_hidePlugin
 
     /*------------------------------------------------------------------------------*

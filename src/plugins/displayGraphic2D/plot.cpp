@@ -397,7 +397,8 @@ namespace PluginDisplayGraphic2D {
             curveList.takeFirst()->detach();
         }
 
-        rescaler->setEnabled((X_Axis == Plot::axis_x_longitude));
+        //rescaler->setEnabled((X_Axis == Plot::axis_x_longitude));
+        rescaler->setEnabled(rescale);
 
         gpsdata->lockGPSDataForRead();
         //ROUTE
@@ -505,9 +506,10 @@ namespace PluginDisplayGraphic2D {
             setAxisAutoScale(QwtPlot::xBottom);
             plotLayout()->setAlignCanvasToScales(true);
         }
-        rescale = true;
 
         replot();
+
+        rescale = true;
 
     } //Plot::updateTracklistCurve
 

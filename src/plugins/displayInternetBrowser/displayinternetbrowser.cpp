@@ -46,14 +46,6 @@ namespace PluginDisplayInternetBrowser {
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayInternetBrowser::on_gpsdataChanged()
-    {
-        update();
-    } //DisplayInternetBrowser::on_gpsdataChanged
-
-    /*------------------------------------------------------------------------------*
-
-     *------------------------------------------------------------------------------*/
     QString DisplayInternetBrowser::getName()
     {
         return tr("Internet Browser");
@@ -81,8 +73,6 @@ namespace PluginDisplayInternetBrowser {
     void DisplayInternetBrowser::init( QWidget* , GPSData* gpsdata )
     {
         qDebug( )  << __FILE__ << __FUNCTION__;
-        connect((QObject*)gpsdata, SIGNAL(signalGPSDataUpdated()),
-                (QObject*)this,    SLOT  (on_gpsdataChanged   ()));
         mView->init(gpsdata);
     } //DisplayInternetBrowser::init
 

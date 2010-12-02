@@ -1,0 +1,359 @@
+<ui version="4.0" >
+ <author>Christoph Eckert</author>
+ <comment></comment>
+ <exportmacro></exportmacro>
+ <class>PreferencesConfig</class>
+ <widget class="QDialog" name="PreferencesConfig" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>538</width>
+    <height>275</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>Edit Preferences</string>
+  </property>
+  <property name="modal" >
+   <bool>true</bool>
+  </property>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>9</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
+   <item row="1" column="0" >
+    <layout class="QGridLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item row="0" column="0" >
+      <widget class="QLabel" name="LabelLanguage" >
+       <property name="minimumSize" >
+        <size>
+         <width>150</width>
+         <height>26</height>
+        </size>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip" >
+        <string/>
+       </property>
+       <property name="statusTip" >
+        <string/>
+       </property>
+       <property name="text" >
+        <string>Language:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" >
+      <widget class="QComboBox" name="ComboLanguage" >
+       <property name="toolTip" >
+        <string>Select the language in which you want to use Gebabbel</string>
+       </property>
+       <property name="statusTip" >
+        <string>Select the language in which you want to use Gebabbel</string>
+       </property>
+       <property name="whatsThis" >
+        <string>Select the language in which you want to use Gebabbel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="4" column="0" >
+    <spacer>
+     <property name="orientation" >
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" >
+      <size>
+       <width>520</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="2" column="0" >
+    <layout class="QGridLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item row="1" column="0" >
+      <widget class="QLabel" name="LabelSystemSettingsPath" >
+       <property name="minimumSize" >
+        <size>
+         <width>150</width>
+         <height>26</height>
+        </size>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string>System Configuration:</string>
+       </property>
+       <property name="alignment" >
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" >
+      <widget class="QLabel" name="DisplayUserSettingsPath" >
+       <property name="minimumSize" >
+        <size>
+         <width>200</width>
+         <height>26</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="wordWrap" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" >
+      <widget class="QLabel" name="LabelUserSettingsPath" >
+       <property name="minimumSize" >
+        <size>
+         <width>150</width>
+         <height>26</height>
+        </size>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string>User Configuration:</string>
+       </property>
+       <property name="alignment" >
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" >
+      <widget class="QLabel" name="DisplaySystemSettingsPath" >
+       <property name="minimumSize" >
+        <size>
+         <width>200</width>
+         <height>26</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string/>
+       </property>
+       <property name="wordWrap" >
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="0" >
+    <layout class="QGridLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item row="0" column="0" >
+      <widget class="QLabel" name="LabelLocale" >
+       <property name="minimumSize" >
+        <size>
+         <width>150</width>
+         <height>26</height>
+        </size>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string>Language setting:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" >
+      <widget class="QLabel" name="DisplayLocale" >
+       <property name="minimumSize" >
+        <size>
+         <width>200</width>
+         <height>26</height>
+        </size>
+       </property>
+       <property name="text" >
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="5" column="0" >
+    <layout class="QGridLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item row="0" column="3" >
+      <widget class="QPushButton" name="ButtonCancel" >
+       <property name="text" >
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" >
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>241</width>
+         <height>31</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="0" column="2" >
+      <widget class="QPushButton" name="ButtonOk" >
+       <property name="text" >
+        <string>OK</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" >
+      <widget class="QPushButton" name="ButtonRestoreDefaults" >
+       <property name="toolTip" >
+        <string>Resets all settings to default values, including presets</string>
+       </property>
+       <property name="statusTip" >
+        <string>Resets all settings to default values, including presets</string>
+       </property>
+       <property name="whatsThis" >
+        <string>Resets all settings to default values, including presets</string>
+       </property>
+       <property name="text" >
+        <string>Defaults...</string>
+       </property>
+       <property name="checkable" >
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="0" >
+    <layout class="QGridLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item row="0" column="1" >
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item row="0" column="1" >
+        <widget class="QPushButton" name="ButtonGpsbabelPath" >
+         <property name="toolTip" >
+          <string>Select path to the gpsbabel executable</string>
+         </property>
+         <property name="whatsThis" >
+          <string>Select path to the gpsbabel executable</string>
+         </property>
+         <property name="text" >
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" >
+        <widget class="QLineEdit" name="InputGpsbabelPath" >
+         <property name="maximumSize" >
+          <size>
+           <width>16777215</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="toolTip" >
+          <string>Gebabbel needs to know where gpsbabel can be found. Leave this field empty to use the built in gpsbabel executable</string>
+         </property>
+         <property name="whatsThis" >
+          <string>Gebabbel needs to know where gpsbabel can be found. Leave this field empty to use the built in gpsbabel executable</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="0" >
+      <widget class="QLabel" name="LabelGpsbabelPath" >
+       <property name="minimumSize" >
+        <size>
+         <width>150</width>
+         <height>26</height>
+        </size>
+       </property>
+       <property name="maximumSize" >
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip" >
+        <string/>
+       </property>
+       <property name="statusTip" >
+        <string/>
+       </property>
+       <property name="text" >
+        <string>Path to Gpsbabel:</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <pixmapfunction></pixmapfunction>
+ <tabstops>
+  <tabstop>InputGpsbabelPath</tabstop>
+  <tabstop>ButtonGpsbabelPath</tabstop>
+  <tabstop>ButtonRestoreDefaults</tabstop>
+  <tabstop>ButtonOk</tabstop>
+  <tabstop>ButtonCancel</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>

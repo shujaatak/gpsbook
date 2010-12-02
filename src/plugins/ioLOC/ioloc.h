@@ -50,7 +50,6 @@ namespace PluginIOLOC {
             void open(QString filename, GPSData* gpsdata);
             void save(QString, GPSData*) {}
             void init( QWidget* , GPSData* );
-            void update() {}
             QStringList getServiceList(){
                 return mServicesList;
             }

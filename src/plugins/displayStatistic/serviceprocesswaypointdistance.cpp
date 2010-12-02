@@ -72,7 +72,7 @@ namespace PluginDisplayStatistic {
             }
         }
         //mGPSData->unlockGPSData();
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } //ServiceProcessWaypointDistance::run
 
     /*!

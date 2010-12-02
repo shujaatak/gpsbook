@@ -52,7 +52,6 @@ namespace PluginFilterCleanup {
         QWidget* getHelp();
         QWidget* getOptions();
         void init( QWidget* , GPSData* gpsdata );
-        void update(){}
         GPSData* mGPSData;
         QStringList getServiceList(){
             return mServicesList;

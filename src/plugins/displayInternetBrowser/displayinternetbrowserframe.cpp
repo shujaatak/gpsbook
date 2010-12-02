@@ -226,7 +226,7 @@ namespace PluginDisplayInternetBrowser {
     void DisplayInternetBrowserFrame::on_buttonGeoCaching_toggled(bool)
     {
         activeSite = "http://www.geocaching.com/";
-        activeSite = "http://www.geocaching.com/seek/cache_details.aspx?guid=d10abb4d-55bd-4005-b630-bbc1958a80ed";
+        //activeSite = "http://www.geocaching.com/seek/cache_details.aspx?guid=d10abb4d-55bd-4005-b630-bbc1958a80ed";
         m_ui->webView->setUrl(QUrl(activeSite));
     } //DisplayInternetBrowserFrame::on_buttonVisuGpx_toggled
 

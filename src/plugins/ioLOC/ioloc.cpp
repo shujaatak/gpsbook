@@ -91,6 +91,7 @@ namespace PluginIOLOC {
     {
         QWidget* tmp = new QWidget();
         tmp->setWindowIcon(getIcon());
+        QString about = getName() + tr(" is a plugin dedicated to load and save loc file from <a href=\"http://www.geocaching.com/\">geocaching.com</a> files.");
         QMessageBox::about(tmp,tr("About")+" "+getName(),
                     "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
                     "<html>"
@@ -103,7 +104,7 @@ namespace PluginIOLOC {
                             " v" + QString(BUILD_VERSION) + "." + QString(SVN_VERSION) + "  <sub>(" + QString(BUILD_DATE) + ")<sub>" +
                         "</p>"
                         "<p style=\" font-family:'Sans'; font-size:10pt; font-weight:400; font-style:vold; \">"
-                            + getName() + tr(" is a plugin dedicated to load and save <a href=\"http://www.topografix.com/loc.asp\">LOC</a> files. This plugin is mandatory for application LOC file is the format of files use in the catalog.") + "<br><br>" +
+                            + about + "<br><br>" +
                             tr("License:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             "GNU GPL <a href=\"http://www.gnu.org/licenses/gpl.txt\">http://www.gnu.org/licenses/gpl.txt</a>" + "<br><br>" +
                             tr("Authors:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +

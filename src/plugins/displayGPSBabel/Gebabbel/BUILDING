@@ -1,0 +1,46 @@
+=== General ===
+
+If you want to compile from source, you need a development environment installed.
+
+First open the text file Gebabbel.pro. Locate the section of your operating section (# Linux #, # Macintosh # or # Windows #). Remove all '#' and the following blank from the lines in your operating system section. Add a '#' to all other operating system sections. Save and close the file.
+
+Open a terminal window and cd to the directory containing the file Gebabbel.pro.
+
+
+=== Linux ===
+
+* Run qmake to create the Makefiles. Use Qt 4.3.0. Previous versions won't work
+* run make to build the application
+* Move the resulting binary called 'gebabbel' to a directory of your likings
+* Create a desktop shortcut pointing to the binary
+* Click on it
+
+
+=== Macintosh ===
+
+* Run qmake to create the Makefiles
+* run make to build the application
+* Copy a gpsbabel executable into the application bundle ("Show contents"). Choose the same folder that contains the gebabbel executable
+* Move the resulting bundle called 'Gebabbel' to a directory of your likings
+* Create an Alias on your Desktop
+* Double click on it
+
+=== Windows ===
+
+You need mingw installed. While installing Qt4, it offers to automatically download and install it.
+
+* Run the Qt4 shell as provided in the menu start
+* cd to the directory containing the Gebabbel sources
+* c:\qt4.3.0\bin\qmake.exe to create the Makefiles
+* c:\mingw\bin\Mingw-make.exe -f Makefile to build the binaries
+* In the resulting folder called 'release', remove all files except for 'Gebabbel.exe'
+* Copy the following files to this directory:
+  * c:\mingw\bin\mingwm10.dll
+  * c:\qt\4.3.0\bin\Qt4Core.dll
+  * c:\qt\4.3.0\bin\Qt4Gui.dll
+  * The gpsbabel executable (gpsbabel.exe)
+  * Libexpat (libexpat.dll)
+* Rename the folder called 'release' to something like Gebabbel
+* Move it to your preferred directory
+* Create a link to Gebabbel.exe on your desktop
+* Double click on it

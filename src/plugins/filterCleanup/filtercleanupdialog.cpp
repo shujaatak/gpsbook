@@ -81,7 +81,7 @@ namespace PluginFilterCleanup {
         m_ui->progressBar->setValue(0);
         mGPSData->unlockGPSData();
         setEnabled(true);
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } //FilterCleanupDialog::on_toolButtonRemoveDesc_clicked
 
     /*------------------------------------------------------------------------------*
@@ -112,7 +112,7 @@ namespace PluginFilterCleanup {
         m_ui->progressBar->setValue(0);
         mGPSData->unlockGPSData();
         setEnabled(true);
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } //FilterCleanupDialog::on_toolButtonRemoveHighSpeed_clicked
 
     /*------------------------------------------------------------------------------*
@@ -143,7 +143,7 @@ namespace PluginFilterCleanup {
         m_ui->progressBar->setValue(0);
         mGPSData->unlockGPSData();
         setEnabled(true);
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } //FilterCleanupDialog::on_toolButtonRemoveHighAcceleration_clicked
 
     /*!
@@ -217,7 +217,7 @@ namespace PluginFilterCleanup {
         m_ui->progressBar->setValue(0);
         mGPSData->unlockGPSData();
         setEnabled(true);
-        mGPSData->setModified(true);
+        mGPSData->setGPXModified(true);
     } //FilterCleanupDialog::on_toolButtonRemoveRadius_clicked
 }
 
@@ -246,7 +246,7 @@ void PluginFilterCleanup::FilterCleanupDialog::on_toolButtonRemoveNegativeSpeed_
     m_ui->progressBar->setValue(0);
     mGPSData->unlockGPSData();
     setEnabled(true);
-    mGPSData->setModified(true);
+    mGPSData->setGPXModified(true);
 }
 
 void PluginFilterCleanup::FilterCleanupDialog::on_toolButtonHigherOrLowerAltitude_clicked()
@@ -293,5 +293,5 @@ void PluginFilterCleanup::FilterCleanupDialog::on_toolButtonRemoveLowerHigherAlt
     m_ui->progressBar->setValue(0);
     mGPSData->unlockGPSData();
     setEnabled(true);
-    mGPSData->setModified(true);
+    mGPSData->setGPXModified(true);
 }

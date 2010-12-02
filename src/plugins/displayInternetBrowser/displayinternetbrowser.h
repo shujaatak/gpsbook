@@ -49,7 +49,6 @@ namespace PluginDisplayInternetBrowser {
             QWidget* getOptions();
             QWidget* getWidget();
             void init(QWidget* parent, GPSData* gpsdata);
-            void update() {}
             void loadFile(QString filename);
             QStringList getServiceList(){
                 return mServicesList;
@@ -62,7 +61,10 @@ namespace PluginDisplayInternetBrowser {
             }
 
         public slots:
-            void on_gpsdataChanged();
+            void on_gpsdataGPXChanged(){}
+            void on_gpsdataTracksChanged(){}
+            void on_gpsdataRoutesChanged(){}
+            void on_gpsdataWaypointsChanged(){}
             void on_selectionChanged() {}
             void on_fileLoaded();
             void on_about();
