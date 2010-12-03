@@ -96,8 +96,11 @@ namespace GPSBook {
         setWindowState(Qt::WindowMaximized);
 
         //Connect customs GPSDataUpdated signals and UpdateSaveButton slot
-        connect(mGPSData, SIGNAL(signalGPSDataUpdated()),this,SLOT(updateSaveButton()));
-        connect((QObject*)mGPSData, SIGNAL(signalGPSDataUpdated()),this,SLOT(initCurrentGPXTreeview()));
+        connect(mGPSData, SIGNAL(signalGPSDataGPXUpdated()),this,SLOT(updateSaveButton()));
+        connect(mGPSData, SIGNAL(signalGPSDataTracksUpdated()),this,SLOT(updateSaveButton()));
+        connect(mGPSData, SIGNAL(signalGPSDataRoutesUpdated()),this,SLOT(updateSaveButton()));
+        connect(mGPSData, SIGNAL(signalGPSDataWaypointsUpdated()),this,SLOT(updateSaveButton()));
+        connect((QObject*)mGPSData, SIGNAL(signalGPSDataGPXUpdated()),this,SLOT(initCurrentGPXTreeview()));
 
         //------------------- Toolbar -------------------
         //Prepare toolbar for filters plugin buttons
@@ -201,6 +204,10 @@ namespace GPSBook {
         connect(visiblePlugin, SIGNAL(signalLoadFile(QString,bool)),this,SLOT(loadFile(QString,bool)));
         connect(this, SIGNAL(signalFileLoaded()),visiblePlugin,SLOT(on_fileLoaded()));
         connect(this, SIGNAL(signalSelectionChanged()),visiblePlugin,SLOT(on_selectionChanged()));
+        connect(mGPSData, SIGNAL(signalGPSDataGPXUpdated()),visiblePlugin,SLOT(on_gpsdataGPXChanged()));
+        connect(mGPSData, SIGNAL(signalGPSDataTracksUpdated()),visiblePlugin,SLOT(on_gpsdataTracksChanged()));
+        connect(mGPSData, SIGNAL(signalGPSDataRoutesUpdated()),visiblePlugin,SLOT(on_gpsdataRoutesChanged()));
+        connect(mGPSData, SIGNAL(signalGPSDataWaypointsUpdated()),visiblePlugin,SLOT(on_gpsdataWaypointsChanged()));
 
         qDebug() << __FILE__ << __FUNCTION__ << "Display favorite plugin 0";
         visiblePlugin->on_showPlugin();
@@ -545,7 +552,7 @@ namespace GPSBook {
                                                     QMessageBox::Yes|QMessageBox::No);
                 }
 
-                if ( response = QMessageBox::Yes )
+                if ( response == QMessageBox::Yes )
                 {
                     on_actionClose_current_trace_triggered();
                     inputPlugin->open(filename, mGPSData);
@@ -554,6 +561,7 @@ namespace GPSBook {
         }
         //Update mainwindows state
         ui->actionClose_current_trace->setEnabled(true);
+        ui->actionReload->setEnabled(true);
         ui->toolButtonInCatalog->setChecked(isFromCatalog);
         ui->toolButtonAddToCatalog->setChecked(isFromCatalog);
         ui->toolButtonAddToCatalog->setDisabled(isFromCatalog);
@@ -814,6 +822,10 @@ namespace GPSBook {
             disconnect(visiblePlugin, SIGNAL(signalLoadFile(QString,bool)),this,SLOT(loadFile(QString,bool)));
             disconnect(this, SIGNAL(signalFileLoaded()),visiblePlugin,SLOT(on_fileLoaded()));
             disconnect(this, SIGNAL(signalSelectionChanged()),visiblePlugin,SLOT(on_selectionChanged()));
+            disconnect(mGPSData, SIGNAL(signalGPSDataGPXUpdated()),visiblePlugin,SLOT(on_gpsdataGPXChanged()));
+            disconnect(mGPSData, SIGNAL(signalGPSDataTracksUpdated()),visiblePlugin,SLOT(on_gpsdataTracksChanged()));
+            disconnect(mGPSData, SIGNAL(signalGPSDataRoutesUpdated()),visiblePlugin,SLOT(on_gpsdataRoutesChanged()));
+            disconnect(mGPSData, SIGNAL(signalGPSDataWaypointsUpdated()),visiblePlugin,SLOT(on_gpsdataWaypointsChanged()));
         }
 
         visiblePlugin = NULL;
@@ -825,6 +837,10 @@ namespace GPSBook {
             connect(visiblePlugin, SIGNAL(signalLoadFile(QString,bool)),this,SLOT(loadFile(QString,bool)));
             connect(this, SIGNAL(signalFileLoaded()),visiblePlugin,SLOT(on_fileLoaded()));
             connect(this, SIGNAL(signalSelectionChanged()),visiblePlugin,SLOT(on_selectionChanged()));
+            connect(mGPSData, SIGNAL(signalGPSDataGPXUpdated()),visiblePlugin,SLOT(on_gpsdataGPXChanged()));
+            connect(mGPSData, SIGNAL(signalGPSDataTracksUpdated()),visiblePlugin,SLOT(on_gpsdataTracksChanged()));
+            connect(mGPSData, SIGNAL(signalGPSDataRoutesUpdated()),visiblePlugin,SLOT(on_gpsdataRoutesChanged()));
+            connect(mGPSData, SIGNAL(signalGPSDataWaypointsUpdated()),visiblePlugin,SLOT(on_gpsdataWaypointsChanged()));
         }
 
         ui->stackedWidget->setCurrentIndex(action->data().toInt());
@@ -1042,6 +1058,7 @@ namespace GPSBook {
      *------------------------------------------------------------------------------*/
     void MainWindow::on_actionSaveAs_triggered()
     {
+        qDebug() << __FILE__ << __FUNCTION__;
         QFileDialog* saveDialog = new QFileDialog(this, tr("Save GPS trace"), QString(), saveFilters);
         saveDialog->setConfirmOverwrite(true);
         saveDialog->setAcceptMode(QFileDialog::AcceptSave);
@@ -1083,24 +1100,51 @@ namespace GPSBook {
      *------------------------------------------------------------------------------*/
     void MainWindow::on_actionClose_current_trace_triggered()
     {
+        qDebug() << __FILE__ << __FUNCTION__;
         //mGPSData->lockGPSDataForWrite();
-        mGPSData->clearData();
-        mGPSData->setModified(false);
-        ui->toolButtonInCatalog->setChecked(false);
-        ui->labelTrackDate->setText( "-" );
-        ui->labelTrackName->setText( "-" );
-        ui->actionClose_current_trace->setEnabled(false);
-        ui->toolButtonInCatalog->setChecked(false);
-        ui->toolButtonAddToCatalog->setChecked(false);
-        ui->toolButtonAddToCatalog->setDisabled(false);
+
+        ui->treeWidgetCurrentGPX->blockSignals(true);
         ui->treeWidgetCurrentGPX->clear();
         QTreeWidgetItem * clearItem = new QTreeWidgetItem ();
         clearItem->setText(0,tr("No trace loaded"));
         ui->treeWidgetCurrentGPX->addTopLevelItem(clearItem);
         ui->treeWidgetCurrentGPX->setEnabled(false);
         ui->tabWidgetLeftPanel->setCurrentIndex(0);
+        ui->treeWidgetCurrentGPX->blockSignals(false);
+
+        mGPSData->clearData();
+
+        ui->toolButtonInCatalog->setChecked(false);
+        ui->labelTrackDate->setText( "-" );
+        ui->labelTrackName->setText( "-" );
+        ui->actionClose_current_trace->setEnabled(false);
+        ui->actionReload->setEnabled(false);
+        ui->toolButtonInCatalog->setChecked(false);
+        ui->toolButtonAddToCatalog->setChecked(false);
+        ui->toolButtonAddToCatalog->setDisabled(false);
+
+        mGPSData->setGPXModified(false);
         //mGPSData->unlockGPSData();
     } //MainWindow::on_actionClose_current_trace_triggered
+
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void MainWindow::on_actionReload_triggered()
+    {
+        qDebug() << __FILE__ << __FUNCTION__;
+        QString strtmp = mGPSData->filename;
+        bool catalog = mGPSData->isFromCatalog;
+        mGPSData->blockSignals(true);
+        on_actionClose_current_trace_triggered();
+        qDebug() << __FILE__ << __FUNCTION__ << "clean";
+        loadFile(strtmp,catalog);
+        mGPSData->blockSignals(false);
+        qDebug() << __FILE__ << __FUNCTION__ << "done";
+
+
+    } //MainWindow::on_actionReload_triggered()
 
     /*------------------------------------------------------------------------------*
 
@@ -1251,4 +1295,6 @@ void GPSBook::MainWindow::on_treeWidgetHelp_itemClicked(QTreeWidgetItem* item, i
         ui->treeWidgetHelp->setCurrentItem(item,0);
     }
 }
+
+
 

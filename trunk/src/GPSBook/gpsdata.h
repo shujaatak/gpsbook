@@ -359,7 +359,10 @@ namespace GPSBook {
             void lockGPSDataForRead();
             void unlockGPSData();
             void clearData();
-            void setModified(bool value);
+            void setGPXModified(bool value);
+            void setRoutesModified(bool value);
+            void setTracksModified(bool value);
+            void setWaypointsModified(bool value);
             void setFromCatalog(bool value);
             QVariant getExtensionData(QVariantHash extensions, QString extensionName, QString key);
             QVariantHash setExtensionData(QVariantHash extensions, QString extensionName, QString key, QVariant value);
@@ -377,7 +380,10 @@ namespace GPSBook {
         signals:
             void signalGPSDataLocked();
             void signalGPSDataUnlocked();
-            void signalGPSDataUpdated();
+            void signalGPSDataGPXUpdated();
+            void signalGPSDataTracksUpdated();
+            void signalGPSDataRoutesUpdated();
+            void signalGPSDataWaypointsUpdated();
     };
 }
 

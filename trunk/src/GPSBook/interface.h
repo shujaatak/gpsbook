@@ -132,7 +132,6 @@ class PluginInterface : public QObject
         virtual QWidget* getHelp()    = 0;
         virtual QWidget* getOptions() = 0;
         virtual void     init(QWidget* parent, GPSData* gpsdata) = 0;
-        virtual void     update() = 0;
 
         virtual ServiceInterface* getService(const char * serviceName ) = 0;
         virtual QStringList getServiceList() = 0;
@@ -194,14 +193,16 @@ class DisplayPluginInterface : public PluginInterface
         virtual ~DisplayPluginInterface() {}
 
         virtual QWidget* getWidget() = 0;
-        virtual void update() = 0;
 
     public slots:
-        virtual void on_gpsdataChanged()   = 0;
-        virtual void on_selectionChanged() = 0;
-        virtual void on_fileLoaded()       = 0;
-        virtual void on_showPlugin()       = 0;
-        virtual void on_hidePlugin()       = 0;
+        virtual void on_gpsdataGPXChanged()       = 0;
+        virtual void on_gpsdataTracksChanged()    = 0;
+        virtual void on_gpsdataRoutesChanged()    = 0;
+        virtual void on_gpsdataWaypointsChanged() = 0;
+        virtual void on_selectionChanged()        = 0;
+        virtual void on_fileLoaded()              = 0;
+        virtual void on_showPlugin()              = 0;
+        virtual void on_hidePlugin()              = 0;
 
     signals:
         void signalLoadFile(QString,bool);

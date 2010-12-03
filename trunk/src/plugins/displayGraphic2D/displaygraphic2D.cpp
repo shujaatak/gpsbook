@@ -33,6 +33,7 @@ namespace PluginDisplayGraphic2D {
      *------------------------------------------------------------------------------*/
     DisplayGraphic2D::DisplayGraphic2D()
     {
+        qDebug() << __FILE__ << __FUNCTION__ ;
         mView    = new DisplayGraphic2DFrame();
         mOptions = new DisplayGraphic2DOptionsFrame();
         mHelp    = new DisplayGraphic2DHelp();
@@ -44,14 +45,39 @@ namespace PluginDisplayGraphic2D {
      *------------------------------------------------------------------------------*/
     void DisplayGraphic2D::on_gpsdataGPXChanged()
     {
-        //qDebug() << "-> DisplayGraphic2D::on_gpsdataChanged()";
         qDebug( )  << __FILE__ << __FUNCTION__;
+        mView->getPlot()->rescale = true;
+        mView->getGeoPlot()->rescale = true;
         mView->on_update();
         mView->getPlot()->replot();
         mView->getGeoPlot()->replot();
         mView->autoSetEnabled();
         //qDebug() << "<- DisplayGraphic2D::on_gpsdataChanged()";
     } //DisplayGraphic2D::on_gpsdataChanged
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayGraphic2D::on_gpsdataTracksChanged()
+    {
+        qDebug( )  << __FILE__ << __FUNCTION__;
+        mView->getPlot()->rescale = false;
+        mView->getGeoPlot()->rescale = false;
+        mView->on_update();
+        mView->getPlot()->replot();
+        mView->getGeoPlot()->replot();
+        mView->autoSetEnabled();
+        //qDebug() << "<- DisplayGraphic2D::on_gpsdataChanged()";
+    } //DisplayGraphic2D::on_gpsdataTracksChanged
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayGraphic2D::on_gpsdataRoutesChanged()
+    {
+        qDebug() << __FILE__ << __FUNCTION__ ;
+        on_gpsdataTracksChanged();
+    } // DisplayGraphic2D::on_gpsdataTracksChanged()
 
     /*------------------------------------------------------------------------------*
 
@@ -67,6 +93,7 @@ namespace PluginDisplayGraphic2D {
      *------------------------------------------------------------------------------*/
     void DisplayGraphic2D::on_fileLoaded()
     {
+        qDebug() << __FILE__ << __FUNCTION__ ;
         on_showPlugin();
     } //DisplayGraphic2D::on_fileLoaded
 

@@ -509,8 +509,6 @@ namespace PluginDisplayGraphic2D {
 
         replot();
 
-        rescale = true;
-
     } //Plot::updateTracklistCurve
 
     /*------------------------------------------------------------------------------*
