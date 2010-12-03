@@ -406,6 +406,7 @@ namespace PluginDisplayGraphic2D {
      *------------------------------------------------------------------------------*/
     void DisplayGraphic2DFrame::on_actionDelete_selected_point_triggered()
     {
+        qDebug() << __FILE__ << __FUNCTION__ ;
         trackList->trackList[trackList->selectedTrackIndex]->trackSegList[trackList->selectedSegmentIndex]->wayPointList.removeAt(trackList->selectedWaypointIndex);
         plot->rescale = false;
         geoPlot->rescale = false;

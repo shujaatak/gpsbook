@@ -333,11 +333,47 @@ namespace GPSBook {
 
         \param value
     */
-    void GPSData::setModified(bool value)
+    void GPSData::setGPXModified(bool value)
     {
         qDebug() << __FILE__ << __FUNCTION__;
         isModified = value;
-        emit signalGPSDataUpdated();
+        emit signalGPSDataGPXUpdated();
+    }
+
+    /*!
+        \brief Define tracks has modified and emit signal to inform that data have been updated
+
+        \param value
+    */
+    void GPSData::setTracksModified(bool value)
+    {
+        qDebug() << __FILE__ << __FUNCTION__;
+        isModified = value;
+        emit signalGPSDataTracksUpdated();
+    }
+
+    /*!
+        \brief Define routes has modified and emit signal to inform that data have been updated
+
+        \param value
+    */
+    void GPSData::setRoutesModified(bool value)
+    {
+        qDebug() << __FILE__ << __FUNCTION__;
+        isModified = value;
+        emit signalGPSDataRoutesUpdated();
+    }
+
+    /*!
+        \brief Define waypoints has modified and emit signal to inform that data have been updated
+
+        \param value
+    */
+    void GPSData::setWaypointsModified(bool value)
+    {
+        qDebug() << __FILE__ << __FUNCTION__;
+        isModified = value;
+        emit signalGPSDataWaypointsUpdated();
     }
 
     /*!
@@ -348,7 +384,7 @@ namespace GPSBook {
     void GPSData::setFromCatalog(bool value)
     {
         isFromCatalog = value;
-        emit signalGPSDataUpdated();
+        emit signalGPSDataGPXUpdated();
     }
 
     /*!
@@ -363,11 +399,11 @@ namespace GPSBook {
     {
         if ( ! extensions.contains( extensionName ) )
         {
-            return (QVariant)NULL;
+            return QVariant( (int) NULL);
         }
         else
         {
-           return extensions.value( extensionName ).toHash().value(key,(QVariant)NULL);
+           return extensions.value( extensionName ).toHash().value(key,QVariant( (int) NULL));
         }
     }
 

@@ -88,6 +88,7 @@ namespace GPSBook {
          void initCurrentGPXTreeview();
 
     private slots:
+        void on_actionReload_triggered();
         void on_treeWidgetHelp_itemClicked(QTreeWidgetItem* item, int);
         void on_treeWidgetOptions_itemClicked(QTreeWidgetItem* item, int);
         void on_treeWidgetCurrentGPX_itemSelectionChanged();
