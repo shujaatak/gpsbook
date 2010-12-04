@@ -7,8 +7,8 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{D213F2FB-7B4E-4686-B5E2-456DD963AFC8}
 AppName=GPSBook
-AppVersion=0.1-Alpha6
-AppVerName=GPSBook 0.1-Alpha6
+AppVersion=0.1-Beta1
+AppVerName=GPSBook 0.1-Beta1
 AppPublisher=gpsbook-team
 AppPublisherURL=http://gpsbook.free.fr/
 AppSupportURL=http://gpsbook.free.fr/
@@ -18,7 +18,7 @@ DefaultGroupName=GPSBook
 AllowNoIcons=no
 LicenseFile=C:\Developpement\GPSBook\delivery\package\gpl-2.0.txt
 OutputDir=C:\Developpement\GPSBook\delivery\package\windows
-OutputBaseFilename=gpsbook_setup_alpha6
+OutputBaseFilename=gpsbook_setup_beta1
 Compression=lzma
 SolidCompression=yes
 
@@ -49,13 +49,15 @@ Source: "C:\Developpement\GPSBook\delivery\bin\phonon4.dll"; DestDir: "{app}/bin
 Source: "C:\Developpement\GPSBook\delivery\bin\QtXmlPatterns4.dll"; DestDir: "{app}/bin"; Flags: ignoreversion
 Source: "C:\Developpement\GPSBook\delivery\bin\sqldrivers\qsqlite4.dll"; DestDir: "{app}/bin/sqldrivers"; Flags: ignoreversion
 Source: "C:\Developpement\GPSBook\delivery\plugins\displayGoogleMap.dll"; DestDir: "{app}/plugins"; Flags: ignoreversion
-Source: "C:\Developpement\GPSBook\delivery\plugins\displayGpxViewDotCom.dll"; DestDir: "{app}/plugins"; Flags: ignoreversion
+Source: "C:\Developpement\GPSBook\delivery\plugins\displayGpsBabel.dll"; DestDir: "{app}/plugins"; Flags: ignoreversion
 Source: "C:\Developpement\GPSBook\delivery\plugins\displayGraphic2D.dll"; DestDir: "{app}/plugins"; Flags: ignoreversion
 Source: "C:\Developpement\GPSBook\delivery\plugins\displayGraphic3D.dll"; DestDir: "{app}/plugins"; Flags: ignoreversion
 Source: "C:\Developpement\GPSBook\delivery\plugins\displayInformation.dll"; DestDir: "{app}/plugins"; Flags: ignoreversion
+Source: "C:\Developpement\GPSBook\delivery\plugins\displayInternetBrowser.dll"; DestDir: "{app}/plugins"; Flags: ignoreversion
 Source: "C:\Developpement\GPSBook\delivery\plugins\displayStatistic.dll"; DestDir: "{app}/plugins"; Flags: ignoreversion
 Source: "C:\Developpement\GPSBook\delivery\plugins\filterCleanup.dll"; DestDir: "{app}/plugins"; Flags: ignoreversion
 Source: "C:\Developpement\GPSBook\delivery\plugins\ioGPX.dll"; DestDir: "{app}/plugins"; Flags: ignoreversion
+Source: "C:\Developpement\GPSBook\delivery\plugins\ioLOC.dll"; DestDir: "{app}/plugins"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -67,6 +69,7 @@ Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\GPSBook"; Filename
 
 [Run]
 Filename: "{app}\bin\gpsbook.exe"; Description: "{cm:LaunchProgram,GPSBook}"; Flags: nowait postinstall skipifsilent
+
 
 
 

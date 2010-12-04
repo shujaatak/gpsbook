@@ -38,7 +38,10 @@ namespace PluginDisplayStatistic {
         m_ui(new Ui::DisplayStatisticFrame)
     {
         m_ui->setupUi(this);
-    } //DisplayStatisticFrame::DisplayStatisticFrame
+#if not defined(Q_OS_LINUX)
+        m_ui->toolButtonAltitude->setDisabled(true);
+#endif
+     } //DisplayStatisticFrame::DisplayStatisticFrame
 
     /*------------------------------------------------------------------------------*
 

@@ -39,6 +39,7 @@ HEADERS += displaygpsbabel.h \
     Gebabbel-0.4/src/ListItem.h
 FORMS += displaygpsbabelhelp.ui \
     displaygpsbabeloptionsframe.ui \
+    Gebabbel-0.4/ui/Gebabbel.ui \
     Gebabbel-0.4/ui/SavePresetWindow.ui \
     Gebabbel-0.4/ui/PresetConfig.ui \
     Gebabbel-0.4/ui/PreferencesConfig.ui \
@@ -46,9 +47,6 @@ FORMS += displaygpsbabelhelp.ui \
     Gebabbel-0.4/ui/FilterConfig.ui
 
 #TRANSLATIONS = displayTemplate_fr_fr.ts
-
-FORMS += \
-    Gebabbel-0.4/ui/MainWindow.ui
 
 RESOURCES += \
     Gebabbel-0.4/binincludes/binincludes.qrc

@@ -105,7 +105,10 @@ namespace PluginDisplayGoogleMap {
                     if (line.contains("{{GPXFILE}}"))
                     {
                         QString filename = trackList->filename;
-                        if ( !QFile(filename).exists() ) {
+                        if ( !trackList->wayPointList.isEmpty() &&
+                             !trackList->routeList.isEmpty() &&
+                             !trackList->trackList.isEmpty() &&
+                             !QFile(filename).exists() ) {
                             //TODO: Save in temp file
                             //Get the service "Save as GPX" provided by ioGPX
                             //Use it to save the file

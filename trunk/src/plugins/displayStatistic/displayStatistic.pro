@@ -52,4 +52,6 @@ FORMS += displaystatisticframe.ui \
 TRANSLATIONS = displayStatistic_fr_fr.ts \
                displayStatistic_en_us.ts
 
-LIBS += -L../../../delivery/plugins -ldisplaySRTM
+linux-g++ {
+    LIBS += -L../../../delivery/plugins -ldisplaySRTM
+}

@@ -41,8 +41,10 @@ namespace PluginDisplayGraphic3D {
         mAltitudeScaleRatio = 1.5;
         QSettings settings("GPSBook","GPSBook");
         QString storagePath = settings.value("StorageLocation","").toString();
+#if defined(Q_OS_LINUX)
         srtmDownloader = new SrtmDownloader("http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/",
                                             storagePath+"srtm");
+#endif
     } //Viewer::Viewer
 
     /*------------------------------------------------------------------------------*
@@ -215,6 +217,7 @@ namespace PluginDisplayGraphic3D {
 
      *------------------------------------------------------------------------------*/
     void Viewer::drawTerrain(){
+#if defined(Q_OS_LINUX)
         qDebug() << __FILE__ << __FUNCTION__ ;
 
         int deltaMax = 2;
@@ -235,6 +238,7 @@ namespace PluginDisplayGraphic3D {
                 glEnd();
             }
         }
+#endif
     }
 
     /*------------------------------------------------------------------------------*
@@ -253,7 +257,11 @@ namespace PluginDisplayGraphic3D {
         //Convert x,y in lon,lat
         double lat=(y-(-1-((2*minlat)/(maxlat-minlat))))/(2/(maxlat-minlat))-latcenter;
         double lon=(x-(-1-((2*minlon)/(maxlon-minlon))))/(2/(maxlon-minlon))-loncenter;
-        return convertAlt(srtmDownloader->getAltitudeFromLatLon(lat,lon));
+        double alt = 0;
+#if defined(Q_OS_LINUX)
+        alt = convertAlt(srtmDownloader->getAltitudeFromLatLon(lat,lon));
+#endif
+        return alt;
     }
 
 

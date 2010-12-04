@@ -686,17 +686,21 @@ QString MyMainWindow::searchGpsBabel()
     // Hopefully this won't happen :)
     //
     QProcess SearchGpsbabel;
-    QFileInfo PathInfo;
     int Timeout = 100;
 
     QStringList PossiblePaths;
+#ifdef Q_OS_WIN
+    PossiblePaths.append( "c:\\progra~1\\gpsbabel\\gpsbabel.exe" );
+#endif
     PossiblePaths.append( GpsBabelPath );
     // The path in the preferences gets used if the executable as specified in the command line was not found
     PossiblePaths.append( SettingsManager::instance()->pathGpsBabel() );
+    qDebug() << "toto --> " << PossiblePaths;
 
-#ifndef LINUX
+/*#ifndef Q_OS_LINUX
     for ( int i = 0; i < PossiblePaths.size(); i++ )
     {
+        QFileInfo PathInfo;
         PathInfo.setFile( PossiblePaths.at( i ) );
         if ( PathInfo.isRelative() )
         {
@@ -707,7 +711,8 @@ QString MyMainWindow::searchGpsBabel()
             PossiblePaths.replace( i, TempString );
         }
     }
-#endif
+#endif */
+
 
     for ( int i = 0; i < PossiblePaths.size(); i++ )
     {
@@ -734,7 +739,7 @@ QStringList MyMainWindow::assembleCommand()
     if ( GpsBabelPath == "" )
     {
         GpsBabelPath = "gpsbabel";
-#ifdef WINDOWS
+#ifdef Q_OS_WIN
         GpsBabelPath.append( ".exe" );
 #endif
     }
@@ -1122,7 +1127,7 @@ void MyMainWindow::setProcessButton()
 {
     // This function does some rudimentary checks and disables the process button if necessary
     // TODO: In case of USB inputs, don't disable the process button
-    BtnProcess->setEnabled( false );
+    BtnProcess->setEnabled( true );
 
     // If there is no input or output at all, the button should remain disabled
     if ( InputItems->count() == 0 || OutputItems->count() == 0 )
