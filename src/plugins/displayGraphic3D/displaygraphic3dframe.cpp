@@ -40,6 +40,12 @@ namespace PluginDisplayGraphic3D {
         sizePolicy.setHeightForWidth(viewer->sizePolicy().hasHeightForWidth());
         viewer->setSizePolicy(sizePolicy);
         ui->horizontalLayout->addWidget(viewer);
+#if not defined(Q_OS_LINUX)
+        ui->toolButton_AltitudeScaleMean->setDisabled(true);
+        ui->toolButton_AltitudeScaleMoins->setDisabled(true);
+        ui->toolButton_AltitudeScalePlus->setDisabled(true);
+        ui->toolButton_terrain->setDisabled(true);
+#endif
     } //DisplayGraphic3DFrame::DisplayGraphic3DFrame
 
     /*------------------------------------------------------------------------------*

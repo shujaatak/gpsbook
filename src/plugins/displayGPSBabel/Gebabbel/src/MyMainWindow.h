@@ -28,7 +28,7 @@
 
 #include <QStringList>
 
-#include "ui_MainWindow.h"
+#include "ui_Gebabbel.h"
 #include "MyIOConfigWindow.h"
 #include "MyFilterConfigWindow.h"
 #include "MyPreferencesConfig.h"
@@ -41,7 +41,7 @@
 using namespace std;
 using namespace GPSBook;
 
-class MyMainWindow: public QFrame, private Ui::MainWindow
+class MyMainWindow: public QFrame, private Ui::Gebabbel
 {
     Q_OBJECT
 
