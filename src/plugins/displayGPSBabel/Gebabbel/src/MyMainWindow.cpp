@@ -241,7 +241,7 @@ void MyMainWindow::setupMenus()
     // Creating the toolbar
     //MainToolBar = addToolBar( tr( "Main Toolbar" ) );
     MainToolBar = new QToolBar("Main Toolbar",mainToolBarFrame);
-    MainToolBar->setIconSize( QSize::QSize( 16, 16 ) );
+    MainToolBar->setIconSize( QSize( 16, 16 ) );
     MainToolBar->setAllowedAreas( Qt::TopToolBarArea );
     MainToolBar->setMovable( false );
     mainToolBarFrame->layout()->addWidget(MainToolBar);

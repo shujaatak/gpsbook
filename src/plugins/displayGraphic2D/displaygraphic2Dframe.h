@@ -83,6 +83,10 @@ namespace PluginDisplayGraphic2D {
         void on_actionXDistance_triggered();
         void on_actionXAbsoluteTime_triggered();
 
+        void on_actionXCumulDistance_triggered();
+
+        void on_actionYCumulDistance_triggered();
+
     public slots:
         void on_update();
 

@@ -79,9 +79,9 @@ cd ..
 cat > Release << EOF
 Origin: Ubuntu
 Label: Ubuntu
-Suite: maverick
+Suite: natty
 Version: 10.10
-Codename: maverick
+Codename: natty
 Date: $DATE 
 Architectures: $TARGET 
 Components: main 

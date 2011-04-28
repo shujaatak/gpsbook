@@ -316,6 +316,7 @@ namespace PluginIOGPX {
             writeAttribute( "creator", "GPSBook");
             writeAttribute( "version", "1.1");
             writeNamespace( "http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd","schemaLocation");
+            writeNamespace( "http://www.gpsbook.com/GPX/1/1 http://www.gpsbook.com/GPX/1/1/gpsbook.xsd","gpsbook");
 
             writeMetaData(gpsdata->metadata);
 

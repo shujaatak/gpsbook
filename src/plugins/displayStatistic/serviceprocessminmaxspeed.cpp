@@ -109,7 +109,7 @@ namespace PluginDisplayStatistic {
 
         foreach(WayPoint* waypoint, trackseg->wayPointList)
         {
-            double speed = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","speed").toDouble();
+            double speed = mGPSData->getExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:speed").toDouble();
             if (  speed > maxValue )
             {
                 maxValue  = speed;

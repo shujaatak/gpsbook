@@ -30,6 +30,7 @@ DisplayGraphic2DOptionsFrame::DisplayGraphic2DOptionsFrame(QWidget *parent) :
     settings = new QSettings("GPSBook","GPSBook");
 
     ui->checkBoxFullfilPoints->setChecked(settings->value("pluginGraph2DFullfilPoint",true).toBool());
+    ui->checkBoxFullfilCumulDistance->setChecked(settings->value("pluginGraph2DFullfilCumulDistance",true).toBool());
     ui->checkBoxFullfilDistance->setChecked(settings->value("pluginGraph2DFullfilDistance",false).toBool());
     ui->checkBoxFullfilAbsoluteTime->setChecked(settings->value("pluginGraph2DFullfilAbsoluteTime",true).toBool());
     ui->checkBoxFullfilDuration->setChecked(settings->value("pluginGraph2DFullfilDuration",false).toBool());
@@ -71,4 +72,9 @@ void DisplayGraphic2DOptionsFrame::on_checkBoxFullfilAbsoluteTime_toggled(bool)
 void DisplayGraphic2DOptionsFrame::on_checkBoxFullfilDuration_toggled(bool)
 {
     settings->setValue("pluginGraph2DFullfilDuration",ui->checkBoxFullfilDuration->isChecked());
+}
+
+void DisplayGraphic2DOptionsFrame::on_checkBoxFullfilCumulDistance_toggled(bool)
+{
+    settings->setValue("pluginGraph2DFullfilCumulDistance",ui->checkBoxFullfilCumulDistance->isChecked());
 }

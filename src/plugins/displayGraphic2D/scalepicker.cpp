@@ -22,6 +22,7 @@
 #include <qevent.h>
 #include <qwt_plot.h>
 #include <qwt_scale_widget.h>
+#include <qwt_scale_draw.h>
 #include "scalepicker.h"
 
 namespace PluginDisplayGraphic2D {
@@ -79,25 +80,25 @@ namespace PluginDisplayGraphic2D {
             {
                 case QwtScaleDraw::LeftScale:
                 {
-                    value = sd->map().invTransform(pos.y());
+                    value = sd->scaleMap().invTransform(pos.y());
                     axis = QwtPlot::yLeft;
                     break;
                 }
                 case QwtScaleDraw::RightScale:
                 {
-                    value = sd->map().invTransform(pos.y());
+                    value = sd->scaleMap().invTransform(pos.y());
                     axis = QwtPlot::yRight;
                     break;
                 }
                 case QwtScaleDraw::BottomScale:
                 {
-                    value = sd->map().invTransform(pos.x());
+                    value = sd->scaleMap().invTransform(pos.x());
                     axis = QwtPlot::xBottom;
                     break;
                 }
                 case QwtScaleDraw::TopScale:
                 {
-                    value = sd->map().invTransform(pos.x());
+                    value = sd->scaleMap().invTransform(pos.x());
                     axis = QwtPlot::xTop;
                     break;
                 }
@@ -113,7 +114,7 @@ namespace PluginDisplayGraphic2D {
     QRect ScalePicker::scaleRect(const QwtScaleWidget *scale) const
     {
         const int bld = scale->margin();
-        const int mjt = scale->scaleDraw()->majTickLength();
+        const int mjt = scale->scaleDraw()->maxTickLength();
         const int sbd = scale->startBorderDist();
         const int ebd = scale->endBorderDist();
 

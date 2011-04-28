@@ -367,6 +367,9 @@
    <property name="toolTip">
     <string>Split segment</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
   </action>
   <action name="actionDelete_selected_point">
    <property name="icon">
@@ -378,6 +381,30 @@
    </property>
    <property name="shortcut">
     <string>Del</string>
+   </property>
+  </action>
+  <action name="actionXCumulDistance">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+     <normaloff>:/icons/silk/flag_red.png</normaloff>:/icons/silk/flag_red.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cumul Distance</string>
+   </property>
+  </action>
+  <action name="actionYCumulDistance">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../../GPSBook/icons/silk/silk_icons.qrc">
+     <normaloff>:/icons/silk/flag_red.png</normaloff>:/icons/silk/flag_red.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cumul Distance</string>
    </property>
   </action>
  </widget>

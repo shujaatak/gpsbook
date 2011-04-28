@@ -18,6 +18,7 @@ public:
     QString source;
     QString iconName;
     void setSelectedIcon(QString name);
+    QIcon getIconByName(QString name);
 
 private:
     Ui::DialogSelectSymbol *ui;

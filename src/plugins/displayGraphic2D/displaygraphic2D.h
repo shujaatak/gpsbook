@@ -31,7 +31,7 @@
 namespace PluginDisplayGraphic2D {
 
     class DisplayGraphic2D: public DisplayPluginInterface
-        {
+    {
         Q_OBJECT
         Q_INTERFACES(DisplayPluginInterface)
 

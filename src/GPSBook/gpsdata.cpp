@@ -261,10 +261,10 @@ namespace GPSBook {
         displayedRouteIndex = -2;
         displayedTrackIndex = -2;
         displayedSegmentIndex = -2;
-        selectedWaypointIndex = 0;
-        selectedRouteIndex = 0;
-        selectedTrackIndex = 0;
-        selectedSegmentIndex = 0;
+        selectedWaypointIndex = -1;
+        selectedRouteIndex = -1;
+        selectedTrackIndex = -1;
+        selectedSegmentIndex = -1;
         filename = "";
         isModified = false;
         isFromCatalog = false;

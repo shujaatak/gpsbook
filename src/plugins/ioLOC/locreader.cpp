@@ -51,7 +51,7 @@ namespace PluginIOLOC {
 
         mGPSData->clearData();
 
-        mGPSData->filename = fileName+".gpx";
+        mGPSData->filename = fileName;
 
         QFile file(fileName);
 
@@ -89,25 +89,27 @@ namespace PluginIOLOC {
                         QString flagName = name().toString();
                         while (!atEnd())
                         {
+                            readNext();
+                            if ((name().toString() == flagName) and (isEndElement()))
+                                break;
                             if (name() == "coord")
                             {
                                 waypoint->lat = attributes().value("lat").toString().toDouble();
                                 waypoint->lon = attributes().value("lon").toString().toDouble();
                                 waypoint->sym = "geocaching";
+                                //qDebug()<< "WAYPOINT = "<< name().toString() <<  waypoint->lon << "/" << waypoint->lat;
+                                readNext();
                             }
-                            readNext();
-                            if ((name().toString() == flagName) and (isEndElement()))
-                                break;
-
-                            qDebug()<< "WAYPOINT = "<< name().toString();
                             if (name() == "type")
                             {
                                 waypoint->type = readElementText();
+                                //qDebug()<< "WAYPOINT = "<< name().toString() <<  waypoint->type ;
                             }
                             if (name() == "name")
                             {
                                 waypoint->cmt = attributes().value("id").toString();
-                                waypoint->name = readElementText();
+                                waypoint->name = readElementText().replace(QString("\n"),"");
+                                //qDebug()<< "WAYPOINT = "<< name().toString() <<  waypoint->name << "/" << waypoint->cmt;
                             }
                             if (name() == "link")
                             {
@@ -115,6 +117,7 @@ namespace PluginIOLOC {
                                 waypoint->linkList << link;
                                 link->text = attributes().value("text").toString();
                                 link->href = readElementText();
+                                //qDebug()<< "WAYPOINT = "<< name().toString() <<  link->text << "/" << link->href;
                             }
                         }
                     }

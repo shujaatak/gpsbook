@@ -367,11 +367,14 @@ namespace GPSBook {
             QVariant getExtensionData(QVariantHash extensions, QString extensionName, QString key);
             QVariantHash setExtensionData(QVariantHash extensions, QString extensionName, QString key, QVariant value);
 
+            //Displayed is typically the element selected into the catalog (left side)
             int displayedWaypointIndex;
             int displayedRouteIndex;
             int displayedTrackIndex;
             int displayedSegmentIndex;
 
+            //Some time, the element displayed can have many sub element.
+            //This sub element could be selected individualy by a plugin
             int selectedWaypointIndex;
             int selectedRouteIndex;
             int selectedTrackIndex;

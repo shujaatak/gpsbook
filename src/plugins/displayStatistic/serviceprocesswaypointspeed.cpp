@@ -56,7 +56,7 @@ namespace PluginDisplayStatistic {
         {
             foreach(TrackSeg* trackSeg, track->trackSegList)
             {
-                mGPSData->setExtensionData(trackSeg->wayPointList[0]->extensions,"GPSBookWayPointExtension","speed",0);
+                mGPSData->setExtensionData(trackSeg->wayPointList[0]->extensions,"gpsbook:WayPointExtension","gpsbook:speed",0);
                 foreach (WayPoint* waypoint, trackSeg->wayPointList)
                 {
                     if ( waypointBegin == 0 )
@@ -65,8 +65,8 @@ namespace PluginDisplayStatistic {
                     waypointEnd = waypoint;
                     uint timeBegin = waypointBegin->time.toTime_t();
                     uint timeEnd = waypointEnd->time.toTime_t();
-                    double distanceBegin = mGPSData->getExtensionData(waypointBegin->extensions,"GPSBookWayPointExtension","distance").toDouble();
-                    double distanceEnd = mGPSData->getExtensionData(waypointEnd->extensions,"GPSBookWayPointExtension","distance").toDouble();
+                    double distanceBegin = mGPSData->getExtensionData(waypointBegin->extensions,"gpsbook:WayPointExtension","gpsbook:distance").toDouble();
+                    double distanceEnd = mGPSData->getExtensionData(waypointEnd->extensions,"gpsbook:WayPointExtension","gpsbook:distance").toDouble();
                     double distance = distanceEnd - distanceBegin;
                     uint time = timeEnd - timeBegin;
                     //qDebug() << "Distance=" << distance << "; time=" << time;
@@ -81,14 +81,14 @@ namespace PluginDisplayStatistic {
                         //If speed difference between 2 point is too high, we filter it!
                         //if (abs(delta) < 33)
                         //{
-                        //    mGPSData->setExtensionData(waypointEnd->extensions,"GPSBookWayPointExtension","speed",speed);
+                        //    mGPSData->setExtensionData(waypointEnd->extensions,"gpsbook:WayPointExtension","gpsbook:speed",speed);
                         //    prevSpeed = speed;
                         //}
                         //else
-                        //    mGPSData->setExtensionData(waypointEnd->extensions,"GPSBookWayPointExtension","speed",prevSpeed);
+                        //    mGPSData->setExtensionData(waypointEnd->extensions,"gpsbook:WayPointExtension","gpsbook:speed",prevSpeed);
                     }
                     //else
-                    waypointEnd->extensions = mGPSData->setExtensionData(waypointEnd->extensions,"GPSBookWayPointExtension","speed",speed);
+                    waypointEnd->extensions = mGPSData->setExtensionData(waypointEnd->extensions,"gpsbook:WayPointExtension","gpsbook:speed",speed);
                 }
             }   
         }

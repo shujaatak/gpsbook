@@ -28,6 +28,7 @@ SUBDIRS = GPSBook \
           #plugins/displayBlogging \
           #plugins/displayEditTrack \
           #plugins/displayGeoPortail \
+          plugins/displayGeoCaching \
           plugins/displayGoogleMap \
           plugins/displayGPSBabel \
           #plugins/displayGPSBabel/Gebabbel/Gebabbel.pro \
@@ -38,9 +39,9 @@ SUBDIRS = GPSBook \
           plugins/displayInternetBrowser \
           #plugins/displayMailTo \
           #plugins/displayPathTags \
-          #plugins/displayPoI \
+          plugins/displayPOI \
           #plugins/displayPictSync \
-          #plugins/displayRawEditor \
+          plugins/displayRawEditor \
           #plugins/displayReport \
           #plugins/displayRoadBook \
           plugins/displayStatistic \

@@ -69,7 +69,7 @@ namespace PluginDisplayStatistic {
         void activeSegmentIdChanged();
 
     private slots:
-        void on_toolButtonAcceleration_2_clicked();
+        void on_toolButtonAltitude_clicked();
         void on_toolButtonAcceleration_clicked();
         void on_toolButtonSpeed_clicked();
         void on_toolButtonDistance_clicked();

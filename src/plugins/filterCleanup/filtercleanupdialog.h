@@ -51,6 +51,7 @@ namespace PluginFilterCleanup {
 
 
     private slots:
+        void on_toolButtonRemoveExtensions_clicked();
         void on_toolButtonHigherOrLowerAltitude_clicked();
         void on_toolButtonRemoveLowerHigherAltitude_clicked();
         void on_toolButtonRemoveNegativeSpeed_clicked();

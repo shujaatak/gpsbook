@@ -115,10 +115,10 @@ namespace PluginDisplayStatistic {
                        elevationGain += elevation;
                     }
                     //qDebug() << "elevation=" << elevation << " -- elevationDrop=" << elevationDrop << " -- elevationGain=" << elevationGain;
-                    waypointEnd->extensions = mGPSData->setExtensionData(waypointEnd->extensions,"GPSBookWayPointExtension","elevation",elevation);*/
+                    waypointEnd->extensions = mGPSData->setExtensionData(waypointEnd->extensions,"gpsbook:WayPointExtension","gpsbook:elevation",elevation);*/
                 }
-                trackSeg->extensions = mGPSData->setExtensionData(trackSeg->extensions,"GPSBookSegmentExtension","elevationGain",elevationGain);
-                trackSeg->extensions = mGPSData->setExtensionData(trackSeg->extensions,"GPSBookSegmentExtension","elevationDrop",elevationDrop);
+                trackSeg->extensions = mGPSData->setExtensionData(trackSeg->extensions,"gpsbook:SegmentExtension","gpsbook:elevationGain",elevationGain);
+                trackSeg->extensions = mGPSData->setExtensionData(trackSeg->extensions,"gpsbook:SegmentExtension","gpsbook:elevationDrop",elevationDrop);
             }
         }
         mGPSData->unlockGPSData();

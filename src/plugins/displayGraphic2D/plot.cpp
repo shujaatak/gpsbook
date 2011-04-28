@@ -168,6 +168,7 @@ namespace PluginDisplayGraphic2D {
                 case Plot::axis_x_absolute_time:
                     trackerText = timeScaleDraw->label(position.x()).text();
                 break;
+                case Plot::axis_x_cumul_distance:
                 case Plot::axis_x_distance:
                     trackerText = distanceScaleDraw->label(position.x()).text();
                 break;
@@ -187,6 +188,7 @@ namespace PluginDisplayGraphic2D {
                 case Plot::axis_y_latitude:
                     trackerText += latitudeScaleDraw->label(position.y()).text();
                 break;
+                case Plot::axis_y_cumul_distance:
                 case Plot::axis_y_distance:
                     trackerText += distanceScaleDraw->label(position.y()).text();
                 break;
@@ -220,6 +222,14 @@ namespace PluginDisplayGraphic2D {
         QwtPlotGrid *grid = new QwtPlotGrid;
         grid->setMajPen(QPen(Qt::gray, 0, Qt::DotLine));
         grid->attach(this);
+
+        //____________________________________________________________________________
+        marker = new QwtPlotMarker();
+        marker->setLineStyle(QwtPlotMarker::Cross);
+        marker->setLabelAlignment(Qt::AlignRight | Qt::AlignBottom);
+        marker->setLinePen(QPen(QColor(200,150,0), 0, Qt::DashDotLine));
+        marker->setSymbol( new QwtSymbol(QwtSymbol::Diamond, QColor(Qt::yellow), QColor(Qt::green), QSize(7,7)));
+        marker->attach(this);
 
         //____________________________________________________________________________
         canvasPicker = new CanvasPicker(this);
@@ -264,6 +274,9 @@ namespace PluginDisplayGraphic2D {
      *------------------------------------------------------------------------------*/
     int Plot::drawSegment(QList<TrackSeg*> segmentList, int trackId, int displayedIndex, XAxis X_Axis, YAxis Y_Axis, int point)
     {
+        qDebug() << __FILE__ << __FUNCTION__ ;
+        if (displayedIndex >= segmentList.count() )
+            return 0;
         QLinearGradient gradient;
         gradient.setCoordinateMode(QGradient::ObjectBoundingMode);
         gradient.setColorAt(0,Qt::white);
@@ -280,6 +293,8 @@ namespace PluginDisplayGraphic2D {
 
         int colorRef = 360 / (segmentList.count() + 1 );
         int colorId = segmentIdStart;
+        double cumulDistance=0;
+
         for (int segmentId = segmentIdStart; segmentId < segmentIdStop ; segmentId++ )
         {
             Curve* curve = new Curve();
@@ -309,8 +324,11 @@ namespace PluginDisplayGraphic2D {
                     case Plot::axis_x_absolute_time:
                         x[i] = waypoint->time.toTime_t();
                     break;
+                    case Plot::axis_x_cumul_distance:
+                        x[i] = cumulDistance + mGPSData->getExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:distance").toDouble();
+                    break;
                     case Plot::axis_x_distance:
-                        x[i] = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","distance").toDouble();
+                        x[i] = mGPSData->getExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:distance").toDouble();
                     break;
                     case Plot::axis_x_duration:
                         x[i] = waypoint->time.toTime_t() - origin;
@@ -328,21 +346,31 @@ namespace PluginDisplayGraphic2D {
                     case Plot::axis_y_latitude:
                         y[i] = waypoint->lat;
                     break;
+                    case Plot::axis_y_cumul_distance:
+                        y[i] = cumulDistance + mGPSData->getExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:distance").toDouble();
+                    break;
                     case Plot::axis_y_distance:
-                        y[i] = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","distance").toDouble();
+                        y[i] = mGPSData->getExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:distance").toDouble();
                     break;
                     case Plot::axis_y_altitude:
                         y[i] = waypoint->ele;
                     break;
                     case Plot::axis_y_speed:
-                        y[i] = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","speed").toDouble();
+                        y[i] = mGPSData->getExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:speed").toDouble();
                     break;
                     case Plot::axis_y_acceleration:
-                        y[i] = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","acceleration").toDouble();
+                        y[i] = mGPSData->getExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:acceleration").toDouble();
                     break;
                 }
                 i++;
                 point++;
+            }
+
+            if ( X_Axis == Plot::axis_x_cumul_distance){
+                cumulDistance = x[i-1];
+            }
+            if ( Y_Axis == Plot::axis_y_cumul_distance){
+                cumulDistance = y[i-1];
             }
             curve->setSamples(x, y, sizeof(x) / sizeof(x[0]));
             if (trackId != -1 )
@@ -397,8 +425,12 @@ namespace PluginDisplayGraphic2D {
             curveList.takeFirst()->detach();
         }
 
-        //rescaler->setEnabled((X_Axis == Plot::axis_x_longitude));
-        rescaler->setEnabled(rescale);
+        rescaler->setEnabled(false);
+        rescaler->setRescalePolicy(QwtPlotRescaler::Fixed);
+        rescaler->setExpandingDirection(QwtPlotRescaler::ExpandBoth);
+        setAxisAutoScale(QwtPlot::yLeft);
+        setAxisAutoScale(QwtPlot::xBottom);
+        plotLayout()->setAlignCanvasToScales(true);
 
         gpsdata->lockGPSDataForRead();
         //ROUTE
@@ -406,7 +438,6 @@ namespace PluginDisplayGraphic2D {
         {
             drawSegment(reinterpret_cast< QList<TrackSeg*> &>(gpsdata->routeList), -1, gpsdata->displayedRouteIndex, X_Axis, Y_Axis, 0);
         }
-
 
         //TRACK
         if (gpsdata->displayedTrackIndex != -2)
@@ -427,10 +458,12 @@ namespace PluginDisplayGraphic2D {
         }
         foreach(Curve* curve, curveList){
             if ( ( Y_Axis == Plot::axis_y_speed ) ||
-                 ( Y_Axis == Plot::axis_y_acceleration ) ) {
+                 ( Y_Axis == Plot::axis_y_acceleration ) )
+            {
                 curve->setBaseline(0);
             }
-            else {
+            else
+            {
                 curve->setBaseline(minYValue);
             }
         }
@@ -440,6 +473,7 @@ namespace PluginDisplayGraphic2D {
             case Plot::axis_x_absolute_time:
                 setAxisScaleDraw(Plot::xBottom, new TimeScaleDraw());
             break;
+            case Plot::axis_x_cumul_distance:
             case Plot::axis_x_distance:
                 setAxisScaleDraw(Plot::xBottom, new DistanceScaleDraw());
             break;
@@ -458,6 +492,7 @@ namespace PluginDisplayGraphic2D {
             case Plot::axis_y_latitude:
                 setAxisScaleDraw(Plot::yLeft, new LatitudeScaleDraw());
             break;
+            case Plot::axis_y_cumul_distance:
             case Plot::axis_y_distance:
                 setAxisScaleDraw(Plot::yLeft, new DistanceScaleDraw());
             break;
@@ -473,6 +508,8 @@ namespace PluginDisplayGraphic2D {
         }
         if ((X_Axis == Plot::axis_x_longitude))
         {
+            rescaler->setAspectRatio(1.0);
+
             double deltaX = (maxXValue - minXValue);
             double deltaY = (maxYValue - minYValue);
             if (width() > height())
@@ -480,32 +517,32 @@ namespace PluginDisplayGraphic2D {
                if (deltaX > deltaY)
                {
                     rescaler->setReferenceAxis(QwtPlot::xBottom);
+                    rescaler->setExpandingDirection(QwtPlot::yLeft,QwtPlotRescaler::ExpandBoth);
                }
                else
                {
-                   rescaler->setReferenceAxis(QwtPlot::yLeft);
+                    rescaler->setReferenceAxis(QwtPlot::yLeft);
+                    rescaler->setExpandingDirection(QwtPlot::xBottom,QwtPlotRescaler::ExpandBoth);
                }
             }
             else
             {
-                if (deltaX > deltaY)
-                 {
-                     rescaler->setReferenceAxis(QwtPlot::xBottom);
-                 }
+                if (deltaX < deltaY)
+                {
+                    rescaler->setReferenceAxis(QwtPlot::xBottom);
+                    rescaler->setExpandingDirection(QwtPlot::yLeft,QwtPlotRescaler::ExpandBoth);
+                }
                 else
                 {
                     rescaler->setReferenceAxis(QwtPlot::yLeft);
+                    rescaler->setExpandingDirection(QwtPlot::xBottom,QwtPlotRescaler::ExpandBoth);
                 }
             }
+            rescaler->setEnabled(true);
+
         }
 
-        if ( rescale ) {
-            setAxisScale(QwtPlot::xBottom, minXValue, maxXValue);
-            setAxisScale(QwtPlot::yLeft, minYValue, maxYValue);
-            setAxisAutoScale(QwtPlot::yLeft);
-            setAxisAutoScale(QwtPlot::xBottom);
-            plotLayout()->setAlignCanvasToScales(true);
-        }
+        plotLayout()->setAlignCanvasToScales(true);
 
         replot();
 
@@ -525,54 +562,94 @@ namespace PluginDisplayGraphic2D {
     void Plot::replot()
     {
         qDebug() << __FILE__ << __FUNCTION__;
-        QwtPlot::replot();
 
-        foreach (Curve* curve, curveList)
-        {
-            qDebug() << __FILE__ << __FUNCTION__ << "\n" <<
-                    "mGPSData->selectedWaypointIndex" << mGPSData->selectedWaypointIndex << "\n" <<
-                    "curve->trackId()" << curve->trackId() << "==" <<
-                    "mGPSData->selectedTrackIndex" << mGPSData->selectedTrackIndex << "\n && \n" <<
-                    "curve->segmentId()" <<  curve->segmentId()<< "==" <<
-                    "mGPSData->selectedSegmentIndex" << mGPSData->selectedSegmentIndex << "\n" <<
-                    "curve->routeId()" << curve->routeId() << "==" <<
-                    "mGPSData->selectedRouteIndex" << mGPSData->selectedRouteIndex;
-            if (
-                 (
-                    mGPSData->selectedWaypointIndex >= 0
-                 )
-                 &&
-                 (
-                   (
-                     ( curve->trackId() >= 0 )
-                     &&
-                     ( curve->trackId() == mGPSData->selectedTrackIndex )
-                     &&
-                     ( curve->segmentId() == mGPSData->selectedSegmentIndex )
-                   )
-                   ||
-                   (
-                     ( curve->routeId() >= 0)
-                     &&
-                     ( curve->routeId() == mGPSData->selectedRouteIndex )
-                   )
-                 )
-               )
-            {
-                QwtSymbol *symbolCross = new QwtSymbol(QwtSymbol::Cross,
-                                                       Qt::gray,
-                                                       QColor(Qt::black),
-                                                       QSize(10, 10));
-                curve->setSymbol(symbolCross);
-                QwtPlotDirectPainter directPainter;
-                directPainter.drawSeries(curve,
-                                         mGPSData->selectedWaypointIndex,
-                                         mGPSData->selectedWaypointIndex);
-                QwtSymbol *noSymbol = new QwtSymbol(QwtSymbol::NoSymbol);
+        double X_Marker=0;
+        double Y_Marker=0;
 
-                curve->setSymbol(noSymbol);
+        if ( ( curveList.count() > 0 ) && ( ( mGPSData->selectedRouteIndex >= 0 ) || ( mGPSData->selectedTrackIndex >= 0 ) ) ) {
+            //qDebug() << "mGPSData->selectedTrackIndex =" << mGPSData->selectedTrackIndex << "\n"
+            //         << "mGPSData->selectedSegmentIndex =" << mGPSData->selectedSegmentIndex << "\n"
+            //         << "mGPSData->selectedWaypointIndex =" << mGPSData->selectedWaypointIndex;
+            Track *track;
+            TrackSeg *trackseg;
+            if ( mGPSData->selectedTrackIndex >= 0 ) {
+                track= mGPSData->trackList[mGPSData->selectedTrackIndex];
+                if ( mGPSData->selectedSegmentIndex >= 0 )
+                    trackseg = track->trackSegList[mGPSData->selectedSegmentIndex];
             }
+            else {
+                if ( mGPSData->selectedRouteIndex >= 0 )
+                    trackseg = mGPSData->routeList[mGPSData->selectedRouteIndex];
+            }
+            if ( mGPSData->selectedWaypointIndex >= 0 )
+            {
+                WayPoint *waypoint = trackseg->wayPointList[mGPSData->selectedWaypointIndex];
+
+                switch (plotPicker->x_axis)
+                {
+                    case Plot::axis_x_absolute_time:
+                       X_Marker = waypoint->time.toTime_t();
+                    break;
+                    case Plot::axis_x_cumul_distance:
+                    for ( int trackId=0; trackId <= mGPSData->selectedTrackIndex; trackId ++)
+                        if ( mGPSData->displayedSegmentIndex < 0 ) {
+                            for (int segmentId=0; segmentId < mGPSData->selectedSegmentIndex; segmentId ++)
+                                X_Marker += mGPSData->getExtensionData(mGPSData->trackList[trackId]->trackSegList[segmentId]->wayPointList[mGPSData->trackList[trackId]->trackSegList[segmentId]->wayPointList.count()-1]->extensions,"gpsbook:WayPointExtension","gpsbook:distance").toDouble();
+
+                        }
+                        X_Marker += mGPSData->getExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:distance").toDouble();
+                    break;
+                    case Plot::axis_x_distance:
+                       X_Marker = mGPSData->getExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:distance").toDouble();
+                       break;
+                    case Plot::axis_x_duration:
+                       X_Marker =  waypoint->time.toTime_t() - mGPSData->trackList[mGPSData->selectedTrackIndex]->trackSegList[mGPSData->selectedSegmentIndex]->wayPointList[0]->time.toTime_t();
+                    break;
+                    case Plot::axis_x_longitude:
+                       X_Marker = waypoint->lon;
+                    break;
+                    case Plot::axis_x_point:
+                        for ( int trackId=0; trackId <= mGPSData->selectedTrackIndex; trackId ++)
+                            if ( mGPSData->displayedSegmentIndex < 0 ) {
+                                for (int segmentId=0; segmentId < mGPSData->selectedSegmentIndex; segmentId ++)
+                                    X_Marker += mGPSData->trackList[trackId]->trackSegList[segmentId]->wayPointList.count();
+                            }
+                        X_Marker += mGPSData->selectedWaypointIndex;
+                    break;
+                 }
+                 switch (plotPicker->y_axis)
+                 {
+                     case Plot::axis_y_latitude:
+                         Y_Marker = waypoint->lat;
+                     break;
+                     case Plot::axis_y_cumul_distance:
+                     for ( int trackId=0; trackId <= mGPSData->selectedTrackIndex; trackId ++)
+                         if ( mGPSData->displayedSegmentIndex < 0 ) {
+                             for (int segmentId=0; segmentId < mGPSData->selectedSegmentIndex; segmentId ++)
+                                 Y_Marker += mGPSData->getExtensionData(mGPSData->trackList[trackId]->trackSegList[segmentId]->wayPointList[mGPSData->trackList[trackId]->trackSegList[segmentId]->wayPointList.count()-1]->extensions,"gpsbook:WayPointExtension","gpsbook:distance").toDouble();
+
+                         }
+                         Y_Marker += mGPSData->getExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:distance").toDouble();
+                     break;
+                     case Plot::axis_y_distance:
+                         Y_Marker = mGPSData->getExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:distance").toDouble();
+                     break;
+                     case Plot::axis_y_altitude:
+                         Y_Marker = waypoint->ele;
+                     break;
+                     case Plot::axis_y_speed:
+                         Y_Marker = mGPSData->getExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:speed").toDouble();
+                     break;
+                     case Plot::axis_y_acceleration:
+                         Y_Marker = mGPSData->getExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:acceleration").toDouble();
+                     break;
+                 }
+             }
         }
+
+        marker->setValue(X_Marker,Y_Marker);
+
+        QwtPlot::replot();
 
     } //Plot::replot
 

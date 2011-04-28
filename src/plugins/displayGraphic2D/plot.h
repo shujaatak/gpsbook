@@ -27,6 +27,7 @@
 #include <qwt_scale_draw.h>
 #include <qwt_plot_picker.h>
 #include <qwt_plot_rescaler.h>
+#include <qwt_plot_marker.h>
 #include "canvaspicker.h"
 #include "curve.h"
 #include "gpsdata.h"
@@ -108,12 +109,14 @@ namespace PluginDisplayGraphic2D {
         Q_OBJECT
     public:
         enum XAxis {axis_x_absolute_time,
+                    axis_x_cumul_distance,
                     axis_x_distance,
                     axis_x_duration,
                     axis_x_longitude,
                     axis_x_point
                    };
         enum YAxis {axis_y_altitude,
+                    axis_y_cumul_distance,
                     axis_y_distance,
                     axis_y_latitude,
                     axis_y_speed,
@@ -139,6 +142,7 @@ namespace PluginDisplayGraphic2D {
         PlotPicker* plotPicker;
         QwtPlotRescaler *rescaler;
         CanvasPicker *canvasPicker;
+        QwtPlotMarker *marker;
 
         ushort x; //X Axis
         ushort y; //Y Axis

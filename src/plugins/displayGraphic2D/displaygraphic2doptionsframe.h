@@ -49,6 +49,7 @@ private slots:
     void on_checkBoxFullfilAbsoluteTime_toggled(bool);
     void on_checkBoxFullfilDistance_toggled(bool);
     void on_checkBoxFullfilPoints_toggled(bool);
+    void on_checkBoxFullfilCumulDistance_toggled(bool checked);
 };
 
 #endif // DISPLAYGRAPHIC2DOPTIONSFRAME_H
