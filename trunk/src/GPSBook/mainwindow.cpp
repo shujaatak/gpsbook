@@ -867,33 +867,11 @@ namespace GPSBook {
         on_actionOpen_triggered();
 
         //Add it into the catalog
-        if (!mGPSData->trackList.isEmpty()) {
+        if (mGPSData->filename != "") {
             on_toolButtonAddToCatalog_clicked();
         }
 
     } //MainWindow::on_toolButtonAdd_clicked
-
-    /*------------------------------------------------------------------------------*
-
-     *------------------------------------------------------------------------------*/
-    void MainWindow::treeWidgetContextMenuClicked()
-    {
-        QListWidgetItem *index = ui->listWidgetTracksOfTheDay->currentItem();
-        DialogTrackProperty *trackProperty = new DialogTrackProperty();
-        trackProperty->setFileName(   index->data(Qt::UserRole).toString());
-        trackProperty->setDisplayName(index->data(Qt::UserRole + 1).toString());
-        trackProperty->setDescription(index->data(Qt::UserRole + 2).toString());
-        trackProperty->exec();
-        if ( mGPSData->filename == trackProperty->fileName() ) {
-            ui->labelTrackName->setText( trackProperty->displayName() );
-        }
-        Database::updateTrackProperties(trackProperty->fileName(), trackProperty->displayName(), trackProperty->description());
-        Database::updateListWidget(ui->listWidgetTracksOfTheDay, ui->calendarWidget->selectedDate());
-        Database::updateListWidget(ui->listWidgetNoDateTracks, QDate(0,0,0));
-        delete trackProperty;
-    } //MainWindow::treeWidgetContextMenuClicked
-
-
 
     /*------------------------------------------------------------------------------*
 
@@ -968,21 +946,117 @@ namespace GPSBook {
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void MainWindow::on_listWidgetNoDateTracks_customContextMenuRequested(QPoint pos) {
-        on_listWidgetTracksOfTheDay_customContextMenuRequested(pos);
-    } //MainWindow::on_listWidgetNoDateTracks_customContextMenuRequested
+    void MainWindow::customContextMenuClicked(QListWidgetItem *item)
+    {
+        qDebug() << __FILE__ << __FUNCTION__;
+        //QListWidgetItem *index = tracklistWidget->currentItem();
+        DialogTrackProperty *trackProperty = new DialogTrackProperty();
+        trackProperty->setFileName(   item->data(Qt::UserRole).toString());
+        trackProperty->setDisplayName(item->data(Qt::UserRole + 1).toString());
+        trackProperty->setDescription(item->data(Qt::UserRole + 2).toString());
+        trackProperty->exec();
+        if ( mGPSData->filename == trackProperty->fileName() ) {
+            ui->labelTrackName->setText( trackProperty->displayName() );
+        }
+        Database::updateTrackProperties(trackProperty->fileName(), trackProperty->displayName(), trackProperty->description());
+        Database::updateListWidget(ui->listWidgetNoDateTracks, QDate(0,0,0));
+        delete trackProperty;
+    } //MainWindow::customContextMenuClicked
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void MainWindow::listWidgetTracksOfTheDay_customContextMenuClicked()
+    {
+        customContextMenuClicked(ui->listWidgetTracksOfTheDay->currentItem());
+        Database::updateListWidget(ui->listWidgetTracksOfTheDay, ui->calendarWidget->selectedDate());
+    } //MainWindow::listWidgetTracksOfTheDay_customContextMenuClicked
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void MainWindow::listWidgetNoDateTracks_customContextMenuClicked()
+    {
+        customContextMenuClicked(ui->listWidgetNoDateTracks->currentItem());
+        Database::updateListWidget(ui->listWidgetNoDateTracks, QDate(0,0,0));
+    } //MainWindow::listWidgetNoDateTracks_customContextMenuClicked
 
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
     void MainWindow::on_listWidgetTracksOfTheDay_customContextMenuRequested(QPoint pos)
     {
-        QMenu menu(ui->listWidgetTracksOfTheDay);
-        QAction *action = new QAction(tr("Properties..."),ui->listWidgetTracksOfTheDay);
-        menu.addAction(action);
-        QObject::connect(action, SIGNAL(triggered()), this, SLOT(treeWidgetContextMenuClicked()));
-        menu.exec(ui->listWidgetTracksOfTheDay->mapToGlobal(pos));
+        qDebug() << __FILE__ << __FUNCTION__;
+        if (ui->listWidgetNoDateTracks->currentItem()) {
+            QMenu menu(ui->listWidgetTracksOfTheDay);
+            QAction *action = new QAction(tr("Properties..."),ui->listWidgetTracksOfTheDay);
+            menu.addAction(action);
+            QObject::connect(action, SIGNAL(triggered()), this, SLOT(listWidgetTracksOfTheDay_customContextMenuClicked()));
+            menu.exec(ui->listWidgetTracksOfTheDay->mapToGlobal(pos));
+        }
     } //MainWindow::on_listWidgetTracksOfTheDay_customContextMenuRequested
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void MainWindow::on_listWidgetNoDateTracks_customContextMenuRequested(QPoint pos) {
+        qDebug() << __FILE__ << __FUNCTION__;
+        if (ui->listWidgetNoDateTracks->currentItem()) {
+            QMenu menu(ui->listWidgetNoDateTracks);
+            QAction *action = new QAction(tr("Properties..."),ui->listWidgetNoDateTracks);
+            menu.addAction(action);
+            QObject::connect(action, SIGNAL(triggered()), this, SLOT(listWidgetNoDateTracks_customContextMenuClicked()));
+            menu.exec(ui->listWidgetNoDateTracks->mapToGlobal(pos));
+        }
+    } //MainWindow::on_listWidgetNoDateTracks_customContextMenuRequested
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void MainWindow::on_treeWidgetCurrentGPX_customContextMenuRequested(QPoint pos)
+    {
+        qDebug() << __FILE__ << __FUNCTION__;
+        QTreeWidgetItem *item = ui->treeWidgetCurrentGPX->currentItem();
+        //If an item is selected
+        if (item) {
+            QMenu menu(ui->treeWidgetCurrentGPX);
+            QAction *action;
+
+            switch (item->data(0, Qt::UserRole +1 ).toInt()){
+            case (GPX):
+            case (WAYPOINTLIST):
+            case (ROUTELIST):
+            case (TRACKLIST):
+                break;
+            case (WAYPOINT):
+                action = new QAction(tr("Delete waypoint..."),ui->treeWidgetCurrentGPX);
+                menu.addAction(action);
+                QObject::connect(action, SIGNAL(triggered()), this, SLOT(deleteWaypointClicked()));
+                menu.exec(ui->treeWidgetCurrentGPX->mapToGlobal(pos));
+                break;
+            case (ROUTE):
+                action = new QAction(tr("Delete route..."),ui->treeWidgetCurrentGPX);
+                menu.addAction(action);
+                QObject::connect(action, SIGNAL(triggered()), this, SLOT(deleteRouteClicked()));
+                menu.exec(ui->treeWidgetCurrentGPX->mapToGlobal(pos));
+                break;
+            case (TRACK):
+                action = new QAction(tr("Delete track..."),ui->treeWidgetCurrentGPX);
+                menu.addAction(action);
+                QObject::connect(action, SIGNAL(triggered()), this, SLOT(deleteTrackClicked()));
+                menu.exec(ui->treeWidgetCurrentGPX->mapToGlobal(pos));
+                break;
+            case (TRACKSEG):
+                action = new QAction(tr("Delete segment..."),ui->treeWidgetCurrentGPX);
+                menu.addAction(action);
+                QObject::connect(action, SIGNAL(triggered()), this, SLOT(deleteSegmentClicked()));
+                menu.exec(ui->treeWidgetCurrentGPX->mapToGlobal(pos));
+                break;
+            }
+        }
+
+    } // MainWindow::on_treeWidgetCurrentGPX_customContextMenuRequested
+
 
     /*------------------------------------------------------------------------------*
 
@@ -1017,7 +1091,7 @@ namespace GPSBook {
     void MainWindow::updateSaveButton()
     {
         ui->actionSave->setEnabled(QFileInfo(mGPSData->filename).exists() && mGPSData->isModified);
-        ui->actionSaveAs->setEnabled(mGPSData->filename != "");
+        ui->actionSaveAs->setEnabled(mGPSData->isModified);
     } //MainWindow::updateSaveButton
 
     /*------------------------------------------------------------------------------*
@@ -1077,7 +1151,8 @@ namespace GPSBook {
     {
         QFileInfo info(mGPSData->filename);
         QString storagePath = settings->value("StorageLocation","").toString();
-        mGPSData->filename = storagePath + "/data/" + info.fileName();
+        QString suffix= info.completeSuffix();
+        mGPSData->filename = storagePath + "/data/" + info.fileName().replace(QString("."+suffix),QString(".gpx"));
 
         saveFile(mGPSData->filename);
 
@@ -1246,55 +1321,120 @@ namespace GPSBook {
         ui->mainToolBar->setVisible(ui->checkBoxToolbarVisibility->checkState());
         ui->toolBar->setVisible(ui->checkBoxToolbarVisibility->checkState());
     } //MainWindow::on_checkBoxToolbarVisibility_toggled
-}
 
-void GPSBook::MainWindow::on_treeWidgetOptions_itemClicked(QTreeWidgetItem* item, int)
-{
-    int idx = ui->treeWidgetOptions->indexOfTopLevelItem(item);
-    if ( idx != -1)
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void MainWindow::on_treeWidgetOptions_itemClicked(QTreeWidgetItem* item, int)
     {
-        if ( item->child(0) )
+        int idx = ui->treeWidgetOptions->indexOfTopLevelItem(item);
+        if ( idx != -1)
         {
-            ui->stackedWidgetOptions->setCurrentIndex(item->child(0)->data(0,Qt::UserRole+1).toInt());
-            ui->treeWidgetOptions->expandItem(item);
-            ui->treeWidgetOptions->setCurrentItem(item->child(0),0);
+            if ( item->child(0) )
+            {
+                ui->stackedWidgetOptions->setCurrentIndex(item->child(0)->data(0,Qt::UserRole+1).toInt());
+                ui->treeWidgetOptions->expandItem(item);
+                ui->treeWidgetOptions->setCurrentItem(item->child(0),0);
+            }
+            else
+            {
+                ui->stackedWidgetOptions->setCurrentIndex(idx);
+                ui->treeWidgetOptions->setCurrentItem(item,0);
+            }
         }
         else
         {
-            ui->stackedWidgetOptions->setCurrentIndex(idx);
+            ui->stackedWidgetOptions->setCurrentIndex( item->data(0,Qt::UserRole+1).toInt() );
             ui->treeWidgetOptions->setCurrentItem(item,0);
         }
     }
-    else
-    {
-        ui->stackedWidgetOptions->setCurrentIndex( item->data(0,Qt::UserRole+1).toInt() );
-        ui->treeWidgetOptions->setCurrentItem(item,0);
-    }
-}
 
-void GPSBook::MainWindow::on_treeWidgetHelp_itemClicked(QTreeWidgetItem* item, int)
-{
-    int idx = ui->treeWidgetHelp->indexOfTopLevelItem(item);
-    if ( idx != -1)
+    /*------------------------------------------------------------------------------*
+     The treewidget item contains the id of the help page to display stored into Qt::UserRole+1
+     *------------------------------------------------------------------------------*/
+
+    void MainWindow::on_treeWidgetHelp_itemClicked(QTreeWidgetItem* item, int)
     {
-        if ( item->child(0) )
+        int idx = ui->treeWidgetHelp->indexOfTopLevelItem(item);
+        if ( idx != -1)
         {
-            ui->stackedWidgetHelp->setCurrentIndex(item->child(0)->data(0,Qt::UserRole+1).toInt());
-            ui->treeWidgetHelp->expandItem(item);
-            ui->treeWidgetHelp->setCurrentItem(item->child(0),0);
+            if ( item->child(0) )
+            {
+                ui->stackedWidgetHelp->setCurrentIndex(item->child(0)->data(0,Qt::UserRole+1).toInt());
+                ui->treeWidgetHelp->expandItem(item);
+                ui->treeWidgetHelp->setCurrentItem(item->child(0),0);
+            }
+            else
+            {
+                ui->stackedWidgetHelp->setCurrentIndex(idx);
+                ui->treeWidgetHelp->setCurrentItem(item,0);
+            }
         }
         else
         {
-            ui->stackedWidgetHelp->setCurrentIndex(idx);
+            ui->stackedWidgetHelp->setCurrentIndex( item->data(0,Qt::UserRole+1).toInt() );
             ui->treeWidgetHelp->setCurrentItem(item,0);
         }
     }
-    else
+
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    int MainWindow::confirmDeletion(QString text)
     {
-        ui->stackedWidgetHelp->setCurrentIndex( item->data(0,Qt::UserRole+1).toInt() );
-        ui->treeWidgetHelp->setCurrentItem(item,0);
+       return QMessageBox::question(this, qAppName(),
+                                    tr("Undo is not possible after deleting") + " " + text + "\n" +
+                                    tr("Do you really want to delete the") + " " + text + "?",
+                                    QMessageBox::Yes | QMessageBox::No);
+    }
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void MainWindow::deleteWaypointClicked()
+    {
+        qDebug() << __FILE__ << __FUNCTION__;
+        if (confirmDeletion("waypoint") == QMessageBox::Yes) {
+            mGPSData->wayPointList.takeAt( mGPSData->selectedWaypointIndex );
+            initCurrentGPXTreeview();
+        }
+    }
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void MainWindow::deleteRouteClicked()
+    {
+        qDebug() << __FILE__ << __FUNCTION__;
+        if (confirmDeletion("route") == QMessageBox::Yes) {
+            mGPSData->routeList.takeAt( mGPSData->selectedRouteIndex);
+            initCurrentGPXTreeview();
+        }
+    }
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void MainWindow::deleteTrackClicked()
+    {
+        qDebug() << __FILE__ << __FUNCTION__;
+        if (confirmDeletion("track") == QMessageBox::Yes) {
+            mGPSData->trackList[mGPSData->selectedTrackIndex]->clearData();
+            mGPSData->trackList.takeAt( mGPSData->selectedTrackIndex );
+            initCurrentGPXTreeview();
+        }
+    }
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void MainWindow::deleteSegmentClicked()
+    {
+        qDebug() << __FILE__ << __FUNCTION__;
+        if (confirmDeletion("segment") == QMessageBox::Yes) {
+            mGPSData->trackList[mGPSData->selectedTrackIndex]->trackSegList.takeAt(mGPSData->selectedSegmentIndex);
+            initCurrentGPXTreeview();
+        }
     }
 }
-
-
-

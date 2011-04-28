@@ -26,6 +26,7 @@
 #include <QSettings>
 #include <gpsdata.h>
 #include <interface.h>
+#include <dialogselectsymbol.h>
 
 namespace Ui {
     class DisplayInformationFrame;
@@ -51,9 +52,10 @@ namespace PluginDisplayInformation {
     private:
         Ui::DisplayInformationFrame *m_ui;
         GPSData* mGPSData;
+        DialogSelectSymbol* mDialogSelectSymbol;
         QSettings* settings;
         bool autoFillDefault;
-        void editLink(QList<Link*> *linkList, int id);
+        bool editLink(QList<Link*> *linkList, int id);
         void updateWaypointlinks();
         void updateRoutelinks();
         void updateTracklinks();

@@ -127,8 +127,8 @@ namespace PluginDisplayStatistic {
                         delta=0;
                     totalDistance += delta;
                     //qDebug() << iloop <<" - Distance: " << d << " - Total: "<< totalDistance << "km";
-                    waypointEnd->extensions = mGPSData->setExtensionData(waypointEnd->extensions,"GPSBookWayPointExtension","delta",delta);
-                    waypointEnd->extensions = mGPSData->setExtensionData(waypointEnd->extensions,"GPSBookWayPointExtension","distance",totalDistance);
+                    waypointEnd->extensions = mGPSData->setExtensionData(waypointEnd->extensions,"gpsbook:WayPointExtension","gpsbook:delta",delta);
+                    waypointEnd->extensions = mGPSData->setExtensionData(waypointEnd->extensions,"gpsbook:WayPointExtension","gpsbook:distance",totalDistance);
                 }
             }
         }

@@ -32,18 +32,18 @@ namespace PluginIOGPX {
      *------------------------------------------------------------------------------*/
     void GpxReader::readEMail(EMail* email)
     {
-        QString flagName = name().toString();
+        QString flagName = qualifiedName().toString();
         while (!atEnd())
         {
             readNext();
-            if ((name().toString() == flagName) and (isEndElement()))
+            if ((qualifiedName().toString() == flagName) and (isEndElement()))
                 break;
 
-            if (name() == "id")
+            if (qualifiedName() == "id")
             {
                 email->id = readElementText();
             }
-            if (name() == "domain")
+            if (qualifiedName() == "domain")
             {
                 email->domain = readElementText();
             }
@@ -56,105 +56,105 @@ namespace PluginIOGPX {
     void GpxReader::readWayPoint(WayPoint* waypoint)
     {
         qApp->processEvents();
-        QString flagName = name().toString();
+        QString flagName = qualifiedName().toString();
         while (!atEnd())
         {
-            if ((name() == "trkpt") or (name() == "wpt") or (name() == "rtept"))
+            if ((qualifiedName() == "trkpt") or (qualifiedName() == "wpt") or (qualifiedName() == "rtept"))
             {
                 waypoint->lat = attributes().value("lat").toString().toDouble();
                 waypoint->lon = attributes().value("lon").toString().toDouble();
             }
             readNext();
-            if ((name().toString() == flagName) and (isEndElement()))
+            if ((qualifiedName().toString() == flagName) and (isEndElement()))
                 break;
 
-            //qDebug()<< "WPT: = "<< name().toString();
-            if (name() == "ele")
+            //qDebug()<< "WPT: = "<< qualifiedName().toString();
+            if (qualifiedName() == "ele")
             {
                 waypoint->ele = readElementText().toDouble();
             }
-            if (name() == "time")
+            if (qualifiedName() == "time")
             {
                 waypoint->time = QDateTime::fromString(readElementText(),Qt::ISODate);
             }
-            if (name() == "magvar")
+            if (qualifiedName() == "magvar")
             {
                 waypoint->magvar = readElementText().toDouble();
             }
-            if (name() == "geoidheight")
+            if (qualifiedName() == "geoidheight")
             {
                 waypoint->geoidheight = readElementText().toDouble();
             }
-            if (name() == "name")
+            if (qualifiedName() == "name")
             {
                 waypoint->name = readElementText();
             }
-            if (name() == "cmt")
+            if (qualifiedName() == "cmt")
             {
                 waypoint->cmt = readElementText();
             }
-            if (name() == "desc")
+            if (qualifiedName() == "desc")
             {
                 waypoint->desc = readElementText();
                 if (mCreator == "Nokia Sports Tracker") //Nokia Sports Tracker Customisation
                 {
                     QStringList tmp = waypoint->desc.split(" ");
-                    waypoint->extensions = mGPSData->setExtensionData(waypoint->extensions,"GPSBookWayPointExtension","distance",tmp[tmp.indexOf("Distance")+1]);
+                    waypoint->extensions = mGPSData->setExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:distance",tmp[tmp.indexOf("Distance")+1]);
                 }
             }
-            if (name() == "src")
+            if (qualifiedName() == "src")
             {
                 waypoint->src = readElementText();
             }
-            if (name() == "link")
+            if (qualifiedName() == "link")
             {
                 Link* link = new Link();
                 waypoint->linkList << link;
                 readLink(link);
             }
-            if (name() == "sym")
+            if (qualifiedName() == "sym")
             {
                 waypoint->sym = readElementText();
             }
-            if (name() == "type")
+            if (qualifiedName() == "type")
             {
                 waypoint->type = readElementText();
             }
-            if (name() == "fix")
+            if (qualifiedName() == "fix")
             {
                 waypoint->fix = readElementText();
             }
-            if (name() == "sat")
+            if (qualifiedName() == "sat")
             {
                 waypoint->sat = readElementText().toInt();
             }
-            if (name() == "hdop")
+            if (qualifiedName() == "hdop")
             {
                 waypoint->hdop = readElementText().toDouble();
             }
-            if (name() == "vdop")
+            if (qualifiedName() == "vdop")
             {
                 waypoint->vdop = readElementText().toDouble();
             }
-             if (name() == "pdop")
+             if (qualifiedName() == "pdop")
             {
                 waypoint->pdop = readElementText().toDouble();
             }
-            if (name() == "ageofdgpsdata")
+            if (qualifiedName() == "ageofdgpsdata")
             {
                 waypoint->ageofdgpsdata = readElementText().toDouble();
             }
-            if (name() == "dgpsid")
+            if (qualifiedName() == "dgpsid")
             {
                 waypoint->dgpsid = readElementText().toInt();
             }
             //Nokia Sports Tracker Customisation
-            if ((name() == "speed") || (name() == "course"))
+            if ((qualifiedName() == "speed") || (qualifiedName() == "course"))
             {
-                waypoint->extensions = mGPSData->setExtensionData(waypoint->extensions,"GPSBookWayPointExtension",name().toString(),readElementText());
+                waypoint->extensions = mGPSData->setExtensionData(waypoint->extensions,"gpsbook:WayPointExtension",qualifiedName().toString(),readElementText());
             }
             //Extensions to be added if needed
-            if (name() == "extension")
+            if (qualifiedName() == "extension")
             {
                 waypoint->extensions = readExtensions();
             }
@@ -166,30 +166,30 @@ namespace PluginIOGPX {
      *------------------------------------------------------------------------------*/
     QVariantHash GpxReader::readExtensions()
     {
-        QString flagName = name().toString();
+        //qDebug() << "readExtensions" << qualifiedName().toString() << "|" << prefix().toString() << "|" << namespaceUri();
+        QString flagName = qualifiedName().toString();
         QVariantHash extension;
         while (!atEnd())
         {
             readNext();
-            if ((name().toString() == flagName) and (isEndElement()))
+            if ((qualifiedName().toString() == flagName) and (isEndElement()))
                 break;
 
-            if ( ( name().toString() != "" ) and ( !isEndElement() ) )
+            if ( ( qualifiedName().toString() != "" ) and ( !isEndElement() ) )
             {
                 QString value = attributes().value("value").toString();
-                //qDebug() << "readExtensions" << name().toString() << value;
+                //qDebug() << "readExtensions" << qualifiedName().toString() << "=" << value;
                 if ( value != "" )
                 {
-                    //qDebug() << "extension.insert(" << name().toString() << "," << value << ");";
-                    extension.insert(name().toString(),value);
+                    //qDebug() << "extension.insert(" << qualifiedName().toString() << "," << value << ");";
+                    extension.insert(qualifiedName().toString(),value);
                 }
                 else
                 {
 
-                    //qDebug() << "extension.insert(" << name().toString() << ", QVariantHash >>>>);";
-                    extension.insert(name().toString(), readExtensions());
-                    //qDebug() << "extension.insert(" << name().toString() << ", QVariantHash <<<<);";
-
+                    //qDebug() << "extension.insert(" << qualifiedName().toString() << ", QVariantHash >>>>);";
+                    extension.insert(qualifiedName().toString(), readExtensions());
+                    //qDebug() << "extension.insert(" << qualifiedName().toString() << ", QVariantHash <<<<);";
                 }
             }
         }
@@ -201,51 +201,51 @@ namespace PluginIOGPX {
      *------------------------------------------------------------------------------*/
     void GpxReader::readRoute(Route* route)
     {
-        QString flagName = name().toString();
+        QString flagName = qualifiedName().toString();
         while (!atEnd())
         {
             readNext();
-            if ((name().toString() == flagName) and (isEndElement()))
+            if ((qualifiedName().toString() == flagName) and (isEndElement()))
                 break;
 
-            //qDebug()<< "RTE: = "<< name().toString();
-            if (name() == "name")
+            //qDebug()<< "RTE: = "<< qualifiedName().toString();
+            if (qualifiedName() == "name")
             {
                 route->name = readElementText();
             }
-            if (name() == "cmt")
+            if (qualifiedName() == "cmt")
             {
                 route->cmt = readElementText();
             }
-            if (name() == "desc")
+            if (qualifiedName() == "desc")
             {
                 route->desc = readElementText();
             }
-            if (name() == "src")
+            if (qualifiedName() == "src")
             {
                 route->src = readElementText();
             }
-            if (name() == "link")
+            if (qualifiedName() == "link")
             {
                 Link* link = new Link();
                 route->linkList << link;
                 readLink(link);
             }
-            if (name() == "number")
+            if (qualifiedName() == "number")
             {
                 route->number = readElementText().toInt();
             }
-            if (name() == "type")
+            if (qualifiedName() == "type")
             {
                 route->type = readElementText();
             }
-            if (name() == "rtept")
+            if (qualifiedName() == "rtept")
             {
                 WayPoint* waypoint = new WayPoint();
                 route->wayPointList << waypoint;
                 readWayPoint(waypoint);
             }
-            if (name() == "extension")
+            if (qualifiedName() == "extension")
             {
                 route->extensions = readExtensions();
             }
@@ -257,21 +257,21 @@ namespace PluginIOGPX {
      *------------------------------------------------------------------------------*/
     void GpxReader::readTrackSeg(TrackSeg* trackseg)
     {
-        QString flagName = name().toString();
+        QString flagName = qualifiedName().toString();
         while (!atEnd())
         {
             readNext();
-            if ((name().toString() == flagName) and (isEndElement()))
+            if ((qualifiedName().toString() == flagName) and (isEndElement()))
                 break;
 
-            //qDebug()<< "TRS: = "<< name().toString();
-            if (name() == "trkpt")
+            //qDebug()<< "TRKPT: = "<< qualifiedName().toString();
+            if (qualifiedName() == "trkpt")
             {
                 WayPoint* waypoint = new WayPoint();
                 trackseg->wayPointList << waypoint;
                 readWayPoint(waypoint);
             }
-            if (name() == "extension")
+            if (qualifiedName() == "extension")
             {
                 trackseg->extensions = readExtensions();
             }
@@ -283,52 +283,52 @@ namespace PluginIOGPX {
      *------------------------------------------------------------------------------*/
     void GpxReader::readTrack(Track* track)
     {
-        QString flagName = name().toString();
+        QString flagName = qualifiedName().toString();
         while (!atEnd())
         {
             readNext();
-            if ((name().toString() == flagName) and (isEndElement()))
+            if ((qualifiedName().toString() == flagName) and (isEndElement()))
                 break;
 
-            //qDebug()<< "TRK: = "<< name().toString();
+            //qDebug()<< "TRK: = "<< qualifiedName().toString();
 
-            if (name() == "name")
+            if (qualifiedName() == "name")
             {
                 track->name = readElementText();
             }
-            if (name() == "cmt")
+            if (qualifiedName() == "cmt")
             {
                 track->cmt = readElementText();
             }
-            if (name() == "desc")
+            if (qualifiedName() == "desc")
             {
                 track->desc = readElementText();
             }
-            if (name() == "src")
+            if (qualifiedName() == "src")
             {
                 track->src = readElementText();
             }
-            if (name() == "type")
+            if (qualifiedName() == "type")
             {
                 track->type = readElementText();
             }
-            if (name() == "number")
+            if (qualifiedName() == "number")
             {
                 track->number = readElementText().toInt();
             }
-            if (name() == "link")
+            if (qualifiedName() == "link")
             {
                 Link* link = new Link();
                 track->linkList << link;
                 readLink(link);
             }
-            if (name() == "trkseg")
+            if (qualifiedName() == "trkseg")
             {
                 TrackSeg* trackseg = new TrackSeg();
                 track->trackSegList << trackseg;
                 readTrackSeg(trackseg);
             }
-            if (name() == "extension")
+            if (qualifiedName() == "extension")
             {
                 track->extensions = readExtensions();
             }
@@ -340,21 +340,21 @@ namespace PluginIOGPX {
      *------------------------------------------------------------------------------*/
     void GpxReader::readLink(Link* link)
     {
-        QString flagName = name().toString();
+        QString flagName = qualifiedName().toString();
         while (!atEnd())
         {
             readNext();
-            if ((name().toString() == flagName) and (isEndElement()))
+            if ((qualifiedName().toString() == flagName) and (isEndElement()))
                 break;
-            if (name() == "href")
+            if (qualifiedName() == "href")
             {
                 link->href = readElementText();
             }
-            if (name() == "text")
+            if (qualifiedName() == "text")
             {
                 link->text = readElementText();
             }
-            if (name() == "type")
+            if (qualifiedName() == "type")
             {
                 link->type = readElementText();
             }
@@ -366,22 +366,22 @@ namespace PluginIOGPX {
      *------------------------------------------------------------------------------*/
     void GpxReader::readCopyright(Copyright* copyright)
     {
-        QString flagName = name().toString();
+        QString flagName = qualifiedName().toString();
         while (!atEnd())
         {
-            if ((name() == "copyright"))
+            if ((qualifiedName() == "copyright"))
             {
                 copyright->author = attributes().value("author").toString();
             }
             readNext();
-            if ((name().toString() == flagName) and (isEndElement()))
+            if ((qualifiedName().toString() == flagName) and (isEndElement()))
                 break;
 
-            if (name() == "year")
+            if (qualifiedName() == "year")
             {
                 copyright->year = readElementText().toInt();
             }
-            if (name() == "license")
+            if (qualifiedName() == "license")
             {
                 copyright->license = readElementText();
             }
@@ -393,23 +393,23 @@ namespace PluginIOGPX {
      *------------------------------------------------------------------------------*/
     void GpxReader::readPerson(Person* person)
     {
-        QString flagName = name().toString();
+        QString flagName = qualifiedName().toString();
         while (!atEnd())
         {
             readNext();
-            if ((name().toString() == flagName) and (isEndElement()))
+            if ((qualifiedName().toString() == flagName) and (isEndElement()))
                 break;
 
-            //qDebug()<< "PER: = "<< name().toString();
-            if (name() == "name")
+            //qDebug()<< "PER: = "<< qualifiedName().toString();
+            if (qualifiedName() == "name")
             {
                 person->name = readElementText();
             }
-            if (name() == "link")
+            if (qualifiedName() == "link")
             {
                 readLink(person->link);
             }
-            if (name() == "email")
+            if (qualifiedName() == "email")
             {
                 readEMail(person->email);
             }
@@ -421,42 +421,42 @@ namespace PluginIOGPX {
      *------------------------------------------------------------------------------*/
     void GpxReader::readMetaData(MetaData* metadata)
     {
-        QString flagName = name().toString();
+        QString flagName = qualifiedName().toString();
         while (!atEnd())
         {
             readNext();
-            if ((name().toString() == flagName) and (isEndElement()))
+            if ((qualifiedName().toString() == flagName) and (isEndElement()))
                 break;
 
-            //qDebug()<< "MET: = "<< name().toString();
+            //qDebug()<< "MET: = "<< qualifiedName().toString();
 
-            if (name() == "name")
+            if (qualifiedName() == "name")
             {
                 metadata->name = readElementText();
             }
-            if (name() == "desc")
+            if (qualifiedName() == "desc")
             {
                 metadata->desc = readElementText();
             }
-            if (name() == "keywords")
+            if (qualifiedName() == "keywords")
             {
                 metadata->keywords = readElementText();
             }
-            if (name() == "author")
+            if (qualifiedName() == "author")
             {
                 readPerson(metadata->author);
             }
-            if (name() == "copyright")
+            if (qualifiedName() == "copyright")
             {
                 readCopyright(metadata->copyright);
             }
-            if (name() == "link")
+            if (qualifiedName() == "link")
             {
                 Link* link = new Link();
                 metadata->linkList << link;
                 readLink(link);
             }
-            if (name() == "time")
+            if (qualifiedName() == "time")
             {
                 QString dateTimeStr = readElementText();
                 if (dateTimeStr == "") {
@@ -466,14 +466,14 @@ namespace PluginIOGPX {
                     metadata->time = QDateTime::fromString(dateTimeStr,Qt::ISODate);
                 }
             }
-            if (name() == "bounds")
+            if (qualifiedName() == "bounds")
             {
                 metadata->bounds->minlat = attributes().value("minlat").toString().toDouble();
                 metadata->bounds->minlon = attributes().value("minlon").toString().toDouble();
                 metadata->bounds->maxlat = attributes().value("maxlat").toString().toDouble();
                 metadata->bounds->maxlon = attributes().value("maxlon").toString().toDouble();
             }
-            if (name() == "extension")
+            if (qualifiedName() == "extension")
             {
                 metadata->extensions = readExtensions();
             }
@@ -505,13 +505,13 @@ namespace PluginIOGPX {
         //qDebug()<< "GPX - Parsing file: " << fileName;
         while (!atEnd())
         {
-            //qDebug()<< "XML: = "<< name().toString();
-            if (name() == "gpx")
+            //qDebug()<< "XML: = "<< qualifiedName().toString();
+            if (qualifiedName() == "gpx")
             {
-                QString flagName = name().toString();
+                QString flagName = qualifiedName().toString();
                 while (!atEnd())
                 {
-                    if ((name() == "gpx") && (isStartElement()))
+                    if ((qualifiedName() == "gpx") && (isStartElement()))
                     {
                         mCreator = attributes().value("creator").toString();
                         mGPSData->creator = mCreator;
@@ -522,20 +522,20 @@ namespace PluginIOGPX {
                         }
                     }
                     readNext();
-                    if ((name().toString() == flagName) and (isEndElement()))
+                    if ((qualifiedName().toString() == flagName) and (isEndElement()))
                         break;
 
-                    //qDebug()<< "GPX: = "<< name().toString();
+                    //qDebug()<< "GPX: = "<< qualifiedName().toString();
 
                     //-------------------------------------------------------------
-                    if (name() == "metadata")
+                    if (qualifiedName() == "metadata")
                     {
                         mGPSData->metadata = new MetaData();
                         readMetaData(mGPSData->metadata);
                     }
 
                     //-------------------------------------------------------------
-                    if (name() == "wpt")
+                    if (qualifiedName() == "wpt")
                     {
                         WayPoint* waypoint = new WayPoint();
                         mGPSData->wayPointList << waypoint;
@@ -543,7 +543,7 @@ namespace PluginIOGPX {
                     }
 
                     //-------------------------------------------------------------
-                    if (name() == "rte")
+                    if (qualifiedName() == "rte")
                     {
                         Route* route = new Route();
                         mGPSData->routeList << route;
@@ -551,7 +551,7 @@ namespace PluginIOGPX {
                     }
 
                     //-------------------------------------------------------------
-                    if (name() == "trk")
+                    if (qualifiedName() == "trk")
                     {
                         Track* track = new Track();
                         mGPSData->trackList << track;
@@ -560,7 +560,7 @@ namespace PluginIOGPX {
                     }
 
                     //-------------------------------------------------------------
-                    if (name() == "extension")
+                    if (qualifiedName() == "extension")
                     {
                         mGPSData->extensions = readExtensions();
                     }
@@ -568,7 +568,7 @@ namespace PluginIOGPX {
             }
             else
             {
-                //qDebug()<< "Error: = "<<name().toString();
+                //qDebug()<< "Error: = "<<qualifiedName().toString();
             }
             readNext();
         }

@@ -36,6 +36,7 @@ namespace PluginDisplayInformation {
         QFrame(parent),
         m_ui(new Ui::DisplayInformationFrame)
     {
+        mDialogSelectSymbol = new DialogSelectSymbol();
         m_ui->setupUi(this);
         settings = new QSettings("GPSBook","GPSBook");
 
@@ -224,7 +225,7 @@ namespace PluginDisplayInformation {
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayInformationFrame::editLink(QList<Link*>* linkList, int id)
+    bool DisplayInformationFrame::editLink(QList<Link*>* linkList, int id)
     {
         DialogLinkEdition* linkEdition = new DialogLinkEdition(this);
         Link* link;
@@ -246,9 +247,10 @@ namespace PluginDisplayInformation {
             {
                 linkList->append(link);
             }
-            mGPSData->setGPXModified(true);
+            return true;
         }
         delete linkEdition;
+        return false;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -577,8 +579,11 @@ namespace PluginDisplayInformation {
     void DisplayInformationFrame::on_toolButtonTrackAddLink_clicked()
     {
         QList<Link*> *linkList = &(mGPSData->trackList[mGPSData->displayedTrackIndex]->linkList);
-        editLink(linkList,linkList->count());
-        updateTracklinks();
+        if ( editLink(linkList,linkList->count()))
+        {
+            mGPSData->setTracksModified(true);
+        }
+		updateTracklinks();
     }// DisplayInformationFrame::on_toolButtonTrackAddLink_clicked
 
     /*------------------------------------------------------------------------------*
@@ -590,6 +595,10 @@ namespace PluginDisplayInformation {
         {
             QList<Link*> *linkList = &(mGPSData->trackList[mGPSData->displayedTrackIndex]->linkList);
             editLink(linkList,m_ui->listWidgetTrackLinks->currentIndex().row());
+            if ( editLink(linkList,m_ui->listWidgetTrackLinks->currentIndex().row()))
+            {
+                mGPSData->setTracksModified(true);
+            }
             updateTracklinks();
         }
     }// DisplayInformationFrame::on_toolButtonTrackEditLink_clicked
@@ -631,6 +640,10 @@ namespace PluginDisplayInformation {
     {
         QList<Link*> *linkList = &(mGPSData->metadata->linkList);
         editLink(linkList,linkList->count());
+        if ( editLink(linkList,linkList->count()))
+        {
+            mGPSData->setGPXModified(true);
+        }
         updateMetadatalinks();
     }// DisplayInformationFrame::on_toolButtonMetadataAddLink_clicked()
 
@@ -642,7 +655,10 @@ namespace PluginDisplayInformation {
         if (m_ui->listWidgetMetaDataLinks->selectedItems().count())
         {
             QList<Link*> *linkList = &(mGPSData->metadata->linkList);
-            editLink(linkList,m_ui->listWidgetMetaDataLinks->currentIndex().row());
+            if ( editLink(linkList,m_ui->listWidgetMetaDataLinks->currentIndex().row()))
+            {
+                mGPSData->setGPXModified(true);
+            }
             updateMetadatalinks();
         }
     }// DisplayInformationFrame::on_toolButtonMetadataEditLink_clicked()
@@ -681,7 +697,10 @@ namespace PluginDisplayInformation {
     void DisplayInformationFrame::on_toolButtonWaypointAddLink_clicked()
     {
         QList<Link*> *linkList = &(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->linkList);
-        editLink(linkList,linkList->count());
+        if ( editLink(linkList,linkList->count()))
+        {
+            mGPSData->setWaypointsModified(true);
+        }
         updateWaypointlinks();
     }// DisplayInformationFrame::on_toolButtonWaypointAddLink_clicked()
 
@@ -693,7 +712,10 @@ namespace PluginDisplayInformation {
         if (m_ui->listWidgetWaypointLinks->selectedItems().count())
         {
             QList<Link*> *linkList = &(mGPSData->wayPointList[mGPSData->displayedWaypointIndex]->linkList);
-            editLink(linkList,m_ui->listWidgetWaypointLinks->currentIndex().row());
+            if ( editLink(linkList,m_ui->listWidgetWaypointLinks->currentIndex().row()))
+            {
+                mGPSData->setTracksModified(true);
+            }
             updateWaypointlinks();
         }
     }// DisplayInformationFrame::on_toolButtonWaypointEditLink_clicked()
@@ -732,7 +754,10 @@ namespace PluginDisplayInformation {
     void DisplayInformationFrame::on_toolButtonRouteAddLink_clicked()
     {
         QList<Link*> *linkList = &(mGPSData->routeList[mGPSData->displayedRouteIndex]->linkList);
-        editLink(linkList,linkList->count());
+        if ( editLink(linkList,linkList->count()))
+        {
+            mGPSData->setRoutesModified(true);
+        }
         updateRoutelinks();
     }// DisplayInformationFrame::on_toolButtonRouteAddLink_clicked()
 
@@ -744,7 +769,10 @@ namespace PluginDisplayInformation {
         if (m_ui->listWidgetRouteLinks->selectedItems().count())
         {
             QList<Link*> *linkList = &(mGPSData->routeList[mGPSData->displayedRouteIndex]->linkList);
-            editLink(linkList,m_ui->listWidgetRouteLinks->currentIndex().row());
+            if ( editLink(linkList,m_ui->listWidgetRouteLinks->currentIndex().row()) )
+            {
+                mGPSData->setTracksModified(true);
+            }
             updateRoutelinks();
         }
     }// DisplayInformationFrame::on_toolButtonRouteEditLink_clicked()
@@ -782,14 +810,12 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::on_toolButtonWaypointSymbol_clicked()
     {
-        DialogSelectSymbol* selectSymbol = new DialogSelectSymbol(this);
-        selectSymbol->setSelectedIcon(m_ui->lineEditWaypointSymbol->text());
-        if (selectSymbol->exec() == QDialog::Accepted)
+        mDialogSelectSymbol->setSelectedIcon(m_ui->lineEditWaypointSymbol->text());
+        if (mDialogSelectSymbol->exec() == QDialog::Accepted)
         {
-            m_ui->lineEditWaypointSymbol->setText(selectSymbol->getSelectedSymbolName());
+            m_ui->lineEditWaypointSymbol->setText(mDialogSelectSymbol->getSelectedSymbolName());
             on_lineEditWaypointSymbol_editingFinished();
         }
-        delete selectSymbol;
     }// DisplayInformationFrame::on_toolButtonWaypointSymbol_clicked()
 
     /*------------------------------------------------------------------------------*
@@ -797,22 +823,7 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     void DisplayInformationFrame::updateToolButtonWaypointSymbol()
     {
-        if (QFileInfo( ":/icons/icons/" +  m_ui->lineEditWaypointSymbol->text() + ".png" ).exists()) {
-            m_ui->toolButtonWaypointSymbol->setIcon(QIcon(":/icons/icons/" +  m_ui->lineEditWaypointSymbol->text() + ".png"));
-        }
-        else if (QFileInfo( ":/icons/google-marker/" +  m_ui->lineEditWaypointSymbol->text() + ".png" ).exists()) {
-            m_ui->toolButtonWaypointSymbol->setIcon(QIcon(":/icons/google-marker/" +  m_ui->lineEditWaypointSymbol->text() + ".png"));
-        }
-        else if (QFileInfo( ":/icons/numeric/" +  m_ui->lineEditWaypointSymbol->text() + ".png" ).exists()) {
-            m_ui->toolButtonWaypointSymbol->setIcon(QIcon(":/icons/numeric/" +  m_ui->lineEditWaypointSymbol->text() + ".png"));
-        }
-        else if (QFileInfo( ":/icons/geocaching/" +  m_ui->lineEditWaypointSymbol->text() + ".png" ).exists()) {
-            m_ui->toolButtonWaypointSymbol->setIcon(QIcon(":/icons/geocaching/" +  m_ui->lineEditWaypointSymbol->text() + ".png"));
-        }
-        else
-        {
-            m_ui->toolButtonWaypointSymbol->setIcon(QIcon(":/icons/icons/cluster4.png"));
-        }
+        m_ui->toolButtonWaypointSymbol->setIcon(mDialogSelectSymbol->getIconByName(m_ui->lineEditWaypointSymbol->text() ));
     }// DisplayInformationFrame::updateToolButtonWaypointSymbol()
 }
 

@@ -31,6 +31,7 @@
 #include <QTreeWidgetItem>
 #include <QModelIndex>
 #include <QFileDialog>
+#include <QListWidgetItem>
 #include "interface.h"
 #include "webproxy.h"
 #include "QProgressIndicator.h"
@@ -83,6 +84,9 @@ namespace GPSBook {
         QFileDialog* openDialog;
 
         void loadPlugins();
+        void customContextMenuClicked(QListWidgetItem *item);
+        int  confirmDeletion(QString text);
+
     public slots:
          //void initComboBoxTracklist();
          void initCurrentGPXTreeview();
@@ -117,7 +121,9 @@ namespace GPSBook {
         void on_toolButtonPrev_clicked();
         void on_calendarWidget_selectionChanged();
         void on_toolButtonHome_clicked();
-        void treeWidgetContextMenuClicked();
+        void listWidgetTracksOfTheDay_customContextMenuClicked();
+        void listWidgetNoDateTracks_customContextMenuClicked();
+
         void on_toolButtonAdd_clicked();
         void on_actionAboutQt_triggered();
 
@@ -128,6 +134,13 @@ namespace GPSBook {
         void saveFile(QString filename);
         //void trackSelectionEnable(bool enable);
         void trackSelectionEnable(bool GPXEnable, bool WaypointEnable, bool RouteEnable, bool Tracksenable, bool SegmentsEnable);
+
+        void on_treeWidgetCurrentGPX_customContextMenuRequested(QPoint pos);
+
+        void deleteWaypointClicked();
+        void deleteRouteClicked();
+        void deleteTrackClicked();
+        void deleteSegmentClicked();
 
     signals:
         void signalSelectionChanged();

@@ -101,7 +101,7 @@ namespace PluginFilterCleanup {
                 {
                     m_ui->progressBar->setValue(iloop++);
                     qApp->processEvents();
-                    double speed = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","speed").toDouble();
+                    double speed = mGPSData->getExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:speed").toDouble();
                     if (speed > m_ui->doubleSpinBox->value())
                     {
                         trackSeg->wayPointList.removeAt(trackSeg->wayPointList.indexOf(waypoint,0));
@@ -132,7 +132,7 @@ namespace PluginFilterCleanup {
                 {
                     m_ui->progressBar->setValue(iloop++);
                     qApp->processEvents();
-                    double acceleration = mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","acceleration").toDouble();
+                    double acceleration = mGPSData->getExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:acceleration").toDouble();
                     if (abs(acceleration) > m_ui->doubleSpinBoxAcceleration->value())
                     {
                         trackSeg->wayPointList.removeAt(trackSeg->wayPointList.indexOf(waypoint,0));
@@ -208,7 +208,7 @@ namespace PluginFilterCleanup {
                     }
                     else
                     {
-                        waypoint->extensions = mGPSData->setExtensionData(waypoint->extensions,"GPSBookWayPointExtension","delta",delta);
+                        waypoint->extensions = mGPSData->setExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:delta",delta);
                         waypointOrigin = waypoint;
                     }
                 }
@@ -236,7 +236,7 @@ void PluginFilterCleanup::FilterCleanupDialog::on_toolButtonRemoveNegativeSpeed_
                 m_ui->progressBar->setValue(iloop++);
                 qApp->processEvents();
 
-                if (mGPSData->getExtensionData(waypoint->extensions,"GPSBookWayPointExtension","speed").toDouble() < 0)
+                if (mGPSData->getExtensionData(waypoint->extensions,"gpsbook:WayPointExtension","gpsbook:speed").toDouble() < 0)
                 {
                     trackSeg->wayPointList.removeAt(trackSeg->wayPointList.indexOf(waypoint,0));
                 }
@@ -287,6 +287,30 @@ void PluginFilterCleanup::FilterCleanupDialog::on_toolButtonRemoveLowerHigherAlt
                         trackSeg->wayPointList.removeAt(trackSeg->wayPointList.indexOf(waypoint,0));
                     }
                 }
+            }
+        }
+    }
+    m_ui->progressBar->setValue(0);
+    mGPSData->unlockGPSData();
+    setEnabled(true);
+    mGPSData->setGPXModified(true);
+}
+
+void PluginFilterCleanup::FilterCleanupDialog::on_toolButtonRemoveExtensions_clicked()
+{
+    //mGPSData->lockGPSDataForWrite();
+    setEnabled(false);
+    foreach (Track* track,mGPSData->trackList)
+    {
+        foreach (TrackSeg* trackSeg, track->trackSegList)
+        {
+            int iloop = 0;
+            m_ui->progressBar->setRange(0,trackSeg->wayPointList.count());
+            foreach (WayPoint* waypoint, trackSeg->wayPointList)
+            {
+                m_ui->progressBar->setValue(iloop++);
+                qApp->processEvents();
+                waypoint->extensions.clear();
             }
         }
     }

@@ -82,4 +82,4 @@ class SrtmDownloader
 
 Q_DECLARE_INTERFACE(SrtmDownloader, "org.gpsbook.SrtmDownloader/1.0")
 
-#endif
+#endif // __SRTM_H__

@@ -25,6 +25,7 @@
 #include <QCalendarWidget>
 #include <QListWidget>
 #include <QDate>
+#include <QSqlQuery>
 #include "gpsdata.h"
 
 namespace GPSBook {
@@ -45,6 +46,8 @@ namespace GPSBook {
         static void deleteTrack(QString filename);
         static void updateTrackProperties(QString filename, QString displayName, QString description);
         static void updateDate(QString filename, QDate date);
+        static QSqlDatabase database();
+
 
     //signals:
     //    void signalDatabaseUpdated();

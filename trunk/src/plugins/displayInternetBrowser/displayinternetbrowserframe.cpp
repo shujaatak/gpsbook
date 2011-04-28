@@ -129,9 +129,18 @@ namespace PluginDisplayInternetBrowser {
                                      qApp->applicationName()+" "+tr("is about to load the trace.") ,
                                      QMessageBox::Ok|QMessageBox::Cancel) != QMessageBox::Cancel)
         {
-            qDebug() << __FILE__ << __FUNCTION__ << "Download file.";
+            qDebug() << __FILE__ << __FUNCTION__ << "Download file " << filename;
+            qDebug() << __FILE__ << __FUNCTION__ << "From " <<reply->request().url();
+
+            ////////////////////////////////////////////////////////////
+            // The code bellow is affected by the bug 49650
+            // Details on: https://bugs.webkit.org/show_bug.cgi?id=49650
+            ////////////////////////////////////////////////////////////
+
             //Download file
             QByteArray data(reply->readAll());
+            qDebug() << __FILE__ << __FUNCTION__ << "sizeof(data)=" << sizeof(data);
+
             if (tmpFile->open()) {
                 //Store data into a temporary file
                 tmpFile->write(data);
@@ -149,6 +158,9 @@ namespace PluginDisplayInternetBrowser {
                                       qApp->applicationName()+" "+tr("was enabled to load the trace.") ,
                                       QMessageBox::Ok);
             }
+            ////////////////////////////////////////////////////////////
+
+
         }
     } //DisplayInternetBrowserFrame::unsupportedContent
 

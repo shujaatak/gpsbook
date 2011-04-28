@@ -22,7 +22,6 @@
 #include <QDebug>
 #include <QStringList>
 #include <QObject>
-#include <QSqlQuery>
 #include <QCryptographicHash>
 #include <QFile>
 #include <QVariant>
@@ -261,4 +260,12 @@ namespace GPSBook {
         query.exec(sql);
         QFile::remove(filename);
     } //Database::deleteTrack
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    QSqlDatabase Database::database()
+    {
+        return QSqlDatabase::database();
+    }
 }

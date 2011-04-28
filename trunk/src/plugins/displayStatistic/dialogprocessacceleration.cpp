@@ -82,7 +82,7 @@ namespace PluginDisplayStatistic {
             {
                 int iloop = 0;
                 ui->progressBar->setRange(1,trackSeg->wayPointList.count());
-                mGPSData->setExtensionData(trackSeg->wayPointList[0]->extensions,"GPSBookWayPointExtension","acceleration",0);
+                mGPSData->setExtensionData(trackSeg->wayPointList[0]->extensions,"gpsbook:WayPointExtension","gpsbook:acceleration",0);
                 foreach (WayPoint* waypoint, trackSeg->wayPointList)
                 {
                     ui->progressBar->setValue(iloop++);
@@ -93,8 +93,8 @@ namespace PluginDisplayStatistic {
                     waypointEnd = waypoint;
                     uint timeBegin = waypointBegin->time.toTime_t();
                     uint timeEnd = waypointEnd->time.toTime_t();
-                    double speedBegin = mGPSData->getExtensionData(waypointBegin->extensions,"GPSBookWayPointExtension","speed").toDouble();
-                    double speedEnd = mGPSData->getExtensionData(waypointEnd->extensions,"GPSBookWayPointExtension","speed").toDouble();
+                    double speedBegin = mGPSData->getExtensionData(waypointBegin->extensions,"gpsbook:WayPointExtension","gpsbook:speed").toDouble();
+                    double speedEnd = mGPSData->getExtensionData(waypointEnd->extensions,"gpsbook:WayPointExtension","gpsbook:speed").toDouble();
                     double speedDelta = speedEnd - speedBegin;
                     uint time = timeEnd - timeBegin;
                     if ( time != 0 )
@@ -104,7 +104,7 @@ namespace PluginDisplayStatistic {
                         //qDebug() << "acceleration=" << acceleration;
 
                     }
-                    waypointEnd->extensions = mGPSData->setExtensionData(waypointEnd->extensions,"GPSBookWayPointExtension","acceleration",acceleration);
+                    waypointEnd->extensions = mGPSData->setExtensionData(waypointEnd->extensions,"gpsbook:WayPointExtension","gpsbook:acceleration",acceleration);
                 }
             }
         }

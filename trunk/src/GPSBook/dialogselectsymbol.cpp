@@ -20,6 +20,14 @@ QString DialogSelectSymbol::getSelectedSymbolName()
     return ui->listWidget->currentItem()->text();
 }
 
+QIcon DialogSelectSymbol::getIconByName(QString name)
+{
+    blockSignals(true);
+    setSelectedIcon(name);
+    blockSignals(false);
+    return QIcon(":/icons/"+source+"/" + iconName + ".png" );
+}
+
 void  DialogSelectSymbol::setSelectedIcon(QString name){
     if (QFileInfo( ":/icons/icons/" + name + ".png" ).exists()) {
         source = "icons";

@@ -311,7 +311,7 @@ namespace PluginDisplayStatistic {
      *------------------------------------------------------------------------------*/
     double DisplayStatisticFrame::getDistance(TrackSeg* trackSeg)
     {
-        return mGPSData->getExtensionData(trackSeg->wayPointList.last()->extensions,"GPSBookWayPointExtension","distance").toDouble();
+        return mGPSData->getExtensionData(trackSeg->wayPointList.last()->extensions,"gpsbook:WayPointExtension","gpsbook:distance").toDouble();
     } //DisplayStatisticFrame::getDistance
 
     /*------------------------------------------------------------------------------*
@@ -319,7 +319,7 @@ namespace PluginDisplayStatistic {
      *------------------------------------------------------------------------------*/
     double DisplayStatisticFrame::getElevationGain(TrackSeg* trackSeg)
     {
-        return mGPSData->getExtensionData(trackSeg->extensions,"GPSBookSegmentExtension","elevationGain").toDouble();
+        return mGPSData->getExtensionData(trackSeg->extensions,"gpsbook:SegmentExtension","gpsbook:elevationGain").toDouble();
     } //DisplayStatisticFrame::getElevationGain
 
     /*------------------------------------------------------------------------------*
@@ -327,7 +327,7 @@ namespace PluginDisplayStatistic {
      *------------------------------------------------------------------------------*/
     double DisplayStatisticFrame::getElevationDrop(TrackSeg* trackSeg)
     {
-        return mGPSData->getExtensionData(trackSeg->extensions,"GPSBookSegmentExtension","elevationDrop").toDouble();
+        return mGPSData->getExtensionData(trackSeg->extensions,"gpsbook:SegmentExtension","gpsbook:elevationDrop").toDouble();
     } //DisplayStatisticFrame::getElevationDrop
 
 
@@ -371,12 +371,12 @@ namespace PluginDisplayStatistic {
     /*------------------------------------------------------------------------------*
 
      *------------------------------------------------------------------------------*/
-    void DisplayStatisticFrame::on_toolButtonAcceleration_2_clicked()
+    void DisplayStatisticFrame::on_toolButtonAltitude_clicked()
     {
         DialogProcessAltitude* dialogProcessAltitude= new DialogProcessAltitude();
         dialogProcessAltitude->init(mGPSData);
         dialogProcessAltitude->show();
         //Call on_selectionChanged to update displayed data
         owner->on_selectionChanged();
-    } //DisplayStatisticFrame::on_toolButtonAcceleration_2_clicked
+    }//DisplayStatisticFrame::on_toolButtonAltitude_clicked
 }
