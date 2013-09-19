@@ -3,7 +3,7 @@
 This page is a memo for developer who aims to compile GPSBook.
 
 == GPSBook ==
-  GPSBook has been developed using QT framework and qtcreator EDI.
+  GPSBook has been developed using QT framework and qtcreator IDE.
 
   For ubuntu user qtcreator and qt framework can be installed using the command
   {{{
