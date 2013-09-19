@@ -11,6 +11,12 @@ This page is a memo for developer who aims to compile GPSBook.
   }}}
 
 == Plugins ==
+===
+  This plugin requires the usage of libcurl
+  {{{
+  sudo apt-get install curl libcurl4-openssl-dev
+  }}}
+
 === displayGraphic2D ===
   This plugin requires the usage of qwt 6.0
   {{{
