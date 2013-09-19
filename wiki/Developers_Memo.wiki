@@ -11,7 +11,7 @@ This page is a memo for developer who aims to compile GPSBook.
   }}}
 
 == Plugins ==
-To compile the plugins, it is required to installathe following libraries:
+To compile the plugins, it is required to install the following libraries:
 
 === libcurl and libzzip for displayStatistics and displaySRTM ===
   {{{
@@ -29,5 +29,5 @@ To compile the plugins, it is required to installathe following libraries:
 
 === libQGLViewer 2.3.6 for displayGraphic3D ===
   {{{
-  sudo apt-get install libqglviewer-qt4-2
+  sudo apt-get install libqglviewer-qt4-dev
   }}}
