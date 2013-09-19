@@ -53,7 +53,7 @@ mkdir -p $INSTALL_DIR/lib
 mkdir -p $INSTALL_DIR/plugins
 for file in $(ls $DELIVERY_DIR/bin/gpsbook* | grep -v exe$) $DELIVERY_DIR/lib/lib* $DELIVERY_DIR/plugins/lib*; do
   DESTINATION=$INSTALL_DIR/$(echo $file | cut -b$(($(echo $DELIVERY_DIR | wc -c) +1))-)
-  cp -P $file $DESTINATION 
+  cp -aP $file $DESTINATION 
 done;
 sudo chown -R root: $PACKAGE_DIR/debian/usr
 
@@ -61,6 +61,8 @@ sudo chown -R root: $PACKAGE_DIR/debian/usr
 cd $PACKAGE_DIR
 dpkg-deb --build debian
 mv debian.deb gpsbook-$VERSION-$TARGET.deb
+
+exit
 
 #Publish into repository
 echo gene-deb : Publication de gpsbook-$VERSION-$TARGET.deb dans le depot.
