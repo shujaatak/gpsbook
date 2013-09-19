@@ -7,7 +7,7 @@ This page is a memo for developer who aims to compile GPSBook.
 
   For ubuntu user qtcreator and qt framework can be installed using the command
   {{{
-  sudo apt-get install qtcreator
+  sudo apt-get install qt-sdk qtcreator
   }}}
 
 == Plugins ==
