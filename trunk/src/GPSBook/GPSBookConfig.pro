@@ -1,4 +1,4 @@
-QMAKE_CXXFLAGS += -DBUILD_VERSION=\\\"0.1\\\"
+QMAKE_CXXFLAGS += -DBUILD_VERSION=\\\"0.2\\\"
 
 unix {
     # build date
