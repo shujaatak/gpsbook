@@ -24,7 +24,7 @@ To compile the plugins, it is required to installathe following libraries:
 
 === qwt 6.0 for displayGraphic2D ===
   {{{
-  sudo apt-get install libqwt6
+  sudo apt-get install libqwt6 libqwt-dev
   }}}
 
 === libQGLViewer 2.3.6 for displayGraphic3D ===
