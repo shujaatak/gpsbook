@@ -34,7 +34,7 @@ TRANSLATIONS = displayGraphic3D_fr_fr.ts \
 
 linux-g++ {
     # libQGLViewer libraries
-    LIBS += -L../../../delivery/lib -lQGLViewer
+    #LIBS += -L../../../delivery/lib -lQGLViewer
     # libdisplaySRTM library
     LIBS += -L../../../delivery/plugins -ldisplaySRTM
 }

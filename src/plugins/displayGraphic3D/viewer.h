@@ -22,7 +22,7 @@
 #ifndef VIEWER_H
 #define VIEWER_H
 
-#include "qglviewer.h"
+#include <QGLViewer/qglviewer.h>
 #include "gpsdata.h"
 #if defined(Q_OS_LINUX)
 #include "../displaySRTM/srtm.h"

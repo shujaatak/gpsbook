@@ -19,7 +19,7 @@
 /** Value of pixels where no SRTM data is available. */
 #define SRTM_DATA_VOID -32768
 /** Total number of SRTM files on NASA's server. */
-#define SRTM_FILE_COUNT 14040
+#define SRTM_FILE_COUNT 14042
 
 /** Handles the loading and parsing of an SRTM tile.
   *
