@@ -28,5 +28,6 @@ To compile the plugins, it is required to installathe following libraries:
   }}}
 
 === libQGLViewer 2.3.6 for displayGraphic3D ===
-
-  http://www.libqglviewer.com/
+  {{{
+  sudo apt-get install libqglviewer-qt4-2
+  }}}
