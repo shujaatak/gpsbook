@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QMessageBox>
 #include <QWidget>
+#include <QSettings>
 #include "pixmap.h"
 #include "displaygpsbabel.h"
 
@@ -114,7 +115,7 @@ namespace PluginDisplayGPSBabel {
                             tr("License:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             "GNU GPL <a href=\"http://www.gnu.org/licenses/gpl.txt\">http://www.gnu.org/licenses/gpl.txt</a>" + "<br><br>" +
                             tr("Authors:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
-                            "gpsbook-team &copy;2009"+ "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
+                            "gpsbook-team &copy;2013"+ "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             tr("Translation:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             tr("English by gpsbook-team") +
                         "</p>"
@@ -131,6 +132,16 @@ namespace PluginDisplayGPSBabel {
         qCritical() << __FILE__ << __FUNCTION__;
         emit signalLoadFile(filename,false);
     } //DisplayGPSBabel::loadFile
+
+    /*------------------------------------------------------------------------------*
+
+     *------------------------------------------------------------------------------*/
+    void DisplayGPSBabel::on_showPlugin()
+    {
+        emit signalSetTrackSelection(false,false,false,false,false);
+        QSettings settings("GPSBook","GPSBook");
+        emit signalShowCatalog(settings.value("PluginGPSBabelShowCatalog",false).toBool());
+    } //DisplayGPSBabel::on_showPlugin
 
     Q_EXPORT_PLUGIN2(DisplayGPSBabel, DisplayGPSBabel)
 }

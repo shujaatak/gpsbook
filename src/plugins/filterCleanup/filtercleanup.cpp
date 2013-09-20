@@ -107,7 +107,7 @@ namespace PluginFilterCleanup {
                             tr("License:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             "GNU GPL <a href=\"http://www.gnu.org/licenses/gpl.txt\">http://www.gnu.org/licenses/gpl.txt</a>" + "<br><br>" +
                             tr("Authors:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
-                            "gpsbook-team &copy;2009"+ "<br><br>" +
+                            "gpsbook-team &copy;2013"+ "<br><br>" +
                             tr("Translation:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             tr("English by gpsbook-team") +
                         "</p>"

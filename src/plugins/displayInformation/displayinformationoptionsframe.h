@@ -48,6 +48,7 @@ private:
 private slots:
     void on_buttonBox_clicked(QAbstractButton*);
     void modified();
+    void on_checkBoxShowCatalog_toggled(bool checked);
 };
 
 #endif // DISPLAYINFORMATIONOPTIONSFRAME_H

@@ -19,6 +19,7 @@
 ** Copyright (c) 2010, gpsbook-team
 **
 ****************************************************************************/
+#include <QSettings>
 #include "displayinternetbrowseroptionsframe.h"
 #include "ui_displayinternetbrowseroptionsframe.h"
 
@@ -27,6 +28,8 @@ DisplayInternetBrowserOptionsFrame::DisplayInternetBrowserOptionsFrame(QWidget *
     ui(new Ui::DisplayInternetBrowserOptionsFrame)
 {
     ui->setupUi(this);
+    QSettings settings("GPSBook","GPSBook");
+    ui->checkBoxShowCatalog->setChecked(settings.value("PluginInternetBrowserShowCatalog",false).toBool() );
 }
 
 DisplayInternetBrowserOptionsFrame::~DisplayInternetBrowserOptionsFrame()
@@ -44,4 +47,10 @@ void DisplayInternetBrowserOptionsFrame::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void DisplayInternetBrowserOptionsFrame::on_checkBoxShowCatalog_toggled(bool)
+{
+    QSettings settings("GPSBook","GPSBook");
+    settings.setValue("pluginInternetBrowserShowCatalog",ui->checkBoxShowCatalog->isChecked());
 }

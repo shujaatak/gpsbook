@@ -171,7 +171,7 @@ namespace PluginDisplayGraphic2D {
                             tr("License:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             "GNU GPL <a href=\"http://www.gnu.org/licenses/gpl.txt\">http://www.gnu.org/licenses/gpl.txt</a>" + "<br><br>" +
                             tr("Authors:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
-                            "gpsbook-team &copy;2009" + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
+                            "gpsbook-team &copy;2013" + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             "This plugin is using <a href=\"http://qwt.sourceforge.net/\">Qwt</a> libraries" + "<br><br>" +
                             tr("Translation:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             tr("English by gpsbook-team") +
@@ -190,6 +190,8 @@ namespace PluginDisplayGraphic2D {
         on_gpsdataGPXChanged();
         bool status= ( !mGPSData->trackList.isEmpty() || !mGPSData->routeList.isEmpty() );
         emit signalSetTrackSelection(status,!status,status,status,status);
+        QSettings settings("GPSBook","GPSBook");
+        emit signalShowCatalog(settings.value("pluginGraph2DShowCatalog",true).toBool());
     } //DisplayGraphic2D::on_showPlugin
 
     Q_EXPORT_PLUGIN2(DisplayGraphic2D, DisplayGraphic2D)

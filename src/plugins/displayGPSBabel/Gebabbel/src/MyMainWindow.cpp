@@ -27,10 +27,16 @@ using namespace PluginDisplayGPSBabel;
 MyMainWindow::MyMainWindow( QWidget * parent )
     : QFrame( parent )
 {
+    gpsbookInputFile = new QTemporaryFile(QDir::tempPath() + QDir::separator() + QCoreApplication::applicationName() + "_gpsbabel_input");
+    gpsbookInputFile->open();
+    gpsbookInputFile->close();
+    gpsbookInputFile->setFileName(gpsbookInputFile->fileName()+".gpx");
+
     gpsbookOutputFile = new QTemporaryFile(QDir::tempPath() + QDir::separator() + QCoreApplication::applicationName() + "_gpsbabel_output");
     gpsbookOutputFile->open();
     gpsbookOutputFile->close();
     gpsbookOutputFile->setFileName(gpsbookOutputFile->fileName()+".gpx");
+
     timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(cleanInfo()));
 
@@ -535,12 +541,32 @@ void MyMainWindow::processData()
 
             //Modify argument with the temp filename
             ArgumentList.removeAt(idx);
-            ArgumentList.insert(idx,mGPSData->filename);
+            //Check if the file is a valid gpx
+            if (QFileInfo(mGPSData->filename).suffix()=="gpx") {
+                ArgumentList.insert(idx,mGPSData->filename);
+            }
+            else
+            {
+                QMessageBox::warning(this, tr("GPSBabel plugin"),
+                                                tr("You have to save file as gpx before been able to use gpsbabel"),
+                                                QMessageBox::Ok,
+                                                QMessageBox::Warning);
+
+                qDebug() << "Not a gpx file";
+                return;
+                QString filename = mGPSData->filename;
+                bool isModified  = mGPSData->isModified;
+                mGPSData->filename = gpsbookInputFile->fileName();
+                //Send signal to save the file into a temporary file gpsbookInputFile
+
+                mGPSData->filename = filename;
+                mGPSData->setGPXModified(isModified);
+            }
         }
     }
 
     idx = 0;
-     while ( ( idx = ArgumentList.indexOf("-F", idx) ) != -1)
+    while ( ( idx = ArgumentList.indexOf("-F", idx) ) != -1)
     {
         if (ArgumentList.at(++idx) == "gpsbook")
         {

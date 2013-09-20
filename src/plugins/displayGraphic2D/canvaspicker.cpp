@@ -156,7 +156,7 @@ namespace PluginDisplayGraphic2D {
     // deselect the selected point
     void CanvasPicker::select(const QPoint &pos)
     {
-        qDebug() << __FILE__ << __FUNCTION__;
+        //qDebug() << __FILE__ << __FUNCTION__;
         Curve *curve = NULL;
         double dist = 10e10;
         int index = -1;
@@ -196,7 +196,7 @@ namespace PluginDisplayGraphic2D {
     // Hightlight the selected point
     void CanvasPicker::showCursor()
     {
-        qDebug() << __FILE__ << __FUNCTION__ ;
+        //qDebug() << __FILE__ << __FUNCTION__ ;
         if ( !d_selectedCurve )
             return;
 

@@ -19,6 +19,7 @@
 ** Copyright (c) 2010, gpsbook-team
 **
 ****************************************************************************/
+#include <QSettings>
 #include "displaygraphic3doptionsframe.h"
 #include "ui_displaygraphic3doptionsframe.h"
 
@@ -27,6 +28,8 @@ DisplayGraphic3DOptionsFrame::DisplayGraphic3DOptionsFrame(QWidget *parent) :
     ui(new Ui::DisplayGraphic3DOptionsFrame)
 {
     ui->setupUi(this);
+    QSettings settings("GPSBook","GPSBook");
+    ui->checkBoxShowCatalog->setChecked(settings.value("PluginGraphic3DShowCatalog",true).toBool() );
 }
 
 DisplayGraphic3DOptionsFrame::~DisplayGraphic3DOptionsFrame()
@@ -44,4 +47,10 @@ void DisplayGraphic3DOptionsFrame::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void DisplayGraphic3DOptionsFrame::on_checkBoxShowCatalog_toggled(bool)
+{
+    QSettings settings("GPSBook","GPSBook");
+    settings.setValue("pluginGraph3DShowCatalog",ui->checkBoxShowCatalog->isChecked());
 }

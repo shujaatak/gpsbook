@@ -59,8 +59,8 @@ FORMS += displaysrtmhelp.ui \
     displaysrtmoptionsframe.ui
 TRANSLATIONS = displaySRTM_fr_fr.ts
 
-#RESOURCES += \
-#    icons/icons_srtm.qrc
+RESOURCES += \
+    icons/icons_srtm.qrc
 
 LIBS += -lcurl
 LIBS += -lzzip

@@ -54,7 +54,8 @@ private slots:
     void on_checkBoxCatalogUpdateDistance_toggled(bool);
     void on_checkBoxCatalogUpdateAcceleration_toggled(bool);
     void on_checkBoxCatalogUpdateSpeed_toggled(bool);
-};
+    void on_checkBoxShowCatalog_toggled(bool checked);
+    };
 
 }
 

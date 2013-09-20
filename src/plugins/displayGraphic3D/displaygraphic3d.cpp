@@ -124,7 +124,7 @@ namespace PluginDisplayGraphic3D {
                             tr("License:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             "GNU GPL <a href=\"http://www.gnu.org/licenses/gpl.txt\">http://www.gnu.org/licenses/gpl.txt</a>" + "<br><br>" +
                             tr("Authors:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
-                            "gpsbook-team &copy;2009" + "<br><br>" +
+                            "gpsbook-team &copy;2013" + "<br><br>" +
                             tr("Translation:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             tr("English by gpsbook-team") +
                         "</p>"
@@ -161,6 +161,8 @@ namespace PluginDisplayGraphic3D {
         mView->update();
         bool status=( !mGPSData->trackList.isEmpty() || !mGPSData->routeList.isEmpty() );
         emit signalSetTrackSelection(status,!status,status,status,status);
+        QSettings settings("GPSBook","GPSBook");
+        emit signalShowCatalog(settings.value("PluginGraphic3DShowCatalog",true).toBool());
     } //DisplayGraphic3D::on_showPlugin
 
 

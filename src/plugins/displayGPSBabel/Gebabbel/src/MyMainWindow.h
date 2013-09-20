@@ -52,7 +52,7 @@ public:
 
 private:
     GPSData* mGPSData;
-    QTemporaryFile* gpsbookOutputFile;
+    QTemporaryFile *gpsbookInputFile, *gpsbookOutputFile;
     QTimer* timer;
 
     QProcess * ExecGpsBabel;

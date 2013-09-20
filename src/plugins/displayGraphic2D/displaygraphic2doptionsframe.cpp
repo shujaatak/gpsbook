@@ -34,7 +34,7 @@ DisplayGraphic2DOptionsFrame::DisplayGraphic2DOptionsFrame(QWidget *parent) :
     ui->checkBoxFullfilDistance->setChecked(settings->value("pluginGraph2DFullfilDistance",false).toBool());
     ui->checkBoxFullfilAbsoluteTime->setChecked(settings->value("pluginGraph2DFullfilAbsoluteTime",true).toBool());
     ui->checkBoxFullfilDuration->setChecked(settings->value("pluginGraph2DFullfilDuration",false).toBool());
-
+    ui->checkBoxShowCatalog->setChecked(settings->value("pluginGraph2DShowCatalog",true).toBool());
 }
 
 DisplayGraphic2DOptionsFrame::~DisplayGraphic2DOptionsFrame()
@@ -77,4 +77,9 @@ void DisplayGraphic2DOptionsFrame::on_checkBoxFullfilDuration_toggled(bool)
 void DisplayGraphic2DOptionsFrame::on_checkBoxFullfilCumulDistance_toggled(bool)
 {
     settings->setValue("pluginGraph2DFullfilCumulDistance",ui->checkBoxFullfilCumulDistance->isChecked());
+}
+
+void DisplayGraphic2DOptionsFrame::on_checkBoxShowCatalog_toggled(bool)
+{
+    settings->setValue("pluginGraph2DShowCatalog",ui->checkBoxShowCatalog->isChecked());
 }
