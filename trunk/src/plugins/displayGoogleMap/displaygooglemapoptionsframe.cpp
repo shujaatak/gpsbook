@@ -19,6 +19,7 @@
 ** Copyright (c) 2010, gpsbook-team
 **
 ****************************************************************************/
+#include <QSettings>
 #include "displaygooglemapoptionsframe.h"
 #include "ui_displaygooglemapoptionsframe.h"
 
@@ -27,6 +28,8 @@ DisplayGoogleMapOptionsFrame::DisplayGoogleMapOptionsFrame(QWidget *parent) :
     ui(new Ui::DisplayGoogleMapOptionsFrame)
 {
     ui->setupUi(this);
+    QSettings settings("GPSBook","GPSBook");
+    ui->checkBoxShowCatalog->setChecked(settings.value("PluginGoogleMapShowCatalog",false).toBool() );
 }
 
 DisplayGoogleMapOptionsFrame::~DisplayGoogleMapOptionsFrame()
@@ -44,4 +47,10 @@ void DisplayGoogleMapOptionsFrame::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void DisplayGoogleMapOptionsFrame::on_checkBoxShowCatalog_toggled(bool)
+{
+    QSettings settings("GPSBook","GPSBook");
+    settings.setValue("pluginGoogleMapShowCatalog",ui->checkBoxShowCatalog->isChecked());
 }

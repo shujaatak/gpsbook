@@ -59,8 +59,8 @@ int main(int argc, char *argv[])
         } else if ( s.startsWith( "--lang" ) ) {
             lang=args[i++];
         } else if (s.startsWith("--version")){
-            std::cout << "gpsbook version " << qApp->applicationVersion().toStdString() << endl;
-            std::cout << "copyright (c) 2009-2010, gpsbook-team" << endl;
+            std::cout << "gpsbook version " << qApp->applicationVersion().toStdString() << std::endl;
+            std::cout << "copyright (c) 2009-2010, gpsbook-team" << std::endl;
             return 0;
         }
     }

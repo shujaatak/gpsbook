@@ -56,7 +56,7 @@ namespace PluginDisplaySRTM {
         QStringList getServicePropertyList(const char * serviceName ){
             return mServicesPropertiesList[serviceName];
         }
-        ServiceInterface* getService(const char * serviceName ) {
+        ServiceInterface* getService(const char * /*serviceName*/ ) {
             return NULL;
         }
 

@@ -207,11 +207,11 @@ class DisplayPluginInterface : public PluginInterface
     signals:
         void signalLoadFile(QString,bool);
         void signalFileLoaded();
-        //void signalSetTrackSelection(bool);
         //Filters may not be applicables for all type of data.
         //This signal define what kind of data should be available for the active filter
         //signalSetTrackSelection(GPX, Waypoint, Route, Tracks, Segments);
         void signalSetTrackSelection(bool, bool, bool, bool, bool);
+        void signalShowCatalog(bool);
 };
 
 Q_DECLARE_INTERFACE(PluginInterface,            "org.gpsbook.PluginInterface/1.0")

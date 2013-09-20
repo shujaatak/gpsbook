@@ -19,6 +19,7 @@
 ** Copyright (c) 2010, gpsbook-team
 **
 ****************************************************************************/
+#include <QSettings>
 #include "displaygpsbabeloptionsframe.h"
 #include "ui_displaygpsbabeloptionsframe.h"
 
@@ -27,6 +28,8 @@ DisplayGPSBabelOptionsFrame::DisplayGPSBabelOptionsFrame(QWidget *parent) :
     ui(new Ui::DisplayGPSBabelOptionsFrame)
 {
     ui->setupUi(this);
+    QSettings settings("GPSBook","GPSBook");
+    ui->checkBoxShowCatalog->setChecked(settings.value("PluginGPSBabelShowCatalog",true).toBool() );
 }
 
 DisplayGPSBabelOptionsFrame::~DisplayGPSBabelOptionsFrame()
@@ -44,4 +47,10 @@ void DisplayGPSBabelOptionsFrame::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void DisplayGPSBabelOptionsFrame::on_checkBoxShowCatalog_toggled(bool)
+{
+    QSettings settings("GPSBook","GPSBook");
+    settings.setValue("pluginGPSBabelShowCatalog",ui->checkBoxShowCatalog->isChecked());
 }

@@ -346,6 +346,7 @@ namespace GPSBook {
                             //Connect action signal to slot
                             connect(action, SIGNAL(triggered()), this, SLOT(displayPluginShow()));
                             connect(action, SIGNAL(triggered()), displayPlugin, SLOT(on_showPlugin()));
+                            connect(displayPlugin, SIGNAL(signalShowCatalog(bool)), ui->dockWidgetTraceManagement, SLOT(setVisible(bool)));
 
                             //Add action to toolbar
                             ui->mainToolBar->insertAction(ui->actionFilters,action);
@@ -470,14 +471,14 @@ namespace GPSBook {
                         "<body>"
                         "<p style=\" font-family:'Sans'; font-size:14pt; font-weight:400; font-style:vold; \">"
                             + qApp->applicationName() + " v" + qApp->applicationVersion() +
-                            + "<sub>  (" + QString(BUILD_DATE) + ")<sub>"
+                            //+ "<sub>  (" + QString(BUILD_DATE) + ")<sub>"
                         "</p>"
                         "<p style=\" font-family:'Sans'; font-size:10pt; font-weight:400; font-style:vold; \">"
                             + qApp->applicationName() + tr(" is an application dedicated to managed and view GPX tracklist captured with GPS devices.\n The feature of the application are provided by plugins designed to import/export, display and filter GPS data.") + "<br><br>" +
                             tr("License:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             "GNU GPL <a href=\"http://www.gnu.org/licenses/gpl.txt\">http://www.gnu.org/licenses/gpl.txt</a>" + "<br><br>" +
                             tr("Authors:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
-                            "gpsbook-team &copy;2009"+ "<br><br>" +
+                            "gpsbook-team &copy;2013"+ "<br><br>" +
                             tr("Translation:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             tr("English by gpsbook-team") +
                         "</p>"
@@ -676,8 +677,9 @@ namespace GPSBook {
                 ui->treeWidgetCurrentGPX->setCurrentItem(trackItem);
             }
 
-            int segmentIndex = 0;
-            foreach (TrackSeg* trackseg, track->trackSegList)
+            //int segmentIndex = 0;
+            //foreach (TrackSeg* trackseg, track->trackSegList)
+            for ( int segmentIndex=0; segmentIndex < track->trackSegList.count(); segmentIndex++)
             {
                 QTreeWidgetItem* trackSegItem = new QTreeWidgetItem();
                 trackSegItem->setText(0,tr("Segment") + " " + QVariant(segmentIndex).toString() );
@@ -691,7 +693,7 @@ namespace GPSBook {
                     ui->treeWidgetCurrentGPX->expandItem(trackListItem);
                     ui->treeWidgetCurrentGPX->setCurrentItem(trackSegItem);
                 }
-                segmentIndex++;
+                //segmentIndex++;
             }
             trackIndex++;
         }

@@ -40,6 +40,7 @@ namespace PluginDisplayStatistic {
         ui->checkBoxOtherUpdateAcceleration->setChecked(settings.value("PluginDisplayStatistic_OtherUpdateAcceleration",true).toBool() );
         ui->checkBoxOtherUpdateDistances->setChecked(settings.value("PluginDisplayStatistic_OtherUpdateDistances",true).toBool() );
         ui->checkBoxOtherUpdateSpeed->setChecked(settings.value("PluginDisplayStatistic_OtherUpdateSpeed",true).toBool() );
+        ui->checkBoxShowCatalog->setChecked(settings.value("PluginStatisticShowCatalog",true).toBool() );
     } //DisplayTemplateOptionsFrame::DisplayTemplateOptionsFrame
 
     /*------------------------------------------------------------------------------*
@@ -108,4 +109,10 @@ void PluginDisplayStatistic::DisplayStatisticOptionsFrame::on_buttonBox_clicked(
     settings.setValue("PluginDisplayStatistic_OtherUpdateDistances",QVariant(ui->checkBoxOtherUpdateDistances->checkState()));
     settings.setValue("PluginDisplayStatistic_OtherUpdateSpeed", QVariant(ui->checkBoxOtherUpdateSpeed->checkState()));
     ui->buttonBox->setEnabled(false);
+}
+
+void PluginDisplayStatistic::DisplayStatisticOptionsFrame::on_checkBoxShowCatalog_toggled(bool)
+{
+    QSettings settings("GPSBook","GPSBook");
+    settings.setValue("pluginStatisticShowCatalog",ui->checkBoxShowCatalog->isChecked());
 }

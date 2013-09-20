@@ -36,7 +36,7 @@ linux-g++ {
     # libQGLViewer libraries
     #LIBS += -L../../../delivery/lib -lQGLViewer
     # libdisplaySRTM library
-    LIBS += -L../../../delivery/plugins -ldisplaySRTM
+    #LIBS += -L../../../delivery/plugins -ldisplaySRTM
 }
 mac {
     # libQGLViewer libraries

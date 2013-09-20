@@ -70,9 +70,9 @@ namespace PluginDisplayGPSBabel {
         void on_gpsdataWaypointsChanged(){}
 
         void on_selectionChanged() {}
-		void on_fileLoaded(){}
+        void on_fileLoaded(){}
         void on_about();
-        void on_showPlugin(){}
+        void on_showPlugin();
         void on_hidePlugin() {}
         void on_all_plugins_loaded(){}
 

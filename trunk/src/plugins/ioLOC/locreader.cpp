@@ -96,7 +96,7 @@ namespace PluginIOLOC {
                             {
                                 waypoint->lat = attributes().value("lat").toString().toDouble();
                                 waypoint->lon = attributes().value("lon").toString().toDouble();
-                                waypoint->sym = "geocaching";
+                                waypoint->sym = "Geocache";
                                 //qDebug()<< "WAYPOINT = "<< name().toString() <<  waypoint->lon << "/" << waypoint->lat;
                                 readNext();
                             }
@@ -109,6 +109,7 @@ namespace PluginIOLOC {
                             {
                                 waypoint->cmt = attributes().value("id").toString();
                                 waypoint->name = readElementText().replace(QString("\n"),"");
+                                waypoint->desc = waypoint->name;
                                 //qDebug()<< "WAYPOINT = "<< name().toString() <<  waypoint->name << "/" << waypoint->cmt;
                             }
                             if (name() == "link")

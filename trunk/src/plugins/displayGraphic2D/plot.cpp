@@ -21,8 +21,9 @@
 ****************************************************************************/
 #include <qwt_plot_layout.h>
 #include <qwt_plot_grid.h>
-#include <qwt_plot_panner.h>
 #include <qwt_plot_magnifier.h>
+#include <qwt_plot_panner.h>
+#include <qwt_plot_zoomer.h>
 #include <qwt_series_data.h>
 #include <qwt_plot_directpainter.h>
 #include <qwt_color_map.h>
@@ -243,7 +244,7 @@ namespace PluginDisplayGraphic2D {
         //____________________________________________________________________________
         QwtPlotPanner *panner = new QwtPlotPanner(canvas());
         panner->setAxisEnabled(QwtPlot::yRight, false);
-        panner->setMouseButton(Qt::MidButton);
+        panner->setMouseButton(Qt::LeftButton);
 
         //____________________________________________________________________________
         plotPicker = new PlotPicker(canvas());
@@ -256,6 +257,7 @@ namespace PluginDisplayGraphic2D {
         rescaler->setExpandingDirection(QwtPlotRescaler::ExpandBoth);
         rescaler->aspectRatio(1);
         rescaler->setEnabled(true);
+
     } //Plot::Plot
 
     /*------------------------------------------------------------------------------*
@@ -428,8 +430,10 @@ namespace PluginDisplayGraphic2D {
         rescaler->setEnabled(false);
         rescaler->setRescalePolicy(QwtPlotRescaler::Fixed);
         rescaler->setExpandingDirection(QwtPlotRescaler::ExpandBoth);
-        setAxisAutoScale(QwtPlot::yLeft);
-        setAxisAutoScale(QwtPlot::xBottom);
+        if (rescale) {
+            setAxisAutoScale(QwtPlot::yLeft);
+            setAxisAutoScale(QwtPlot::xBottom);
+        }
         plotLayout()->setAlignCanvasToScales(true);
 
         gpsdata->lockGPSDataForRead();
@@ -506,7 +510,7 @@ namespace PluginDisplayGraphic2D {
                 setAxisScaleDraw(Plot::yLeft, new AccelerationScaleDraw());
             break;
         }
-        if ((X_Axis == Plot::axis_x_longitude))
+        if ( X_Axis == Plot::axis_x_longitude )
         {
             rescaler->setAspectRatio(1.0);
 
@@ -561,7 +565,7 @@ namespace PluginDisplayGraphic2D {
      *------------------------------------------------------------------------------*/
     void Plot::replot()
     {
-        qDebug() << __FILE__ << __FUNCTION__;
+        //qDebug() << __FILE__ << __FUNCTION__;
 
         double X_Marker=0;
         double Y_Marker=0;
@@ -571,7 +575,7 @@ namespace PluginDisplayGraphic2D {
             //         << "mGPSData->selectedSegmentIndex =" << mGPSData->selectedSegmentIndex << "\n"
             //         << "mGPSData->selectedWaypointIndex =" << mGPSData->selectedWaypointIndex;
             Track *track;
-            TrackSeg *trackseg;
+            TrackSeg *trackseg = NULL;
             if ( mGPSData->selectedTrackIndex >= 0 ) {
                 track= mGPSData->trackList[mGPSData->selectedTrackIndex];
                 if ( mGPSData->selectedSegmentIndex >= 0 )
@@ -581,7 +585,7 @@ namespace PluginDisplayGraphic2D {
                 if ( mGPSData->selectedRouteIndex >= 0 )
                     trackseg = mGPSData->routeList[mGPSData->selectedRouteIndex];
             }
-            if ( mGPSData->selectedWaypointIndex >= 0 )
+            if ( ( trackseg != NULL ) && ( mGPSData->selectedWaypointIndex >= 0 ) )
             {
                 WayPoint *waypoint = trackseg->wayPointList[mGPSData->selectedWaypointIndex];
 

@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QMessageBox>
 #include <QWidget>
+#include <QSettings>
 #include "pixmap.h"
 #include "displayinformation.h"
 
@@ -130,7 +131,7 @@ namespace PluginDisplayInformation {
                             tr("License:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             "GNU GPL <a href=\"http://www.gnu.org/licenses/gpl.txt\">http://www.gnu.org/licenses/gpl.txt</a>" + "<br><br>" +
                             tr("Authors:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
-                            "gpsbook-team &copy;2009" + "<br><br>" +
+                            "gpsbook-team &copy;2013" + "<br><br>" +
                             tr("Translation:") + "<br>&nbsp;&nbsp;&nbsp;&nbsp;" +
                             tr("English by gpsbook-team") +
                         "</p>"
@@ -147,6 +148,8 @@ namespace PluginDisplayInformation {
         qDebug() << __FILE__ << __FUNCTION__ ;
         on_gpsdataGPXChanged();
         emit signalSetTrackSelection(true,true,true,true,false);
+        QSettings settings("GPSBook","GPSBook");
+        emit signalShowCatalog(settings.value("PluginInformationShowCatalog",true).toBool());
     } //DisplayInformation::on_showPlugin
 
     /*------------------------------------------------------------------------------*

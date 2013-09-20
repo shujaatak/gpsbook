@@ -45,6 +45,8 @@ DisplayInformationOptionsFrame::DisplayInformationOptionsFrame(QWidget *parent) 
 
     connect(ui->lineEditLicense, SIGNAL(editingFinished()), this, SLOT(modified()));
     ui->lineEditLicense->setText(settings->value("displayInformationDefaultLicense","").toString());
+
+    ui->checkBoxShowCatalog->setChecked(settings->value("PluginInformationShowCatalog",true).toBool() );
 }
 
 DisplayInformationOptionsFrame::~DisplayInformationOptionsFrame()
@@ -79,4 +81,9 @@ void DisplayInformationOptionsFrame::on_buttonBox_clicked(QAbstractButton*)
     settings->setValue("displayInformationDefaultOwner",       ui->lineEditOwner->text());
     settings->setValue("displayInformationDefaultLicense",     ui->lineEditLicense->text());
     ui->buttonBox->setEnabled(false);
+}
+
+void DisplayInformationOptionsFrame::on_checkBoxShowCatalog_toggled(bool)
+{
+    settings->setValue("pluginInformationShowCatalog",ui->checkBoxShowCatalog->isChecked());
 }

@@ -55,8 +55,8 @@ namespace PluginDisplayGraphic2D {
         bool mousePressed;
         GPSData* tracklist;
         Curve *d_selectedCurve;
-        int d_selectedPoint;
-        int accelerate;
+        unsigned int d_selectedPoint;
+        unsigned int accelerate; // how fast the navigation is going ( accelerate is the increment)
 
         Plot *plot() { return (Plot *)parent(); }
         const Plot *plot() const { return (Plot *)parent(); }

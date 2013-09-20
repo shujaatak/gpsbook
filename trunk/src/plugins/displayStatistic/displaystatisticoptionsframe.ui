@@ -119,6 +119,22 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="groupBoxCatalog">
+     <property name="title">
+      <string>Catalog</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QCheckBox" name="checkBoxShowCatalog">
+        <property name="text">
+         <string>Show catalog when plugin is activated</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>

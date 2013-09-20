@@ -39,6 +39,9 @@ public:
 protected:
     void changeEvent(QEvent *e);
 
+private slots:
+    void on_checkBoxShowCatalog_toggled(bool checked);
+
 private:
     Ui::DisplayGPSBabelOptionsFrame *ui;
 };

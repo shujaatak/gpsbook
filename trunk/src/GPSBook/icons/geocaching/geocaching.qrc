@@ -33,5 +33,20 @@
         <file>geowebcamphototaken.png</file>
         <file>geowhereigocache.png</file>
         <file>geowillattend.png</file>
+        <file>stars1_5.gif</file>
+        <file>large.gif</file>
+        <file>micro.gif</file>
+        <file>not_chosen.gif</file>
+        <file>other.gif</file>
+        <file>regular.gif</file>
+        <file>small.gif</file>
+        <file>stars1.gif</file>
+        <file>stars2.gif</file>
+        <file>stars2_5.gif</file>
+        <file>stars3.gif</file>
+        <file>stars3_5.gif</file>
+        <file>stars4.gif</file>
+        <file>stars4_5.gif</file>
+        <file>stars5.gif</file>
     </qresource>
 </RCC>

@@ -87,7 +87,7 @@ namespace PluginDisplayStatistic {
             {
                 int iloop = 0;
                 ui->progressBar->setRange(1,trackSeg->wayPointList.count());
-                WayPoint* waypointBegin = 0;
+                //WayPoint* waypointBegin = 0;
                 WayPoint* waypointEnd = 0;
                 double elevationGain = 0;
                 double elevationDrop = 0;
@@ -100,7 +100,7 @@ namespace PluginDisplayStatistic {
                         waypointEnd = waypoint;
                         continue;
                     }
-                    waypointBegin = waypointEnd;
+                    //waypointBegin = waypointEnd;
                     waypointEnd = waypoint;
 #if defined(Q_OS_LINUX)
                     waypoint->ele = srtmDownloader->getAltitudeFromLatLon(waypoint->lat,waypoint->lon);

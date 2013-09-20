@@ -48,5 +48,5 @@ FORMS += displaygpsbabelhelp.ui \
 
 #TRANSLATIONS = displayTemplate_fr_fr.ts
 
-#RESOURCES += \
-#    Gebabbel-0.4/binincludes/binincludes.qrc
+RESOURCES += \
+    Gebabbel-0.4/binincludes/binincludes.qrc
