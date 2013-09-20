@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>Continent_def.gif</file>
+    </qresource>
+</RCC>

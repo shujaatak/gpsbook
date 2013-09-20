@@ -1,0 +1,7 @@
+About translation files, read
+http://developer.skolelinux.no/info/studentgrupper/2006-hig-daisyplayer/project_management/reports/project/project.pdf
+http://torafugu.com/Trolltech/qt-4.0.0/html/qtranslator.html#details
+
+Enter newly desired translation.ts files in Gebabbel.pro in the root directory
+Run lupdate Gebabbel.pro in the root directory to update the ts files
+Run lrelease Gebabbel.pro in the root directory to create the qm files
