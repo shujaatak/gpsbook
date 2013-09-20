@@ -1,0 +1,23 @@
+=== V 0.1, 20061224 ===
+
+Initial release. Released as a beta version, it remained as it is as no bugs have been known
+
+=== V 0.2, 20070212 ===
+
+* Changed source tree structure
+* Internal rewrites and bug fixes
+* Improved search for the gpsbabel executable
+* Statically using the -p "" option so gpsbabel does never read a config file
+* Improved presets, completely i18n'ed
+* Split config files to user and system configuration so future updates will preserve user presets
+* Improved option editing. Selecting an entry from the combo will be appended to the current line edit's contents and will not overwrite it
+* Added options for all file and filter formats and options. Options are offered dependent of the format chosen
+* Added help texts for all formats and options
+* Disabling the process button if processing seems senseless (input file not found, no output specified etc.)
+* Support for the realtime tracking option -T
+* Disabling all checkboxes as soon as the realtime tracking option is chosen
+
+=== V 0.3, 200707 ===
+
+* Gebabbel now requires gpsbabel 1.1.3 or later, due to changing -s and -N to -Sn and -Si
+* Minor adjustments

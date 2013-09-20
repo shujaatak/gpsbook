@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/AppIcon.png</file>
+        <file>icons/Blank.png</file>
+        <file>icons/FileOpen.png</file>
+        <file>icons/FileSave.png</file>
+        <file>icons/FileConvert.png</file>
+        <file>icons/FileDelete.png</file>
+        <file>icons/Floppy.png</file>
+        <file>icons/Folder.png</file>
+        <file>icons/FolderWarning.png</file>
+        <file>icons/USBplug.png</file>
+        <file>icons/GpsDevice.png</file>
+        <file>icons/EditEditCommand.png</file>
+        <file>icons/EditPresetFile.png</file>
+        <file>icons/FileQuit.png</file>
+        <file>icons/HelpAbout.png</file>
+        <file>icons/HelpManual.png</file>
+        <file>icons/Filter.png</file>
+        <file>icons/Delete.png</file>
+        <file>icons/Add.png</file>
+        <file>icons/Edit.png</file>
+        <file>icons/EditEditPreferences.png</file>
+        <file>translations/de_DE.qm</file>
+        <file>translations/en_EN.qm</file>
+        <file>translations/fr_FR.qm</file>
+    </qresource>
+</RCC>
