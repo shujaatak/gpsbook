@@ -31,3 +31,8 @@ To compile the plugins, it is required to install the following libraries:
   {{{
   sudo apt-get install libqglviewer-qt4-dev
   }}}
+
+=== libqscintilla2 for displyRawEditor ===
+  {{{
+  sudo apt-get install libqscintilla2-dev
+  }}}
