@@ -2,4 +2,7 @@
     <qresource prefix="/images">
         <file>Continent_def.gif</file>
     </qresource>
+    <qresource prefix="/resources">
+        <file>srtm.xpm</file>
+    </qresource>
 </RCC>

@@ -19,14 +19,17 @@
 ** Copyright (C) 2009, gpsbook-team
 **
 ****************************************************************************/
+#include <QtGlobal>
 #include <QDebug>
 #include <QtGui>
 #include "displaystatisticframe.h"
-#include "ui_displaystatisticframe.h"
+
 #include "dialogprocessacceleration.h"
 #include "dialogprocessaltitude.h"
 #include "dialogprocessdistance.h"
 #include "dialogprocessspeed.h"
+
+#include "ui_displaystatisticframe.h"
 
 namespace PluginDisplayStatistic {
 

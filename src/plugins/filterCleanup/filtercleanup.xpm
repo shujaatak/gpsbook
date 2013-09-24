@@ -1,6 +1,3 @@
-#ifndef PIXMAP_H
-#define PIXMAP_H
-
 /* XPM */
 static const char * filterCleanup_xpm[] = {
 "40 40 539 2",

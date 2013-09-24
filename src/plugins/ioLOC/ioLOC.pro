@@ -6,6 +6,8 @@ include ( ../../GPSBook/GPSBookConfig.pro)
 #DEFINES  += QT_NO_WARNING_OUTPUT
 #DEFINES  += QT_NO_DEBUG_OUTPUT
 
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 DESTDIR = ../../../delivery/plugins
 TEMPLATE = lib
 DEFINES += ioLOC_LIBRARY
@@ -28,3 +30,9 @@ TRANSLATIONS = ioLOC_fr_fr.ts \
 FORMS += \
     iolochelp.ui \
     iolocoptionsframe.ui
+
+RESOURCES += \
+    ioloc.qrc
+
+OTHER_FILES += \
+    ioloc.json

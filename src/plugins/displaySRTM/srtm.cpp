@@ -67,7 +67,11 @@ SrtmDownloader::SrtmDownloader(QString url, QString cachedir)
 /** One line helper function. */
 void SrtmDownloader::curlAddData(void *ptr, int size)
 {
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+    curlData += QString::fromLatin1(static_cast<char*>(ptr), size);
+#else
     curlData += QString::fromAscii(static_cast<char*>(ptr), size);
+#endif
 }
 
 /** Create a new file list by getting directory contents from server. */
@@ -82,7 +86,11 @@ void SrtmDownloader::createFileList()
     foreach (QString continent, continents) {
         qDebug() << "Downloading data from" << url+continent+"/";
         curlData.clear();
-        curl_easy_setopt(curl, CURLOPT_URL, QString(url+continent+"/").toAscii().constData());
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+    curl_easy_setopt(curl, CURLOPT_URL, QString(url+continent+"/").toLatin1().constData());
+#else
+    curl_easy_setopt(curl, CURLOPT_URL, QString(url+continent+"/").toAscii().constData());
+#endif
         CURLcode error = curl_easy_perform(curl);
         if (error) {
             qCritical() << "Error downloading data for" << continent << "(" << curl_easy_strerror(error) << ")";
@@ -177,7 +185,11 @@ void SrtmDownloader::downloadTile(QString filename)
         return;
     }
     curlData.clear();
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+    curl_easy_setopt(curl, CURLOPT_URL, QString(url+filename).toLatin1().constData());
+#else
     curl_easy_setopt(curl, CURLOPT_URL, QString(url+filename).toAscii().constData());
+#endif
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_file_callback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &file);
     CURLcode error;

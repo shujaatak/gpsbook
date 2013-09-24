@@ -22,7 +22,14 @@
 #ifndef DIALOGFISRTSTART_H
 #define DIALOGFIRSTSTART_H
 
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QDialog>
+#else
 #include <QtGui/QDialog>
+#endif
+
+
 
 namespace Ui {
     class DialogFirstStart;

@@ -20,9 +20,15 @@
 **
 ****************************************************************************/
 #include "gpxwriter.h"
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QMessageBox>
+#else
 #include <QApplication>
-#include <QStringList>
 #include <QMessageBox>
+#endif
+#include <QStringList>
 #include <QObject>
 #include <QVariant>
 

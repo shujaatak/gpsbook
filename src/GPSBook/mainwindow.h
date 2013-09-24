@@ -22,16 +22,26 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QSplashScreen>
+#include <QtWidgets/QAbstractButton>
+#include <QtWidgets/QTreeWidgetItem>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QListWidgetItem>
+#else
 #include <QtGui/QMainWindow>
 #include <QtGui/QSplashScreen>
 #include <QAbstractButton>
+#include <QTreeWidgetItem>
+#include <QFileDialog>
+#include <QListWidgetItem>
+#endif
 #include <QDir>
 #include <QStringList>
 #include <QSettings>
-#include <QTreeWidgetItem>
 #include <QModelIndex>
-#include <QFileDialog>
-#include <QListWidgetItem>
 #include "interface.h"
 #include "webproxy.h"
 #include "QProgressIndicator.h"

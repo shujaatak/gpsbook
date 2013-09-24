@@ -20,9 +20,9 @@
 **
 ****************************************************************************/
 #include <qevent.h>
-#include <qwt_plot.h>
-#include <qwt_scale_widget.h>
-#include <qwt_scale_draw.h>
+#include <qwt/qwt_plot.h>
+#include <qwt/qwt_scale_widget.h>
+#include <qwt/qwt_scale_draw.h>
 #include "scalepicker.h"
 
 namespace PluginDisplayGraphic2D {

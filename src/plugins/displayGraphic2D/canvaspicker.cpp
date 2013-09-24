@@ -24,9 +24,9 @@
 #include <qevent.h>
 #include <qwhatsthis.h>
 #include <qpainter.h>
-#include <qwt_scale_map.h>
-#include <qwt_plot_canvas.h>
-#include <qwt_plot_directpainter.h>
+#include <qwt/qwt_scale_map.h>
+#include <qwt/qwt_plot_canvas.h>
+#include <qwt/qwt_plot_directpainter.h>
 #include "canvaspicker.h"
 #include "plot.h"
 

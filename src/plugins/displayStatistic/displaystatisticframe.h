@@ -22,10 +22,16 @@
 #ifndef VIEWSTATFRAME_H
 #define VIEWSTATFRAME_H
 
-#include <QtGui/QFrame>
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QFrame>
+#else
+#include <QFrame>
+#include "ui_displaystatisticframe.h"
+#endif
 #include "gpsdata.h"
 #include "interface.h"
-#include "ui_displaystatisticframe.h"
+
 
 using namespace GPSBook;
 

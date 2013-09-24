@@ -46,12 +46,22 @@ int SrtmZipFile::getData(QString filename, qint16 **buffer)
         }
         file.close();
     } else {
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+        ZZIP_DIR* dir = zzip_dir_open(filename.toLatin1(), 0);
+#else
         ZZIP_DIR* dir = zzip_dir_open(filename.toAscii(), 0);
+#endif
         if (!dir) {
             qCritical() << "ZIP: Could not open zip file" << filename;
             return 0;
         }
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+        ZZIP_FILE* fp = zzip_file_open(dir, fi.completeBaseName().toLatin1(), 0);
+#else
         ZZIP_FILE* fp = zzip_file_open(dir, fi.completeBaseName().toAscii(), 0);
+#endif
         if (!fp) {
             qCritical() << "ZIP: Could not find" <<  fi.completeBaseName() << "in" << filename;
             return 0;

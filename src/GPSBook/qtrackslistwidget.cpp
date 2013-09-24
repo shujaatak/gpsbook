@@ -1,6 +1,12 @@
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QCalendarWidget>
+#else
+#include <QCalendarWidget>
+#endif
+
 #include <QDebug>
 #include <QStandardItemModel>
-#include <QCalendarWidget>
 #include "qtrackslistwidget.h"
 #include "database.h"
 
@@ -14,7 +20,11 @@ namespace GPSBook {
     void QTracksListWidget::dropEvent(QDropEvent *event)
     {
         QListWidget::dropEvent(event);
-        qCritical() << event->format();
+
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+        //Drag and drop between lists desactivated in Qt5
+#else
+        //qCritical() << event->format();
         if (event->mimeData()->hasFormat("application/x-qabstractitemmodeldatalist")) {
 
             QStandardItemModel itemModel;
@@ -33,5 +43,6 @@ namespace GPSBook {
                 Database::updateDate(item->data(Qt::UserRole).toString(),QDate(0,0,0));
             }
         }
+#endif
     }
 }

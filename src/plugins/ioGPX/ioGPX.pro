@@ -6,6 +6,8 @@ include ( ../../GPSBook/GPSBookConfig.pro)
 #DEFINES  += QT_NO_WARNING_OUTPUT
 #DEFINES  += QT_NO_DEBUG_OUTPUT
 
+greaterThan(QT_MAJOR_VERSION, 4): QT += core gui widgets
+
 DESTDIR = ../../../delivery/plugins
 TEMPLATE = lib
 DEFINES += ioGPX_LIBRARY
@@ -30,3 +32,9 @@ TRANSLATIONS = ioGPX_fr_fr.ts \
 FORMS += \
     iogpxhelp.ui \
     iogpxoptionsframe.ui
+
+OTHER_FILES += \
+    iogpx.json
+
+RESOURCES += \
+    iogpx.qrc

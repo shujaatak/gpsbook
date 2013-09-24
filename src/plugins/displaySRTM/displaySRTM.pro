@@ -7,6 +7,8 @@ include ( ../../GPSBook/GPSBookConfig.pro)
 #DEFINES  += QT_NO_DEBUG_OUTPUT
 
 QT += network
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 TARGET = displaySRTM
 DESTDIR = ../../../delivery/plugins
 TEMPLATE = lib
@@ -64,3 +66,7 @@ RESOURCES += \
 
 LIBS += -lcurl
 LIBS += -lzzip
+
+OTHER_FILES += \
+    srtm.json \
+    srtm.xpm

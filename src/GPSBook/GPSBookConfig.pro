@@ -4,7 +4,8 @@ unix {
     # build date
     QMAKE_CXXFLAGS += -DBUILD_DATE=\\\"`date +%Y-%m-%d`\\\"
     # svn version
-    QMAKE_CXXFLAGS += -DSVN_VERSION=\\\"`svnversion . | cut -f'2' -d':'`\\\"
+    #QMAKE_CXXFLAGS += -DSVN_VERSION=\\\"`svnversion . | cut -f'2' -d':'`\\\"
+    QMAKE_CXXFLAGS += -DSVN_VERSION=\\\"`date +%Y%m%d`\\\"
 }
 mac {
 

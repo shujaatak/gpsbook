@@ -19,13 +19,19 @@
 ** Copyright (C) 2009, gpsbook-team
 **
 ****************************************************************************/
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QWidget>
+#else
+#include <QMessageBox>
+#include <QWidget>
+#endif
 #include <QDebug>
 #include <QtGui>
 #include <QObject>
-#include <QMessageBox>
-#include <QWidget>
+
 #include <QSettings>
-#include "pixmap.h"
 #include "displaystatistic.h"
 
 namespace PluginDisplayStatistic {
@@ -133,7 +139,7 @@ namespace PluginDisplayStatistic {
      *------------------------------------------------------------------------------*/
     QIcon DisplayStatistic::getIcon()
     {
-        return QIcon(displaystatistic_xpm);
+        return QIcon(":/resources/displaystatistic.xpm");
     } //DisplayStatistic::getIcon
 
     /*------------------------------------------------------------------------------*
@@ -243,5 +249,9 @@ namespace PluginDisplayStatistic {
         serviceProcessMinMaxSpeed->run();
     } //DisplayStatistic::on_selectionChanged
 
+
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#else
     Q_EXPORT_PLUGIN2(DisplayStatistic, DisplayStatistic)
+#endif
 }

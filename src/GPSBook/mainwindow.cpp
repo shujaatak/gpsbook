@@ -19,18 +19,30 @@
 ** Copyright (C) 2009, gpsbook-team
 **
 ****************************************************************************/
-#include <QPluginLoader>
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QMdiSubWindow>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QTextBrowser>
+#include <QtWidgets/QListWidgetItem>
+#include <QtWidgets/QFileDialog>
+#else
 #include <QMessageBox>
+#include <QMdiSubWindow>
+#include <QLabel>
+#include <QTextBrowser>
+#include <QListWidgetItem>
+#include <QtGui/QFileDialog>
+#endif
+#include <QPluginLoader>
 #include <QDir>
 #include <QString>
-#include <QMdiSubWindow>
 #include <QDebug>
-#include <QLabel>
-#include <QtGui>
 #include <QTextCharFormat>
-#include <QTextBrowser>
+
 #include <QModelIndex>
-#include <QListWidgetItem>
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "dialogfirststart.h"
@@ -501,7 +513,7 @@ namespace GPSBook {
             }
             else
             {
-                if (openDialog->selectedFilter() == gpxPlugin->getOpenFilter())
+                if (openDialog->selectedNameFilter() == gpxPlugin->getOpenFilter())
                 {
                     mGPSData->clearData();
                     foreach (QString filename, openDialog->selectedFiles()) {

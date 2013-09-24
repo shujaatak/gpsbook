@@ -111,6 +111,13 @@ namespace GPSBook {
         return;
         }
 
+
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+        // Some finction of QUrl have been deprecated
+        // This code is require for the internet browser and should be reviewed.
+#else
+
+
 #ifdef Q_OS_LINUX
         //Remove advert to speedup development ;-)
         if (url.toString().contains("googlesyndication") ||
@@ -119,6 +126,8 @@ namespace GPSBook {
             return;
         }
 #endif
+
+        qDebug( )  << __FILE__ << __FUNCTION__ << "URL: " << url.toString();
 
         QString host = url.host();
         int port = (url.port() < 0) ? 80 : url.port();
@@ -146,6 +155,7 @@ namespace GPSBook {
             connect(proxySocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(closeConnection()));
             proxySocket->connectToHost(host, port);
         }
+#endif
     } //WebProxy::processQuery
 
     /*------------------------------------------------------------------------------*

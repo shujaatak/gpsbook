@@ -19,12 +19,16 @@
 ** Copyright (c) 2009, gpsbook-team
 **
 ****************************************************************************/
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QMessageBox>
+#else
+#include <QMessageBox>
+#endif
 #include <QtGui>
 #include <QObject>
-#include <QMessageBox>
 #include <QSettings>
 #include <QDebug>
-#include "pixmap.h"
 #include "displaygooglemap.h"
 
 using namespace GPSBook;
@@ -89,7 +93,7 @@ namespace PluginDisplayGoogleMap {
      *------------------------------------------------------------------------------*/
     QIcon DisplayGoogleMap::getIcon()
     {
-        return QIcon(google_xpm);
+        return QIcon(":/resources/google.xpm");
     } //DisplayGoogleMap::getIcon
 
     /*------------------------------------------------------------------------------*
@@ -147,8 +151,11 @@ namespace PluginDisplayGoogleMap {
         emit signalSetTrackSelection(false,false,false,false,false);
     } //DisplayGoogleMap::on_fileLoaded
 
-    Q_EXPORT_PLUGIN2(DisplayGoogleMap, DisplayGoogleMap)
 
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#else
+    Q_EXPORT_PLUGIN2(DisplayGoogleMap, DisplayGoogleMap)
+#endif
 }
 
 

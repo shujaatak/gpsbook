@@ -22,7 +22,12 @@
 #ifndef DIALOGPROCESSDISTANCE_H
 #define DIALOGPROCESSDISTANCE_H
 
-#include <QtGui/QDialog>
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QDialog>
+#else
+#include <QDialog>
+#endif
 #include <math.h>
 #include "gpsdata.h"
 

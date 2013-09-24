@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/resources">
-        <file>index.html</file>
-        <file>google.xpm</file>
+        <file>loc.xpm</file>
     </qresource>
 </RCC>

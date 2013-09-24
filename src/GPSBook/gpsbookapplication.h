@@ -22,10 +22,18 @@
 #ifndef GPSBOOKAPPLICATION_H
 #define GPSBOOKAPPLICATION_H
 
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QApplication>
+#else
 #include <QApplication>
+#endif
 #include <QHash>
 #include <QStringList>
 #include <QtSql/QSqlDatabase>
+
+
+
 
 class QDir;
 class QTranslator;
