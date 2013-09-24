@@ -21,8 +21,13 @@
 ****************************************************************************/
 #include "locreader.h"
 #include <QStringList>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QMessageBox>
+#else
 #include <QApplication>
 #include <QMessageBox>
+#endif
 #include <QObject>
 
 namespace PluginIOLOC {

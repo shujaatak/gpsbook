@@ -22,7 +22,12 @@
 #ifndef IOGPXOPTIONSFRAME_H
 #define IOGPXOPTIONSFRAME_H
 
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QFrame>
+#else
 #include <QFrame>
+#endif
 
 namespace Ui {
     class IoGPXOptionsFrame;

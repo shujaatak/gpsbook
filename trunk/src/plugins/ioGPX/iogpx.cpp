@@ -19,11 +19,17 @@
 ** Copyright (C) 2009, gpsbook-team
 **
 ****************************************************************************/
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QLabel>
+#else
 #include <QMessageBox>
-#include <QIcon>
 #include <QLabel>
+#endif
+#include <QIcon>
+
 #include "iogpx.h"
-#include "pixmap.h"
 
 namespace PluginIOGPX {
 
@@ -50,7 +56,7 @@ namespace PluginIOGPX {
      *------------------------------------------------------------------------------*/
     QIcon ioGPX::getIcon()
     {
-        return QIcon(gpx_xpm);
+        return QIcon(":/resources/gpx.xpm");
     } //ioGPX::getIcon
 
     /*------------------------------------------------------------------------------*
@@ -144,5 +150,8 @@ namespace PluginIOGPX {
         gpxwriter->save(gpsdata, filename);
     } //ioGPX::save
 
-    Q_EXPORT_PLUGIN2(ioGPX, ioGPX)
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#else
+     Q_EXPORT_PLUGIN2(ioGPX, ioGPX)
+#endif
 }

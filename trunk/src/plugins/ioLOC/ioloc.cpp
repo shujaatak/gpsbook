@@ -19,11 +19,17 @@
 ** Copyright (C) 2009, gpsbook-team
 **
 ****************************************************************************/
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QLabel>
+#else
 #include <QMessageBox>
-#include <QIcon>
 #include <QLabel>
+#endif
+#include <QIcon>
+
 #include "ioloc.h"
-#include "pixmap.h"
 
 namespace PluginIOLOC {
 
@@ -49,7 +55,7 @@ namespace PluginIOLOC {
      *------------------------------------------------------------------------------*/
     QIcon ioLOC::getIcon()
     {
-        return QIcon(loc_xpm);
+        return QIcon(":/resources/loc.xpm");
     } //ioLOC::getIcon
 
     /*------------------------------------------------------------------------------*
@@ -134,5 +140,8 @@ namespace PluginIOLOC {
         locreader->load(gpsdata, filename);
     } //ioLOC::open
 
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#else
     Q_EXPORT_PLUGIN2(ioLOC, ioLOC)
+#endif
 }

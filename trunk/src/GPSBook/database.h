@@ -22,8 +22,14 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 #include <QObject>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QCalendarWidget>
+#include <QtWidgets/QListWidget>
+#else
 #include <QCalendarWidget>
 #include <QListWidget>
+#endif
+
 #include <QDate>
 #include <QSqlQuery>
 #include "gpsdata.h"

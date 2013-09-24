@@ -22,7 +22,12 @@
 #ifndef DIALOGPROCESSSPEED_H
 #define DIALOGPROCESSSPEED_H
 
-#include <QtGui/QDialog>
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QDialog>
+#else
+#include <QDialog>
+#endif
 #include "gpsdata.h"
 
 using namespace GPSBook;

@@ -22,14 +22,23 @@
 #ifndef DISPLAYGOOGLEMAPFRAME_H
 #define DISPLAYGOOGLEMAPFRAME_H
 
-#include <QtGui/QFrame>
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QFrame>
+#include <QtWebKitWidgets/QWebFrame>
+#include <QtWebKitWidgets/QWebPage>
+#else
+#include <QFrame>
+#include <QWebFrame>
+#include <QWebPage>
+#endif
 #include <QUrl>
 #include <QFile>
 #include <QThread>
-#include <QWebFrame>
+
 #include <QNetworkProxy>
 #include <QTemporaryFile>
-#include <QWebPage>
+
 #include <QDir>
 #include "gpsdata.h"
 #include "QProgressIndicator.h"

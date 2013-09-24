@@ -1,8 +1,14 @@
 #ifndef QTRACKSLISTWIDGET_H
 #define QTRACKSLISTWIDGET_H
 
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QListWidget>
+#else
 #include <QListWidget>
+#endif
 #include <QDropEvent>
+
 
 namespace GPSBook {
     class QTracksListWidget : public QListWidget

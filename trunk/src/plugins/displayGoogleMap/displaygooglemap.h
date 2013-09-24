@@ -27,11 +27,16 @@
 #include "displaygooglemapoptionsframe.h"
 #include "displaygooglemaphelp.h"
 
+using namespace GPSBook;
+
 namespace PluginDisplayGoogleMap {
 
     class DisplayGoogleMap: public DisplayPluginInterface
     {
         Q_OBJECT
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+        Q_PLUGIN_METADATA(IID "org.gpsbook.DisplayPluginInterface" FILE "googlemap.json")
+#endif
         Q_INTERFACES(DisplayPluginInterface)
 
     private:

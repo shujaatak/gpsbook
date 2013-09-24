@@ -4,7 +4,12 @@ http://qt-apps.org/content/show.php/QProgressIndicator?content=115762
 #ifndef QPROGRESSINDICATOR_H
 #define QPROGRESSINDICATOR_H
 
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QWidget>
+#else
 #include <QWidget>
+#endif
 #include <QColor>
 
 namespace ProgressIndicator

@@ -38,6 +38,9 @@ namespace PluginDisplayStatistic {
 class DisplayStatistic: public DisplayPluginInterface
 {
     Q_OBJECT
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+        Q_PLUGIN_METADATA(IID "org.gpsbook.DisplayPluginInterface" FILE "statistics.json")
+#endif
     Q_INTERFACES(DisplayPluginInterface)
 
     private:

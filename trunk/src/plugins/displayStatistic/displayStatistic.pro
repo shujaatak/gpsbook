@@ -6,6 +6,8 @@ include ( ../../GPSBook/GPSBookConfig.pro)
 #DEFINES  += QT_NO_WARNING_OUTPUT
 #DEFINES  += QT_NO_DEBUG_OUTPUT
 
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 TARGET = displayStatistic
 DESTDIR = ../../../delivery/plugins
 TEMPLATE = lib
@@ -55,3 +57,10 @@ TRANSLATIONS = displayStatistic_fr_fr.ts \
 linux-g++ {
     LIBS += -L../../../delivery/plugins -ldisplaySRTM
 }
+
+OTHER_FILES += \
+    statistics.json \
+    displaystatistic.xpm
+
+RESOURCES += \
+    displaystatistics.qrc

@@ -22,7 +22,7 @@
 #ifndef CURVE_H
 #define CURVE_H
 
-#include "qwt_plot_curve.h"
+#include "qwt/qwt_plot_curve.h"
 
 namespace PluginDisplayGraphic2D {
 

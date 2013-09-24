@@ -6,6 +6,8 @@ include ( ../../GPSBook/GPSBookConfig.pro)
 #DEFINES  += QT_NO_WARNING_OUTPUT
 #DEFINES  += QT_NO_DEBUG_OUTPUT
 
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 TARGET = filterCleanup
 DESTDIR = ../../../delivery/plugins
 TEMPLATE = lib
@@ -29,3 +31,10 @@ FORMS += filtercleanupdialog.ui \
 INCLUDEPATH += ../../GPSBook
 TRANSLATIONS = filterCleanup_fr_fr.ts \
                filterCleanup_en_us.ts
+
+OTHER_FILES += \
+    filtercleanuphelp.qml \
+    cleanup.json
+
+RESOURCES += \
+    filtercleanup.qrc

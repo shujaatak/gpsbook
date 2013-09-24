@@ -19,11 +19,17 @@
 ** Copyright (C) 2009, gpsbook-team
 **
 ****************************************************************************/
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QMessageBox>
+#else
+#include <QMessageBox>
+#endif
 #include "dialogfirststart.h"
 #include "ui_dialogfirststart.h"
 #include <QDir>
 #include <QTranslator>
-#include <QMessageBox>
+
 #include <QSettings>
 #include <QDebug>
 #include "gpsbookapplication.h"

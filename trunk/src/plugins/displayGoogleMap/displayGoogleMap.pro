@@ -6,7 +6,13 @@ include ( ../../GPSBook/GPSBookConfig.pro)
 #DEFINES  += QT_NO_WARNING_OUTPUT
 #DEFINES  += QT_NO_DEBUG_OUTPUT
 
-QT += network webkit
+QT += network
+greaterThan(QT_MAJOR_VERSION, 4): {
+    QT += widgets webkitwidgets
+} else {
+    QT += webkit
+}
+
 TARGET = displayGoogleMap
 DESTDIR = ../../../delivery/plugins
 TEMPLATE = lib
@@ -22,13 +28,14 @@ HEADERS += displaygooglemap.h \
            displaygooglemaphelp.h \
            displaygooglemapoptionsframe.h \
            displaygooglemapframe.h \
-           pixmap.h \
            ../../GPSBook/gpsdata.h \
            ../../GPSBook/interface.h \
     ../../GPSBook/QProgressIndicator.h
 TRANSLATIONS = displayGoogleMap_fr_fr.ts  \
                displayGoogleMap_en_us.ts
-OTHER_FILES += index.html
+OTHER_FILES += index.html \
+    googlemap.json \
+    google.xpm
 FORMS += displaygooglemapframe.ui \
          displaygooglemapoptionsframe.ui \
          displaygooglemaphelp.ui

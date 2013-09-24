@@ -19,12 +19,22 @@
 ** Copyright (c) 2009, gpsbook-team
 **
 ****************************************************************************/
-#include <QtGui>
-#include <QObject>
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QWidget>
+#include <QDir>
+#include <QIcon>
+#include <QIconEngine>
+#else
 #include <QMessageBox>
 #include <QWidget>
+#include <QtGui>
+#endif
+
+#include <QObject>
 #include <QSettings>
-#include "pixmap.h"
 #include "displaysrtm.h"
 #include "srtm.h"
 
@@ -101,7 +111,7 @@ namespace PluginDisplaySRTM {
      *------------------------------------------------------------------------------*/
     QIcon DisplaySRTM::getIcon()
     {
-        return QIcon(srtm_xpm);
+        return QIcon(":/resources/srtm.xpm");
     } //DisplaySRTM::getIcon
 
     /*------------------------------------------------------------------------------*
@@ -140,5 +150,9 @@ namespace PluginDisplaySRTM {
 
     } //DisplaySRTM::on_about
 
-    Q_EXPORT_PLUGIN2(DisplaySRTM, DisplaySRTM)
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#else
+     Q_EXPORT_PLUGIN2(DisplaySRTM, DisplaySRTM)
+#endif
+
 }

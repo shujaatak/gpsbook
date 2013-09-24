@@ -22,7 +22,13 @@
 #ifndef FILTERCLEANUPHELP_H
 #define FILTERCLEANUPHELP_H
 
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QTextBrowser>
+#else
 #include <QTextBrowser>
+#endif
+
 
 namespace Ui {
     class FilterCleanupHelp;

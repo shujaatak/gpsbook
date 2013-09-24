@@ -19,15 +19,15 @@
 ** Copyright (C) 2009, gpsbook-team
 **
 ****************************************************************************/
-#include <qwt_plot_layout.h>
-#include <qwt_plot_grid.h>
-#include <qwt_plot_magnifier.h>
-#include <qwt_plot_panner.h>
-#include <qwt_plot_zoomer.h>
-#include <qwt_series_data.h>
-#include <qwt_plot_directpainter.h>
-#include <qwt_color_map.h>
-#include <qwt_symbol.h>
+#include <qwt/qwt_plot_layout.h>
+#include <qwt/qwt_plot_grid.h>
+#include <qwt/qwt_plot_magnifier.h>
+#include <qwt/qwt_plot_panner.h>
+#include <qwt/qwt_plot_zoomer.h>
+#include <qwt/qwt_series_data.h>
+#include <qwt/qwt_plot_directpainter.h>
+#include <qwt/qwt_color_map.h>
+#include <qwt/qwt_symbol.h>
 #include <QPainter>
 #include "plot.h"
 

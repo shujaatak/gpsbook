@@ -19,9 +19,13 @@
 ** Copyright (C) 2010, gpsbook-team
 **
 ****************************************************************************/
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QMessageBox>
+#else
 #include <QMessageBox>
+#endif
 #include "filtercleanup.h"
-#include "pixmap.h"
 #include "QDebug"
 
 namespace PluginFilterCleanup {
@@ -45,7 +49,7 @@ namespace PluginFilterCleanup {
      *------------------------------------------------------------------------------*/
     QIcon FilterCleanup::getIcon()
     {
-        return QIcon(filterCleanup_xpm);
+        return QIcon(":/resources/filtercleanup.xpm");
     } //FilterCleanup::getIcon
 
     /*------------------------------------------------------------------------------*
@@ -116,5 +120,9 @@ namespace PluginFilterCleanup {
                     );
     } //FilterCleanup::on_about
 
-    Q_EXPORT_PLUGIN2(FilterCleanup, FilterCleanup)
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#else
+     Q_EXPORT_PLUGIN2(FilterCleanup, FilterCleanup)
+#endif
+
 }

@@ -19,14 +19,22 @@
 ** Copyright (C) 2009, gpsbook-team
 **
 ****************************************************************************/
-#include <QtGui/QApplication>
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QMainWindow>
+#include <QtWidgets/QSplashScreen>
+#include <QtWidgets/QMessageBox>
+#else
+#include <QtGui/QMainWindow>
 #include <QtGui/QSplashScreen>
+#include <QPlastiqueStyle>
+#include <QMessageBox>
+#endif
 #include <QTranslator>
 #include <QSettings>
-#include <QMessageBox>
+
 #include <QDir>
 #include <QLocale>
-#include <QPlastiqueStyle>
 #include <QSqlError>
 #include <QDebug>
 #include <iostream>

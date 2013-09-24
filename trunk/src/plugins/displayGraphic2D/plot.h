@@ -23,11 +23,11 @@
 #define PLOT_H
 
 #include <qobject.h>
-#include <qwt_plot.h>
-#include <qwt_scale_draw.h>
-#include <qwt_plot_picker.h>
-#include <qwt_plot_rescaler.h>
-#include <qwt_plot_marker.h>
+#include <qwt/qwt_plot.h>
+#include <qwt/qwt_scale_draw.h>
+#include <qwt/qwt_plot_picker.h>
+#include <qwt/qwt_plot_rescaler.h>
+#include <qwt/qwt_plot_marker.h>
 #include "canvaspicker.h"
 #include "curve.h"
 #include "gpsdata.h"

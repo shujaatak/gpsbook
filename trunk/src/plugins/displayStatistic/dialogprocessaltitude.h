@@ -22,7 +22,12 @@
 #ifndef DIALOGPROCESSALTITUDE_H
 #define DIALOGPROCESSALTITUDE_H
 
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QDialog>
+#else
 #include <QDialog>
+#endif
 #include <gpsdata.h>
 #if defined(Q_OS_LINUX)
 #include "../displaySRTM/srtm.h"
