@@ -6,6 +6,8 @@ include ( ../../GPSBook/GPSBookConfig.pro)
 #DEFINES  += QT_NO_WARNING_OUTPUT
 #DEFINES  += QT_NO_DEBUG_OUTPUT
 
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 TARGET = displayInformation
 DESTDIR = ../../../delivery/plugins
 TEMPLATE = lib
@@ -34,3 +36,9 @@ FORMS += displayinformationframe.ui \
     ../../GPSBook/dialoglinkedition.ui
 TRANSLATIONS = displayInformation_fr_fr.ts \
                displayInformation_en_us.ts
+
+RESOURCES += \
+    displayinformation.qrc
+
+OTHER_FILES += \
+    displayinformation.json
