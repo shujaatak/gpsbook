@@ -21,10 +21,16 @@
 ****************************************************************************/
 #include <QtGui>
 #include <QObject>
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QWidget>
+#else
 #include <QMessageBox>
 #include <QWidget>
+#endif
+
 #include <QSettings>
-#include "pixmap.h"
 #include "displayinformation.h"
 
 namespace PluginDisplayInformation {
@@ -71,7 +77,7 @@ namespace PluginDisplayInformation {
      *------------------------------------------------------------------------------*/
     QIcon DisplayInformation::getIcon()
     {
-        return QIcon(displayinformation_xpm);
+        return QIcon(":/resources/displayinformation.xpm");
     } //DisplayInformation::getIcon
 
     /*------------------------------------------------------------------------------*
@@ -169,6 +175,9 @@ namespace PluginDisplayInformation {
         mView->updateDisplay();
     }
 
-
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#else
     Q_EXPORT_PLUGIN2(DisplayInformation, DisplayInformation)
+#endif
+
 }

@@ -22,9 +22,16 @@
 #ifndef DISPLAYINFORMATIONOPTIONSFRAME_H
 #define DISPLAYINFORMATIONOPTIONSFRAME_H
 
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QFrame>
+#include <QtWidgets/QAbstractButton>
+#else
 #include <QFrame>
-#include <QSettings>
 #include <QAbstractButton>
+#endif
+#include <QSettings>
+
 
 namespace Ui {
     class DisplayInformationOptionsFrame;

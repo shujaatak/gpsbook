@@ -22,7 +22,12 @@
 #ifndef DISPLAYINFORMATIONFRAME_H
 #define DISPLAYINFORMATIONFRAME_H
 
-#include <QtGui/QFrame>
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QFrame>
+#else
+#include <QFrame>
+#endif
 #include <QSettings>
 #include <gpsdata.h>
 #include <interface.h>
