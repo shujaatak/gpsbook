@@ -37,10 +37,10 @@ namespace PluginDisplayStatistic {
         ui->setupUi(this);
         QSettings settings("GPSBook","GPSBook");
         QString storagePath = settings.value("StorageLocation","").toString();
-#if defined(Q_OS_LINUX)
+
         srtmDownloader = new SrtmDownloader("http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/",
                                             storagePath+"srtm");
-#endif
+
 
     } //DialogProcessAltitude::DialogProcessAltitude
 
@@ -102,9 +102,7 @@ namespace PluginDisplayStatistic {
                     }
                     //waypointBegin = waypointEnd;
                     waypointEnd = waypoint;
-#if defined(Q_OS_LINUX)
                     waypoint->ele = srtmDownloader->getAltitudeFromLatLon(waypoint->lat,waypoint->lon);
-#endif
                     /*double elevation = waypointEnd->ele - waypointBegin->ele;
                     if( elevation < 0 )
                     {

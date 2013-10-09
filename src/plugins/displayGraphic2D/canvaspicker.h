@@ -23,7 +23,7 @@
 #define CANVASPICKER_H
 
 #include <qobject.h>
-#include <qwt/qwt_symbol.h>
+#include <qwt_symbol.h>
 #include <plot.h>
 #include <curve.h>
 #include "gpsdata.h"

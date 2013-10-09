@@ -29,9 +29,7 @@
 #include <QDialog>
 #endif
 #include <gpsdata.h>
-#if defined(Q_OS_LINUX)
 #include "../displaySRTM/srtm.h"
-#endif
 
 using namespace GPSBook;
 
@@ -56,9 +54,7 @@ namespace PluginDisplayStatistic {
     private:
         Ui::DialogProcessAltitude *ui;
         GPSData* mGPSData;
-#if defined(Q_OS_LINUX)
         SrtmDownloader* srtmDownloader;
-#endif
 
     private slots:
         void on_buttonBox_rejected();

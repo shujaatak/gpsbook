@@ -24,6 +24,8 @@ TEMPLATE = subdirs
 CONFIG   += ordered
 
 SUBDIRS = GPSBook \
+          ../qwt/src \
+          ../libQGLViewer-2.4.0/QGLViewer \
           plugins/displaySRTM \
           #plugins/displayBlogging \
           #plugins/displayEditTrack \
@@ -32,10 +34,10 @@ SUBDIRS = GPSBook \
           plugins/displayGoogleMap \
 #          plugins/displayGPSBabel \
           #plugins/displayGPSBabel/Gebabbel/Gebabbel.pro \
-#          plugins/displayGraphic2D \
-#          plugins/displayGraphic3D \
+          plugins/displayGraphic2D \
+          plugins/displayGraphic3D \
           #plugins/displayGraphic3D/libQGLViewer/QGLViewer \
-#          plugins/displayInformation \
+          plugins/displayInformation \
 #          plugins/displayInternetBrowser \
           #plugins/displayMailTo \
           #plugins/displayPathTags \

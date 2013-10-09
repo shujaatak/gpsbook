@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/resources">
+        <file>3D.xpm</file>
+    </qresource>
+</RCC>

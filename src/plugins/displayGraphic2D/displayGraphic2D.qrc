@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/resources">
+        <file>displaygraphic2D.xpm</file>
+    </qresource>
+</RCC>
