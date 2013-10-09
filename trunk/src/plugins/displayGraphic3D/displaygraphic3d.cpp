@@ -23,7 +23,6 @@
 #include <QObject>
 #include <QMessageBox>
 #include <QWidget>
-#include "pixmap.h"
 #include "displaygraphic3d.h"
 
 namespace PluginDisplayGraphic3D {
@@ -98,7 +97,7 @@ namespace PluginDisplayGraphic3D {
     QIcon DisplayGraphic3D::getIcon()
     {
         //qDebug() << "DisplayGraphic3D::" << __FUNCTION__;
-        return QIcon(graph3d_xpm);
+        return QIcon(":/resources/3D.xpm");
     } //DisplayGraphic3D::getIcon
 
     /*------------------------------------------------------------------------------*
@@ -166,6 +165,9 @@ namespace PluginDisplayGraphic3D {
     } //DisplayGraphic3D::on_showPlugin
 
 
-    Q_EXPORT_PLUGIN2(DisplayGraphic3D, DisplayGraphic3D)
 
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#else
+    Q_EXPORT_PLUGIN2(DisplayGraphic3D, DisplayGraphic3D)
+#endif
 }

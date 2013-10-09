@@ -24,9 +24,9 @@
 #include <qevent.h>
 #include <qwhatsthis.h>
 #include <qpainter.h>
-#include <qwt/qwt_scale_map.h>
-#include <qwt/qwt_plot_canvas.h>
-#include <qwt/qwt_plot_directpainter.h>
+#include <qwt_scale_map.h>
+#include <qwt_plot_canvas.h>
+#include <qwt_plot_directpainter.h>
 #include "canvaspicker.h"
 #include "plot.h"
 
@@ -40,7 +40,7 @@ namespace PluginDisplayGraphic2D {
     {
         qDebug() << __FILE__ << __FUNCTION__;
 
-        QwtPlotCanvas *canvas = plot->canvas();
+        QwtPlotCanvas *canvas = (QwtPlotCanvas*) plot->canvas();
 
         canvas->installEventFilter(this);
 

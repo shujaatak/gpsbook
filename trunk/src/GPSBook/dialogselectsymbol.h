@@ -1,7 +1,12 @@
 #ifndef DIALOGSELECTSYMBOL_H
 #define DIALOGSELECTSYMBOL_H
 
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QDialog>
+#else
 #include <QDialog>
+#endif
 
 namespace Ui {
     class DialogSelectSymbol;

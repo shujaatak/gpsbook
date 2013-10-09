@@ -19,10 +19,15 @@
 ** Copyright (C) 2009, gpsbook-team
 **
 ****************************************************************************/
-#include <QtGui>
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QWidget>
+#else
 #include <QMessageBox>
 #include <QWidget>
-#include "pixmap.h"
+#endif
+#include <QtGui>
 #include "displaygraphic2D.h"
 #include "plot.h"
 
@@ -145,7 +150,7 @@ namespace PluginDisplayGraphic2D {
      *------------------------------------------------------------------------------*/
     QIcon DisplayGraphic2D::getIcon()
     {
-        return QIcon(displaygraphic2D_xpm);
+        return QIcon(":/resources/displaygraphic2D.xpm");
     } //DisplayGraphic2D::getIcon
 
     /*------------------------------------------------------------------------------*
@@ -194,6 +199,11 @@ namespace PluginDisplayGraphic2D {
         emit signalShowCatalog(settings.value("pluginGraph2DShowCatalog",true).toBool());
     } //DisplayGraphic2D::on_showPlugin
 
+
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#else
     Q_EXPORT_PLUGIN2(DisplayGraphic2D, DisplayGraphic2D)
+#endif
+
 }
 

@@ -54,9 +54,15 @@ FORMS += displaystatisticframe.ui \
 TRANSLATIONS = displayStatistic_fr_fr.ts \
                displayStatistic_en_us.ts
 
-linux-g++ {
-    LIBS += -L../../../delivery/plugins -ldisplaySRTM
+win32 {
+    # Download libcurl from http://curl.haxx.se/download.html
+    #   Win32 - Generic
+    #   Win32 2000/XP	7.32.0	libcurl	SSL	 	Günter Knauf	3.32 MB
+    # and unzip it int the path listed bellow
+    INCLUDEPATH += C:\Qt\curl-7.32.0-devel-mingw32\include\
 }
+
+LIBS += -L../../../delivery/plugins -ldisplaySRTM
 
 OTHER_FILES += \
     statistics.json \

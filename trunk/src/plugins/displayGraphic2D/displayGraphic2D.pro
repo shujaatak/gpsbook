@@ -7,6 +7,8 @@ TARGET = displayGraphic2D
 #DEFINES  += QT_NO_WARNING_OUTPUT
 #DEFINES  += QT_NO_DEBUG_OUTPUT
 
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 DESTDIR = ../../../delivery/plugins
 TEMPLATE = lib
 DEFINES += DISPLAYGRAPHIC2D_LIBRARY
@@ -23,7 +25,7 @@ HEADERS += displaygraphic2D.h \
     scalepicker.h \
     plot.h \
     displaygraphic2Dframe.h \
-    pixmap.h \
+    #pixmap.h \
     ../../GPSBook/gpsdata.h \
     ../../GPSBook/interface.h \
     displaygraphic2dhelp.h \
@@ -31,7 +33,7 @@ HEADERS += displaygraphic2D.h \
     canvaspicker.h \
     curve.h
 INCLUDEPATH += ../../GPSBook
-INCLUDEPATH += ../../../../qwt/src/
+INCLUDEPATH += ../../../qwt/src/
 FORMS += displaygraphic2Dframe.ui \
     displaygraphic2dhelp.ui \
     displaygraphic2doptionsframe.ui
@@ -45,5 +47,11 @@ mac {
 }
 win32 {
     # qwt libraries
-    LIBS += -L..\..\..\delivery\bin -lqwt6
+    LIBS += -L..\..\..\delivery\lib -lqwt
 }
+
+RESOURCES += \
+    displayGraphic2D.qrc
+
+OTHER_FILES += \
+    graphic2D.json

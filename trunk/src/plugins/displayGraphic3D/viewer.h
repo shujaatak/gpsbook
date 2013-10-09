@@ -22,11 +22,9 @@
 #ifndef VIEWER_H
 #define VIEWER_H
 
-#include <QGLViewer/qglviewer.h>
+#include <qglviewer.h>
 #include "gpsdata.h"
-#if defined(Q_OS_LINUX)
 #include "../displaySRTM/srtm.h"
-#endif
 
 using namespace GPSBook;
 
@@ -39,9 +37,7 @@ namespace PluginDisplayGraphic3D {
             void drawTerrain();
             double altitude(double x, double y);
             double convertAlt(double altitude);
-#if defined(Q_OS_LINUX)
             SrtmDownloader* srtmDownloader;
-#endif
 
         public :
             double minlat, maxlat;

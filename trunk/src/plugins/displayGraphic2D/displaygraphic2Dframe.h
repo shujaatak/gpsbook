@@ -22,8 +22,15 @@
 #ifndef VIEWGRAPHFRAME_H
 #define VIEWGRAPHFRAME_H
 
-#include <QtGui/QFrame>
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QFrame>
+#include <QtWidgets/QMenu>
+#else
+#include <QFrame>
 #include <QMenu>
+#endif
+
 #include <QSettings>
 #include "plot.h"
 #include "gpsdata.h"

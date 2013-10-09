@@ -22,7 +22,12 @@
 #ifndef DISPLAYGRAPHIC2DOPTIONSFRAME_H
 #define DISPLAYGRAPHIC2DOPTIONSFRAME_H
 
+#include <QtGlobal>
+#if ( QT_VERSION >= QT_VERSION_CHECK(5, 0, 0) )
+#include <QtWidgets/QFrame>
+#else
 #include <QFrame>
+#endif
 #include <QSettings>
 
 namespace Ui {

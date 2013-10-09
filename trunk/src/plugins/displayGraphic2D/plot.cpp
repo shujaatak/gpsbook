@@ -19,15 +19,15 @@
 ** Copyright (C) 2009, gpsbook-team
 **
 ****************************************************************************/
-#include <qwt/qwt_plot_layout.h>
-#include <qwt/qwt_plot_grid.h>
-#include <qwt/qwt_plot_magnifier.h>
-#include <qwt/qwt_plot_panner.h>
-#include <qwt/qwt_plot_zoomer.h>
-#include <qwt/qwt_series_data.h>
-#include <qwt/qwt_plot_directpainter.h>
-#include <qwt/qwt_color_map.h>
-#include <qwt/qwt_symbol.h>
+#include <qwt_plot_layout.h>
+#include <qwt_plot_grid.h>
+#include <qwt_plot_magnifier.h>
+#include <qwt_plot_panner.h>
+#include <qwt_plot_zoomer.h>
+#include <qwt_series_data.h>
+#include <qwt_plot_directpainter.h>
+#include <qwt_color_map.h>
+#include <qwt_symbol.h>
 #include <QPainter>
 #include "plot.h"
 
@@ -221,7 +221,7 @@ namespace PluginDisplayGraphic2D {
         rescale = true;
 
         QwtPlotGrid *grid = new QwtPlotGrid;
-        grid->setMajPen(QPen(Qt::gray, 0, Qt::DotLine));
+        grid->setMajorPen(QPen(Qt::gray, 0, Qt::DotLine));
         grid->attach(this);
 
         //____________________________________________________________________________
@@ -247,7 +247,7 @@ namespace PluginDisplayGraphic2D {
         panner->setMouseButton(Qt::LeftButton);
 
         //____________________________________________________________________________
-        plotPicker = new PlotPicker(canvas());
+        plotPicker = new PlotPicker((QwtPlotCanvas*) canvas());
         const QColor c(Qt::darkRed);
         plotPicker->setRubberBandPen(c);
         plotPicker->setTrackerPen(c);
